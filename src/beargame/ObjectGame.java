@@ -31,6 +31,11 @@ public abstract class ObjectGame {
     protected boolean isFlipV;
     protected boolean isFlipH;
     
+    public ObjectGame() {
+        
+    }
+    
+    
     public ObjectGame(String SVGdata, double xLocation, double yLocation, Image... spriteCels) {
         spriteBound = new SVGPath();
         spriteBound.setContent(SVGdata);
@@ -49,6 +54,9 @@ public abstract class ObjectGame {
     }
     
     public abstract void update();
+    
+    public void setTime() {
+    }
     
     public List<Image> getImageStates() {
         return imageStates;
@@ -73,7 +81,7 @@ public abstract class ObjectGame {
     public void setSpriteBound(SVGPath spriteBound) {
         this.spriteBound = spriteBound;
     }
-
+    
     public double getiX() {
         return iX;
     }

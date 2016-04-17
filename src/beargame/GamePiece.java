@@ -9,20 +9,20 @@ package beargame;
  *
  * @author Anto
  */
-public class Character {
+public class GamePiece {
     private static final String TYPE = "Bear";
     
     int lifeIndex = 0;
     int hitsIndex = 0;
     String directionFacing = "";
     boolean currentlyMoving = false;
-    private int characterX = 0; // X screen location of the Character
-    private int characterY = 0; // Y screen location of the Character
+    private int characterX = 0; // X screen location of the GamePiece
+    private int characterY = 0; // Y screen location of the GamePiece
     private String bearOrientation = "side"; // Defines bear orientation (front, side, top)
     //CHANGE
     public String movementType = "idle"; // Type of movement (idle, fly, run, jump)
     
-    public Character() {
+    public GamePiece() {
         characterX = 0;
         characterY = 0;
         bearOrientation = "side"; 
@@ -32,7 +32,7 @@ public class Character {
         currentlyMoving = false; // Flag showing if the object is in motion
     }
     
-    public Character(int x, int y, String orientation, int lifeIndex, String directionFacing) {
+    public GamePiece(int x, int y, String orientation, int lifeIndex, String directionFacing) {
         characterX = x;
         characterY = y;
         bearOrientation = orientation;
