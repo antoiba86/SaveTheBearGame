@@ -32,7 +32,7 @@ public class DisplayObject {
     }
     
     public void addDisplayed_Object(ObjectGame... objectGames) {
-        DISPLAYED_OBJECT.addAll( Arrays.asList(objectGames) );
+        DISPLAYED_OBJECT.addAll(Arrays.asList(objectGames) );
     }
     
     public void removeDisplayed_Object(ObjectGame... objectGames) {

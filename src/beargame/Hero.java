@@ -12,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.shape.Shape;
 import javafx.util.Duration;
@@ -28,15 +29,17 @@ public class Hero extends ObjectGame {
     protected double damage;
     protected double offsetX;
     protected double offsetY;
+    int duration = 100;
     private static boolean up, down, left, right;
-    protected static final double SPRITE_PIXELS_X = 145;
-    protected static final double SPRITE_PIXELS_Y = 96;
-    protected static final double rightBoundary = BearGame.WIDTH_PIXELS/2 - SPRITE_PIXELS_X/2;
-    protected static final double leftBoundary = -(BearGame.WIDTH_PIXELS/2 - SPRITE_PIXELS_X/2);
-    protected static final double bottomBoundary = BearGame.HEIGHT_PIXELS/2 - SPRITE_PIXELS_Y/2;
-    protected static final double topBoundary = -(BearGame.HEIGHT_PIXELS/2 - SPRITE_PIXELS_Y/2);
+    protected static final double SPRITE_PIXELS_X = 120;
+    protected static final double SPRITE_PIXELS_Y = 73;
+    protected static final double RIGHTBOUNDARY = BearGame.WIDTH_PIXELS - SPRITE_PIXELS_X;
+    protected static final double LEFTBOUNDARY = 0;
+    protected static final double BOTTOMBOUNDARY = BearGame.HEIGHT_PIXELS - SPRITE_PIXELS_Y;
+    protected static final double TOPBOUNDARY = Slidding.HEIGTH_SKY;
     private int move = 0;
     Timeline timeline;
+    Timeline timeline2;
     
     public Hero(BearGame bearHero, String SVGdata, double xLocation, double yLocation, Image... spriteCels) {
         super(SVGdata, xLocation, yLocation, spriteCels);
@@ -45,7 +48,6 @@ public class Hero extends ObjectGame {
         damage = offsetX = offsetY = 0;
         bearGame = bearHero;
         setTime();
-        
     }
 
     @Override
@@ -67,14 +69,28 @@ public class Hero extends ObjectGame {
      */
     @Override
     public void setTime() {
+            timeline = new Timeline(new KeyFrame(
+            Duration.millis(200), new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent ae) {
+                    changeImage();
+                    
+                }
+            }));
+            timeline.setCycleCount(Animation.INDEFINITE);
+        
+    }
+    
+    public void setExplosion() {
         timeline= new Timeline(new KeyFrame(
-        Duration.millis(200), new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent ae) {
-                changeImage();
-            }
-        }));
-        timeline.setCycleCount(Animation.INDEFINITE);
+            Duration.millis(10), new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent ae) {
+                    explosion();
+                    vX = vY = 0;
+                }
+            }));
+            timeline.setCycleCount(Animation.INDEFINITE);
     }
     
     public void checkCollision() {
@@ -85,33 +101,48 @@ public class Hero extends ObjectGame {
     }
     
     public void setBoundaries() {
-        if (iX >= rightBoundary) { iX=rightBoundary; }
-        if (iX <= leftBoundary) { iX=leftBoundary; }
-        if (iY >= bottomBoundary) { iY=bottomBoundary; }
-        if (iY <= topBoundary) { iY=topBoundary; }
+        if (iX >= RIGHTBOUNDARY) { iX=RIGHTBOUNDARY; }
+        if (iX <= LEFTBOUNDARY) { iX=LEFTBOUNDARY; }
+        if (iY >= BOTTOMBOUNDARY) { iY=BOTTOMBOUNDARY; }
+        if (iY <= TOPBOUNDARY) { iY=TOPBOUNDARY; }
     }
     
     private void moveBear(double x, double y) {
         spriteFrame.setTranslateX(x);
         spriteFrame.setTranslateY(y);
+        spriteBound.setTranslateX(x);
+        spriteBound.setTranslateY(y);
     }
     
     public void changeImage() {
-        if (move == 0) move++;
-        else if (move == 1) move++;
-        else move = 0;
+        switch (move) {
+            case 0: move++;break;
+            case 1: move++; break;
+            case 2: move++; break;
+            default: move = 0;break;
+        }
+    }
+    public void explosion() {
+            //poner timer y move++ y al final remove
+        timeline2 = new Timeline(new KeyFrame(
+        Duration.millis(1000), new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent ae) {
+                move++;
+            }
+        }));
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline2.play();
     }
     
     private void setImageState() {
-        if(!isRight() && !isLeft() && !isDown() && !isUp() ) {
-            move = 0;
-            spriteFrame.setImage(imageStates.get(move));
+        if (move < 19) spriteFrame.setImage(imageStates.get(move));
+        else if (move == 19) bearGame.root.getChildren().remove(BearGame.iHero.getSpriteFrame());
+        else {
             timeline.stop();
+            timeline2.stop();
         }
-        if(isRight()) {
-            spriteFrame.setImage(imageStates.get(move));
-            timeline.play();
-        }
+        timeline.play();
     }
     
     public boolean collide(ObjectGame object) {
@@ -122,9 +153,21 @@ public class Hero extends ObjectGame {
         }
         if(collisionDetect) {
             //invinciBagel.playiSound0();
-            bearGame.display.addToRemovedObjects(object);
-            bearGame.root.getChildren().remove(object.getSpriteFrame());
-            bearGame.display.resetRemovedObjects();
+            //Quitar objetos del escenario
+            if (object instanceof Coin) {
+                bearGame.display.addToRemovedObjects(object);
+                bearGame.root.getChildren().remove(object.getSpriteFrame());
+                bearGame.display.resetRemovedObjects();
+                Slidding.gameScore += 10;
+            }
+            else {
+                bearGame.display.addToRemovedObjects(object);
+                bearGame.root.getChildren().remove(object.getSpriteFrame());
+                bearGame.display.resetRemovedObjects();
+            }
+            
+            /*move = 3;
+            setExplosion();*/
         }
         return collisionDetect;
     }

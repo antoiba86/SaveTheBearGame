@@ -25,7 +25,8 @@ public class GamePlayLoop extends AnimationTimer {
     public void handle(long now) {
         BearGame.iHero.update();
         //BearGame.petrol.update();
-        updateSprites(); 
+        updateSprites();
+        Slidding.scoreText.setText(String.valueOf(Slidding.gameScore));
         //bearGame.hero2.update();
     }
     
@@ -50,13 +51,11 @@ public class GamePlayLoop extends AnimationTimer {
      * @param object
      */
     protected void handleUpdate(ObjectGame object) {
-        //Sprite class es de objectGame o Populate class, donde se origina los personajes
-        if (object instanceof Populate) {
-            Populate character = (Populate) object;
-
+        //Sprite class es de objectGame o Population class, donde se origina los personajes
+        if (object instanceof Population) {
+            Population character = (Population) object;
             // advance the spheres velocity
             character.update();
-
             // bounce off the walls when outside of boundaries
             /*if (sphere.node.getTranslateX() > (getGameSurface().getWidth()  -
                 sphere.node.getBoundsInParent().getWidth()) ||
