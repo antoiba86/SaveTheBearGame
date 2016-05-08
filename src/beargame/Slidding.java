@@ -1,17 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package beargame;
 
-import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.RotateTransition;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -49,9 +42,9 @@ public class Slidding {
     
     public void createScore() {
         scoreText = new Text();
-        scoreText.setText(String.valueOf(gameScore));
-        scoreText.setLayoutY(100);
-        scoreText.setLayoutX(700);
+        scoreText.setText("SCORE: " + String.valueOf(gameScore));
+        scoreText.setLayoutY(25);
+        scoreText.setLayoutX(650);
         Font scoreFont = new Font("Verdana", 20);
         scoreText.setFont(scoreFont);
         scoreText.setFill(Color.BLACK);
@@ -96,15 +89,12 @@ public class Slidding {
         };
         Sliding forest = new Sliding(trees, BearGame.WIDTH_PIXELS);
         skyBack.getChildren().add(forest);
-        
         createScore();
         skyBack.getChildren().add(scoreText);
-        
         return skyBack;
     }
     
     class Cloud extends Ellipse {
-
         public Cloud(double centerX, double centerY) {
             super(0, 0, 50, 25);
             this.setTranslateX(centerX);
@@ -115,7 +105,6 @@ public class Slidding {
     }
     
     class Tree extends Polygon {
-
         public Tree(double x, double y) {
             super(0, 0, 10, 30, -10, 30);
             this.setTranslateX(x);
@@ -123,20 +112,8 @@ public class Slidding {
         }
     }
     
-    public void setTime() {
-        timeline = new Timeline(new KeyFrame(
-        Duration.millis(10), new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent ae) {
-                
-            }
-        }));
-        timeline.setCycleCount(Animation.INDEFINITE);
-    }
-    
     
     class Sliding extends Group {
-    
         final Node[] content;
         Timeline anim = new Timeline();
 
@@ -160,7 +137,5 @@ public class Slidding {
             anim.getKeyFrames().add(keyFrame);
             anim.play();
         }
-       }
-    
-    
+    }
 }

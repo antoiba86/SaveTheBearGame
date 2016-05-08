@@ -18,17 +18,17 @@ import javafx.util.Duration;
 
 /**
  *
- * @author DAW13
+ * @author Anto
  */
-public class Coin extends Population{
+public class Gemstone extends Population{
     protected BearGame bearGame;
     protected Timeline timeline;
     protected double vX;
     protected double vY;
     protected int move = 0;
     
-    public Coin(BearGame object, double xLocation, double yLocation, Image... spriteCels) {
-        super(object, "M 19,2L 19,2 9,5 4,10 1,16 1,26 6,33 11,36 15,38 25,38 34,32 37,24 37,14 33,7 26,4 22,2 Z", xLocation, yLocation, spriteCels);
+    public Gemstone(BearGame object, double xLocation, double yLocation, Image... spriteCels) {
+        super(object, "M 20,1 L 20,1 9,1 0,11 0,30 7,39 31,39 39,31 39,10 31,1 Z", xLocation, yLocation, spriteCels);
         bearGame = object;
         vX = vY = 0;
         setTime();
@@ -54,17 +54,16 @@ public class Coin extends Population{
         timeline.setCycleCount(Animation.INDEFINITE);
     }
     
+    @Override
     public void changeImage() {
         switch (move) {
             case 0: move++; break;
             case 1: move++; break;
-            case 2: move++; break;
-            case 3: move++; break;
-            case 4: move++; spriteBound.setContent("M 19,0L 19,0 16,0 16,38 23,38 23,1 Z"); 
-                    break;
-            case 5: move++; spriteBound.setContent("M 19,2L 19,2 9,5 4,10 1,16 1,26 6,33 11,36 15,38 25,38 34,32 37,24 37,14 33,7 26,4 22,2 Z");
-                    break;
-            case 6: move++; break;
+            case 2: move++; spriteBound.setContent("M 20,0 L 20,0 15,0 9,11 9,29 14,39 25,40 29,31 29,10 24,0 Z"); 
+                break;
+            case 3: move++; move++; spriteBound.setContent("M 20,1 L 20,1 9,1 0,11 0,30 7,39 31,39 39,31 39,10 31,1 Z"); 
+                break;
+            case 4: move++; break;
             default: move = 0;break;
         }
     }
@@ -74,13 +73,7 @@ public class Coin extends Population{
         timeline.play();
     }
     
-    @Override
-    protected void setXYLocation() {
-        iX -= vX;
-        iY -= vY;
-    }
-    
-    public static void musicCoin () {
+    public static void musicCoin() {
         String uriString = new File("coin.mp3").toURI().toString();
         MediaPlayer player = new MediaPlayer( new Media(uriString));
         player.play();

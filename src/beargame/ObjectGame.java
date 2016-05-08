@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package beargame;
 
 import java.util.ArrayList;
@@ -14,7 +9,7 @@ import javafx.scene.shape.SVGPath;
 
 /**
  *
- * @author DAW13
+ * @author anto
  */
 public abstract class ObjectGame {
     protected List<Image> imageStates = new ArrayList<>();
@@ -22,19 +17,13 @@ public abstract class ObjectGame {
     protected SVGPath spriteBound;
     protected double iX;
     protected double iY;
-    protected double pX;
-    protected double pY;
-    protected boolean isAlive;
-    protected boolean isFixed;
-    protected boolean isBonus;
-    protected boolean hasValu;
-    protected boolean isFlipV;
-    protected boolean isFlipH;
     
+    /**
+     * Empty Constructor of the class
+     */
     public ObjectGame() {
         
     }
-    
     
     public ObjectGame(String SVGdata, double xLocation, double yLocation, Image... spriteCels) {
         spriteBound = new SVGPath();
@@ -43,14 +32,6 @@ public abstract class ObjectGame {
         imageStates.addAll(Arrays.asList(spriteCels));
         iX = xLocation;
         iY = yLocation;
-        pX = 0;
-        pY = 0;
-        isAlive = false;
-        isFixed = true;
-        isBonus = false;
-        hasValu = false;
-        isFlipV = false;
-        isFlipH = false;
     }
     
     public abstract void update();
@@ -96,70 +77,6 @@ public abstract class ObjectGame {
 
     public void setiY(double iY) {
         this.iY = iY;
-    }
-
-    public double getpX() {
-        return pX;
-    }
-
-    public void setpX(double pX) {
-        this.pX = pX;
-    }
-
-    public double getpY() {
-        return pY;
-    }
-
-    public void setpY(double pY) {
-        this.pY = pY;
-    }
-
-    public boolean isIsAlive() {
-        return isAlive;
-    }
-
-    public void setIsAlive(boolean isAlive) {
-        this.isAlive = isAlive;
-    }
-
-    public boolean isIsFixed() {
-        return isFixed;
-    }
-
-    public void setIsFixed(boolean isFixed) {
-        this.isFixed = isFixed;
-    }
-
-    public boolean isIsBonus() {
-        return isBonus;
-    }
-
-    public void setIsBonus(boolean isBonus) {
-        this.isBonus = isBonus;
-    }
-
-    public boolean isHasValu() {
-        return hasValu;
-    }
-
-    public void setHasValu(boolean hasValu) {
-        this.hasValu = hasValu;
-    }
-
-    public boolean isIsFlipV() {
-        return isFlipV;
-    }
-
-    public void setIsFlipV(boolean isFlipV) {
-        this.isFlipV = isFlipV;
-    }
-
-    public boolean isIsFlipH() {
-        return isFlipH;
-    }
-
-    public void setIsFlipH(boolean isFlipH) {
-        this.isFlipH = isFlipH;
     }
     
     

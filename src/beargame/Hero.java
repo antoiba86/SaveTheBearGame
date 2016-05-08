@@ -1,35 +1,26 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package beargame;
 
+import java.io.File;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Bounds;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 
 /**
  *
- * @author DAW13
+ * @author Anto
  */
 public class Hero extends ObjectGame {
     protected BearGame bearGame;
     protected double vX;
     protected double vY;
-    protected double lifeSpan;
-    protected double damage;
-    protected double offsetX;
-    protected double offsetY;
-    int duration = 100;
     private static boolean up, down, left, right;
     protected static final double SPRITE_PIXELS_X = 120;
     protected static final double SPRITE_PIXELS_Y = 73;
@@ -39,17 +30,14 @@ public class Hero extends ObjectGame {
     protected static final double TOPBOUNDARY = Slidding.HEIGTH_SKY;
     private int move = 0;
     Timeline timeline;
-    Timeline timeline2;
+    Timeline timeExplosion;
     
     public Hero(BearGame bearHero, String SVGdata, double xLocation, double yLocation, Image... spriteCels) {
         super(SVGdata, xLocation, yLocation, spriteCels);
-        lifeSpan = 1000;
         vX = vY =2;
-        damage = offsetX = offsetY = 0;
         bearGame = bearHero;
         setTime();
     }
-
     @Override
     public void update() {
         setXYLocation();
@@ -58,60 +46,20 @@ public class Hero extends ObjectGame {
         moveBear(iX, iY);
         checkCollision();
     }
-    private void setXYLocation() {
-        if(right) iX += vX;
-        if(left) iX -= vX;
-        if(down) iY += vY;
-        if(up) iY -= vY;
-    }
+    
     /**
-     * Method to set a Timer in order to change the image display of the Hero
+     * Method to set a Timer in order to change the Hero's image displayed
      */
     @Override
     public void setTime() {
-            timeline = new Timeline(new KeyFrame(
-            Duration.millis(200), new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent ae) {
-                    changeImage();
-                    
-                }
-            }));
-            timeline.setCycleCount(Animation.INDEFINITE);
-        
-    }
-    
-    public void setExplosion() {
-        timeline= new Timeline(new KeyFrame(
-            Duration.millis(10), new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent ae) {
-                    explosion();
-                    vX = vY = 0;
-                }
-            }));
-            timeline.setCycleCount(Animation.INDEFINITE);
-    }
-    
-    public void checkCollision() {
-        for(int i=0; i< bearGame.display.getDISPLAYED_OBJECT().size(); i++) {
-            ObjectGame object = bearGame.display.getDISPLAYED_OBJECT().get(i);
-            collide(object);
-        }
-    }
-    
-    public void setBoundaries() {
-        if (iX >= RIGHTBOUNDARY) { iX=RIGHTBOUNDARY; }
-        if (iX <= LEFTBOUNDARY) { iX=LEFTBOUNDARY; }
-        if (iY >= BOTTOMBOUNDARY) { iY=BOTTOMBOUNDARY; }
-        if (iY <= TOPBOUNDARY) { iY=TOPBOUNDARY; }
-    }
-    
-    private void moveBear(double x, double y) {
-        spriteFrame.setTranslateX(x);
-        spriteFrame.setTranslateY(y);
-        spriteBound.setTranslateX(x);
-        spriteBound.setTranslateY(y);
+        timeline = new Timeline(new KeyFrame(
+        Duration.millis(200), new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent ae) {
+                changeImage();
+            }
+        }));
+        timeline.setCycleCount(Animation.INDEFINITE);
     }
     
     public void changeImage() {
@@ -122,27 +70,65 @@ public class Hero extends ObjectGame {
             default: move = 0;break;
         }
     }
-    public void explosion() {
-            //poner timer y move++ y al final remove
-        timeline2 = new Timeline(new KeyFrame(
-        Duration.millis(1000), new EventHandler<ActionEvent>() {
+    
+    public void setExplosion() {
+        timeline.stop();
+        timeExplosion = new Timeline(new KeyFrame(
+        Duration.millis(200), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent ae) {
-                move++;
+                explosion();
+                vX = vY = 0;
             }
         }));
-        timeline.setCycleCount(Animation.INDEFINITE);
-        timeline2.play();
+        timeExplosion.setCycleCount(Animation.INDEFINITE);
+        timeExplosion.play();
+    }
+    
+    public void explosion() {
+        if (move < 19) move++;
     }
     
     private void setImageState() {
-        if (move < 19) spriteFrame.setImage(imageStates.get(move));
-        else if (move == 19) bearGame.root.getChildren().remove(BearGame.iHero.getSpriteFrame());
-        else {
-            timeline.stop();
-            timeline2.stop();
+        if (move < 3) {
+            spriteFrame.setImage(imageStates.get(move));
+            timeline.play();
         }
-        timeline.play();
+        else if (move >= 3 && move < 19) spriteFrame.setImage(imageStates.get(move));
+        else {
+            timeExplosion.stop();
+            bearGame.display.addToRemovedObjects(BearGame.iHero);
+            bearGame.root.getChildren().remove(BearGame.iHero.getSpriteFrame());
+            bearGame.display.resetRemovedObjects();
+        }
+    }
+    
+    private void moveBear(double x, double y) {
+        spriteFrame.setTranslateX(x);
+        spriteFrame.setTranslateY(y);
+        spriteBound.setTranslateX(x);
+        spriteBound.setTranslateY(y);
+    }
+    
+    private void setXYLocation() {
+        if(right) iX += vX;
+        if(left) iX -= vX;
+        if(down) iY += vY;
+        if(up) iY -= vY;
+    }
+    
+    public void setBoundaries() {
+        if (iX >= RIGHTBOUNDARY) { iX=RIGHTBOUNDARY; }
+        if (iX <= LEFTBOUNDARY) { iX=LEFTBOUNDARY; }
+        if (iY >= BOTTOMBOUNDARY) { iY=BOTTOMBOUNDARY; }
+        if (iY <= TOPBOUNDARY) { iY=TOPBOUNDARY; }
+    }
+    
+    public void checkCollision() {
+        for(int i=0; i< bearGame.display.getDISPLAYED_OBJECT().size(); i++) {
+            ObjectGame object = bearGame.display.getDISPLAYED_OBJECT().get(i);
+            collide(object);
+        }
     }
     
     public boolean collide(ObjectGame object) {
@@ -152,24 +138,53 @@ public class Hero extends ObjectGame {
             if (intersection.getBoundsInLocal().getWidth() != -1) collisionDetect = true;
         }
         if(collisionDetect) {
-            //invinciBagel.playiSound0();
             //Quitar objetos del escenario
             if (object instanceof Coin) {
                 bearGame.display.addToRemovedObjects(object);
                 bearGame.root.getChildren().remove(object.getSpriteFrame());
                 bearGame.display.resetRemovedObjects();
+                Coin.musicCoin();
                 Slidding.gameScore += 10;
             }
-            else {
+            else if (object instanceof Gemstone) {
                 bearGame.display.addToRemovedObjects(object);
                 bearGame.root.getChildren().remove(object.getSpriteFrame());
                 bearGame.display.resetRemovedObjects();
+                Coin.musicCoin();
+                Slidding.gameScore += 50;
             }
-            
-            /*move = 3;
-            setExplosion();*/
+            else if (object instanceof Shark) {
+                Shark shark = (Shark)object;
+                if (shark.getMove() < 3) {
+                    shark.setMove(3);
+                    shark.soundShark();
+                    shark.setJaws();
+                }
+                if (move < 3) {
+                    move = 3;
+                    soundExplosion();
+                    setExplosion();
+                }
+            }
+            else {
+                if (move < 3) {
+                    move = 3;
+                    soundExplosion();
+                    setExplosion();
+                }
+                
+                /*bearGame.display.addToRemovedObjects(object);
+                bearGame.root.getChildren().remove(object.getSpriteFrame());
+                bearGame.display.resetRemovedObjects();*/
+            }
         }
         return collisionDetect;
+    }
+    
+    public static void soundExplosion() {
+        String uriString = new File("explosion.mp3").toURI().toString();
+        MediaPlayer player = new MediaPlayer( new Media(uriString));
+        player.play();
     }
     
     public double getvX() {
@@ -186,38 +201,6 @@ public class Hero extends ObjectGame {
 
     public void setvY(double vY) {
         this.vY = vY;
-    }
-
-    public double getLifeSpan() {
-        return lifeSpan;
-    }
-
-    public void setLifeSpan(double lifeSpan) {
-        this.lifeSpan = lifeSpan;
-    }
-
-    public double getDamage() {
-        return damage;
-    }
-
-    public void setDamage(double damage) {
-        this.damage = damage;
-    }
-
-    public double getOffsetX() {
-        return offsetX;
-    }
-
-    public void setOffsetX(double offsetX) {
-        this.offsetX = offsetX;
-    }
-
-    public double getOffsetY() {
-        return offsetY;
-    }
-
-    public void setOffsetY(double offsetY) {
-        this.offsetY = offsetY;
     }
 
     public static boolean isUp() {
