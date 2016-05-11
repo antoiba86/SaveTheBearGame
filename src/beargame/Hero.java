@@ -24,9 +24,9 @@ public class Hero extends ObjectGame {
     private static boolean up, down, left, right;
     protected static final double SPRITE_PIXELS_X = 120;
     protected static final double SPRITE_PIXELS_Y = 73;
-    protected static final double RIGHTBOUNDARY = BearGame.WIDTH_PIXELS - SPRITE_PIXELS_X;
+    protected static final double RIGHTBOUNDARY = Menu.WIDTH_PIXELS - SPRITE_PIXELS_X;
     protected static final double LEFTBOUNDARY = 0;
-    protected static final double BOTTOMBOUNDARY = BearGame.HEIGHT_PIXELS - SPRITE_PIXELS_Y;
+    protected static final double BOTTOMBOUNDARY = Menu.HEIGHT_PIXELS - SPRITE_PIXELS_Y;
     protected static final double TOPBOUNDARY = Slidding.HEIGTH_SKY;
     private int move = 0;
     Timeline timeline;
@@ -98,7 +98,7 @@ public class Hero extends ObjectGame {
         else {
             timeExplosion.stop();
             bearGame.display.addToRemovedObjects(BearGame.iHero);
-            bearGame.root.getChildren().remove(BearGame.iHero.getSpriteFrame());
+            bearGame.paneRoot.getChildren().remove(BearGame.iHero.getSpriteFrame());
             bearGame.display.resetRemovedObjects();
         }
     }
@@ -141,14 +141,14 @@ public class Hero extends ObjectGame {
             //Quitar objetos del escenario
             if (object instanceof Coin) {
                 bearGame.display.addToRemovedObjects(object);
-                bearGame.root.getChildren().remove(object.getSpriteFrame());
+                bearGame.paneRoot.getChildren().remove(object.getSpriteFrame());
                 bearGame.display.resetRemovedObjects();
                 Coin.musicCoin();
                 Slidding.gameScore += 10;
             }
             else if (object instanceof Gemstone) {
                 bearGame.display.addToRemovedObjects(object);
-                bearGame.root.getChildren().remove(object.getSpriteFrame());
+                bearGame.paneRoot.getChildren().remove(object.getSpriteFrame());
                 bearGame.display.resetRemovedObjects();
                 Coin.musicCoin();
                 Slidding.gameScore += 50;
@@ -161,18 +161,28 @@ public class Hero extends ObjectGame {
                     shark.setJaws();
                 }
                 if (move < 3) {
-                    move = 3;
+                    move = 4;
                     soundExplosion();
                     setExplosion();
                 }
             }
-            else {
+            else if (object instanceof Missile) {
                 if (move < 3) {
-                    move = 3;
+                    move = 4;
                     soundExplosion();
                     setExplosion();
                 }
-                
+                Missile missile = (Missile)object;
+                bearGame.display.addToRemovedObjects(missile);
+                bearGame.paneRoot.getChildren().remove(missile.getSpriteFrame());
+                bearGame.display.resetRemovedObjects();
+            }
+            else {
+                if (move < 3) {
+                    move = 4;
+                    soundExplosion();
+                    setExplosion();
+                }
                 /*bearGame.display.addToRemovedObjects(object);
                 bearGame.root.getChildren().remove(object.getSpriteFrame());
                 bearGame.display.resetRemovedObjects();*/

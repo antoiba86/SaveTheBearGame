@@ -18,9 +18,10 @@ public class Shark extends Population{
     public Shark() {
     }
     
-    public Shark(BearGame object, double xLocation, double yLocation, Image... spriteCels) {
+    public Shark(BearGame object, double xLocation, double yLocation, double vX, double vY, Image... spriteCels) {
         super(object, "M 88,21 L 88,21 56,40 42,50 27,58 28,72 44,72 61,62 66,58 75,52 78,49 85,31 Z", xLocation, yLocation, spriteCels);
-        vX = vY = 1;
+        this.vX = vX;
+        this.vY = vY;
         setTime();
     }
     
@@ -56,7 +57,7 @@ public class Shark extends Population{
         else {
             timeJaws.stop();
             bearGame.display.addToRemovedObjects(this);
-            bearGame.root.getChildren().remove(this.getSpriteFrame());
+            bearGame.paneRoot.getChildren().remove(this.getSpriteFrame());
         }
     }
     

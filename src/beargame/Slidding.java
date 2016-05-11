@@ -36,7 +36,7 @@ public class Slidding {
     double SUNY = 75;
     static double HEIGTH_SKY = 300;
     private Group skyBack = new Group();
-    Rectangle sky = new Rectangle(BearGame.WIDTH_PIXELS, HEIGTH_SKY);
+    Rectangle sky = new Rectangle(Menu.WIDTH_PIXELS, HEIGTH_SKY);
     Group sun = new Group();
     Circle sunCircle = new Circle(SUNX, SUNY, 60);
     
@@ -77,17 +77,17 @@ public class Slidding {
         rotateTransition.play();
         
         Cloud[] clouds = new Cloud[]{new Cloud(100, 100), new Cloud(150, 20), new Cloud(220, 150), new Cloud(260, 100), new Cloud(370, 150), new Cloud(700, 150), new Cloud(450, 30), new Cloud(600, 100)};
-        Sliding cloudSlider = new Sliding(clouds, BearGame.WIDTH_PIXELS);
+        Sliding cloudSlider = new Sliding(clouds, Menu.WIDTH_PIXELS);
         skyBack.getChildren().addAll(cloudSlider);
         
-        Rectangle ground = new Rectangle(BearGame.WIDTH_PIXELS, 100);
+        Rectangle ground = new Rectangle(Menu.WIDTH_PIXELS, 100);
         ground.setTranslateY(200);
         ground.setFill(new LinearGradient(0, 0, 0, 1, true, CycleMethod.NO_CYCLE, new Stop(0.2, Color.OLIVE), new Stop(0.1, Color.DARKOLIVEGREEN)));
         skyBack.getChildren().add(ground);
         Tree[] trees = new Tree[]{new Tree(20, 220), new Tree(80, 180), new Tree(120, 230), new Tree(140, 180), new Tree(180, 210), new Tree(220, 220),
             new Tree(260, 180), new Tree(280, 220), new Tree(300, 200), new Tree(400, 220), new Tree(500, 180), new Tree(500, 220)
         };
-        Sliding forest = new Sliding(trees, BearGame.WIDTH_PIXELS);
+        Sliding forest = new Sliding(trees, Menu.WIDTH_PIXELS);
         skyBack.getChildren().add(forest);
         createScore();
         skyBack.getChildren().add(scoreText);

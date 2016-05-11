@@ -1,11 +1,16 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package beargame;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -13,29 +18,28 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
 /**
  *
- * @author Anto
+ * @author DAW13
  */
-public class BearGame extends Application {
-    static final int HEIGHT_PIXELS = 700;
-    static final int WIDTH_PIXELS = 800;
+public class BearGame {
+    Scene scene;
+    Pane paneRoot;
     static Hero iHero;
-    Population petrol;
-    PirateBoat pirate;
-    Shark shark;
-    Plane plane;
+    ArrayList<EnemyLocation> enemies = new ArrayList<>();
+    int tiempo = 0;
+    int maxId;
+    int id = 0;
     Coin coin;
     Gemstone gemstone;
     Group skyLine = new Group();
-    Timeline timeline;
+    static Timeline timeline;
     Image[] polarBear = new Image[4];
     Image[] explosion = new Image[15];
     Image[] pirate_boat = new Image[4];
@@ -45,47 +49,34 @@ public class BearGame extends Application {
     Image[] plane_image = new Image[9];
     Image petrol_boat;
     Image fondo;
-    DisplayObject display = new DisplayObject();;
-    ImageView splashScreen;
-    //Button gameButton = new Button("Hola, a ver");
-    private static final String GAME_MUSIC_PATH = "sound_track.mp3";
-    private static MediaPlayer gameMusicPlayer; //Si no esta declarado aquí el, recolector de basura de Java lo detiene en diez segundos.
-    Scene scene;
-    Pane root;
-    static HBox buttonContainer = new HBox();
+    static DisplayObject display = new DisplayObject();;
     GamePlayLoop playGame;
+    private static final String GAME_MUSIC_PATH = "sound_track.mp3";
+    public static MediaPlayer gameMusicPlayer; //Si no esta declarado aquí el, recolector de basura de Java lo detiene en diez segundos.
     
-    @Override
-    public void start(Stage primaryStage) {
-        primaryStage.setTitle("Save the bear!");
-        root = new Pane();
-        scene = new Scene(root, WIDTH_PIXELS, HEIGHT_PIXELS, Color.WHITE);
-        scene.getStylesheets().add(BearGame.class.getResource("Fondo.css").toExternalForm());
+    
+    public Scene play(Scene menu, Stage window) {
+        scene = menu;
+        Scene play;
+        paneRoot = new Pane();
+        paneRoot.setId("paneRoot");
+        paneRoot.getStylesheets().add(BearGame.class.getResource("Fondo.css").toExternalForm());
         Slidding sky = new Slidding();
         skyLine = sky.sky();
-        primaryStage.getIcons().add(new Image("oso1.png"));
-        primaryStage.setScene(scene);
-        primaryStage.show();
-        createSceneEventHandling();
-        //playMusic();
+        window.setScene(menu);
+        window.show();
+        playMusic();
         loadImageAssets();
         createBear();
+        loadEnemies();
         setTime();
         addGameObjectNodes();
         createStartGameLoop();
+        play = new Scene(paneRoot, Menu.WIDTH_PIXELS, Menu.HEIGHT_PIXELS);
+        createSceneEventHandling(play);
+        return play;
     }
     
-    
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        launch(args);
-        
-    }
-    public void SplashScreen() {
-       
-    }
     /**
      * Method to load the images of every object of the game
      */
@@ -135,15 +126,40 @@ public class BearGame extends Application {
         Duration.millis(10000), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent ae) {
+                tiempo += 10;
                 int n = (int)(Math.random()*2+1);
                 createTreasure(n);
-                createBoat();
-                createDisplayedObject(n);
-                addNewGameObjectNodes(n);
+                createDisplayedTreasure(n);
+                addNewTreasureNodes(n);
+                getEnemy();
             }
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.play();
+    }
+    
+    public void getEnemy() {
+            for (int i = 0; i < enemies.size(); i++) {
+                if (tiempo == enemies.get(i).getTiempo()) {
+                    ObjectGame object = createEnemy(enemies.get(i).getType(),enemies.get(i).getWidth(),enemies.get(i).getHeight(), enemies.get(i).getvX(), enemies.get(i).getvY());
+                    createDisplayedObject(object);
+                    addNewGameObjectNodes(object.spriteFrame);
+                    id++;
+                }
+                if (maxId == id) {
+                    tiempo = 0;
+                    id = 0;
+                }
+            }
+            
+    }
+    
+    public void loadEnemies() {
+        maxId = EnemyLocation.getMaxID();
+        for (int i = 1; i < maxId+1; i++) {
+            EnemyLocation enemy = new EnemyLocation();
+            enemy.selectEnemy(i);
+            enemies.add(enemy);
+        }
     }
     
     /**
@@ -159,41 +175,58 @@ public class BearGame extends Application {
     
     /**
      * Method to create enemies in the game
+     * @param type
+     * @param width
+     * @param height
+     * @param vX
+     * @param vY
+     * @return 
      */
-    public void createBoat() {
-        pirate = new PirateBoat(this, 400, 400, pirate_boat[0], pirate_boat[1], pirate_boat[2], pirate_boat[3]);
-        shark = new Shark(this, 600,500, shark_image[0],shark_image[1],shark_image[2],shark_image[3],shark_image[4],shark_image[5],shark_image[6],shark_image[7],shark_image[8]);
-        plane = new Plane(this, 600,100, plane_image[0],plane_image[1],plane_image[2],plane_image[3],plane_image[4],plane_image[5],plane_image[6],plane_image[7],plane_image[8]);
+    public ObjectGame createEnemy(int type, double width, double height, double vX, double vY) {
+        ObjectGame object = new Population();
+        if (type == 1) object = new PirateBoat(this, width, height, vX, vY, pirate_boat[0], pirate_boat[1], pirate_boat[2], pirate_boat[3]);
+        if (type == 2) object = new Shark(this, width, height, vX, vY, shark_image[0],shark_image[1],shark_image[2],shark_image[3],shark_image[4],shark_image[5],shark_image[6],shark_image[7],shark_image[8]);
+        if (type == 3) object = new Plane(this, width, height, vX, vY, plane_image[0],plane_image[1],plane_image[2],plane_image[3],plane_image[4],plane_image[5],plane_image[6],plane_image[7],plane_image[8]);
+        return object;
     }
+    
+    /*public ObjectGame createEnemy() {
+        ObjectGame object;
+        object = new Plane(this, 800, 100, plane_image[0],plane_image[1],plane_image[2],plane_image[3],plane_image[4],plane_image[5],plane_image[6],plane_image[7],plane_image[8]);
+        return object;
+    }*/
     
     /**
      * Method to add to objects to the array of objects
      * @param n Is the variable that decide is if a coin or a gem to add to the array;
      */
-    public void createDisplayedObject(int n) {
+    public void createDisplayedTreasure(int n) {
         if (n==1)display.addDisplayed_Object(coin);
         else display.addDisplayed_Object(gemstone);
-        display.addDisplayed_Object(pirate);
-        display.addDisplayed_Object(shark);
-        display.addDisplayed_Object(plane);
+    }
+    
+    public void createDisplayedObject(ObjectGame object) {
+        display.addDisplayed_Object(object);
     }
     
     /**
      * Method to add the sprite of every object to the game to display in the screen
      * @param n Is the variable that decide if is a coin or a gem
      */
-    public void addNewGameObjectNodes(int n) {
-        if (n ==1) root.getChildren().add(coin.spriteFrame);
-        else root.getChildren().add(gemstone.spriteFrame);
-        root.getChildren().add(pirate.spriteFrame);
-        root.getChildren().add(shark.spriteFrame);
-        root.getChildren().add(plane.spriteFrame);    }
+    public void addNewTreasureNodes(int n) {
+        if (n ==1) paneRoot.getChildren().add(coin.spriteFrame);
+        else paneRoot.getChildren().add(gemstone.spriteFrame);   
+    }
+    
+    public void addNewGameObjectNodes(ImageView spriteFrame) {
+        paneRoot.getChildren().add(spriteFrame);    
+    }
     
     /**
      * Method to add objects which the game starts
      */
     public void addGameObjectNodes() {
-        root.getChildren().addAll(skyLine, iHero.spriteFrame);
+        paneRoot.getChildren().addAll(skyLine, iHero.spriteFrame);
     }
     
     /**
@@ -207,7 +240,7 @@ public class BearGame extends Application {
     /**
      * Method with the key to move el principal character
      */
-    private void createSceneEventHandling() {
+    private void createSceneEventHandling(Scene scene) {
         scene.setOnKeyPressed((KeyEvent event) -> {
             switch (event.getCode()) {
                 case UP: Hero.setUp(true); break;
@@ -237,7 +270,7 @@ public class BearGame extends Application {
     /**
      * Method with the principal theme of the game
      */
-    /*private static void playMusic(){
+    private static void playMusic(){
         try {
             gameMusicPlayer = new MediaPlayer(new Media(new File(GAME_MUSIC_PATH).toURI().toURL().toString()));
         } catch (MalformedURLException ex) {
@@ -246,7 +279,5 @@ public class BearGame extends Application {
             gameMusicPlayer.seek(Duration.ZERO);
             gameMusicPlayer.play();
         });
-        gameMusicPlayer.play();
-    }*/
-    
+    }
 }

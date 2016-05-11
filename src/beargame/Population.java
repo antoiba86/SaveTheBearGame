@@ -19,9 +19,9 @@ public class Population extends ObjectGame {
     protected Timeline timeline;
     protected static final double SPRITE_PIXELS_X = 0;
     protected static final double SPRITE_PIXELS_Y = 0;
-    protected static final double RIGHTBOUNDARY = BearGame.WIDTH_PIXELS - SPRITE_PIXELS_X;
+    protected static final double RIGHTBOUNDARY = Menu.WIDTH_PIXELS - SPRITE_PIXELS_X;
     protected static final double LEFTBOUNDARY = 0;
-    protected static final double BOTTOMBOUNDARY = BearGame.HEIGHT_PIXELS - SPRITE_PIXELS_Y;
+    protected static final double BOTTOMBOUNDARY = Menu.HEIGHT_PIXELS - SPRITE_PIXELS_Y;
     protected static final double TOPBOUNDARY = Slidding.HEIGTH_SKY;
     protected int move = 0;
     
@@ -76,11 +76,11 @@ public class Population extends ObjectGame {
     }
     
     protected void setXYLocation() {
-        iX -= vX;
-        iY -= vY;
+        iX += vX;
+        iY += vY;
     }
     public void setBoundaries() {  
-        if (iX <= LEFTBOUNDARY-50) bearGame.root.getChildren().remove(this.getSpriteFrame()); 
+        if (iX <= LEFTBOUNDARY-50) bearGame.paneRoot.getChildren().remove(this.getSpriteFrame()); 
         //Cuando choca contra el "suelo" el barco sigue para arriba
         if (iY >= BOTTOMBOUNDARY) vY=-vY; 
         //Cuando choca contra el "techo" el barcho va para abajo
