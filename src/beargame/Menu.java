@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 public class Menu extends Application {
     static final int HEIGHT_PIXELS = 700;
     static final int WIDTH_PIXELS = 800;
-    Scene scene, play, instructions, conf;
+    Scene scene, play;
     BearGame beargame = new BearGame();
     
     @Override
@@ -33,12 +33,18 @@ public class Menu extends Application {
         buttonPlay.setOnAction((ActionEvent e) -> {
             primaryStage.setScene(play);
             BearGame.timeline.play();
-            BearGame.gameMusicPlayer.play();
+            if (Configuration.isSound()) BearGame.gameMusicPlayer.play();
         });
                 //setOnAction(e -> primaryStage.setScene(play));
         Button buttonConf = new Button("Configuración");
+        buttonConf.setOnAction((ActionEvent e) -> {
+            primaryStage.setScene(Configuration.configuration(scene, primaryStage));
+        });
         Button buttonIntr = new Button("Instrucciones");
-        buttonIntr.setOnAction(e -> primaryStage.setScene(instructions));
+        buttonIntr.setOnAction((ActionEvent e) -> {
+            primaryStage.setScene(Configuration.configuration(scene, primaryStage));
+        });
+        buttonIntr.setOnAction(e -> primaryStage.setScene(Configuration.instructions(scene, primaryStage)));
         Label copyrigth= new Label ("Creado por Antonio J. Ibáñez");
         VBox menuIni = new VBox(20);
         //Para que todos los botones tenga la misma medida
@@ -48,7 +54,7 @@ public class Menu extends Application {
         buttonPlay.setMaxWidth(menuIni.getPrefWidth());
         buttonConf.setMaxWidth(menuIni.getPrefWidth());
         buttonIntr.setMaxWidth(menuIni.getPrefWidth());
-        menuIni.getChildren().addAll(titleGame,titleGame2,buttonPlay,buttonIntr, copyrigth);
+        menuIni.getChildren().addAll(titleGame,titleGame2,buttonPlay,buttonConf, buttonIntr, copyrigth);
         menuIni.setAlignment(Pos.CENTER);
         //String css = Menu.class.getResource("menu.css").toExternalForm();
         //scene.getStylesheets().add(css);

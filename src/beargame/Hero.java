@@ -28,6 +28,7 @@ public class Hero extends ObjectGame {
     protected static final double LEFTBOUNDARY = 0;
     protected static final double BOTTOMBOUNDARY = Menu.HEIGHT_PIXELS - SPRITE_PIXELS_Y;
     protected static final double TOPBOUNDARY = Slidding.HEIGTH_SKY;
+    private static boolean isAlive = true;
     private int move = 0;
     Timeline timeline;
     Timeline timeExplosion;
@@ -100,6 +101,7 @@ public class Hero extends ObjectGame {
             bearGame.display.addToRemovedObjects(BearGame.iHero);
             bearGame.paneRoot.getChildren().remove(BearGame.iHero.getSpriteFrame());
             bearGame.display.resetRemovedObjects();
+            isAlive = false;
         }
     }
     
@@ -143,21 +145,21 @@ public class Hero extends ObjectGame {
                 bearGame.display.addToRemovedObjects(object);
                 bearGame.paneRoot.getChildren().remove(object.getSpriteFrame());
                 bearGame.display.resetRemovedObjects();
-                Coin.musicCoin();
+                if (Configuration.isSound()) Coin.musicCoin();
                 Slidding.gameScore += 10;
             }
             else if (object instanceof Gemstone) {
                 bearGame.display.addToRemovedObjects(object);
                 bearGame.paneRoot.getChildren().remove(object.getSpriteFrame());
                 bearGame.display.resetRemovedObjects();
-                Coin.musicCoin();
+                if (Configuration.isSound()) Coin.musicCoin();
                 Slidding.gameScore += 50;
             }
             else if (object instanceof Shark) {
                 Shark shark = (Shark)object;
                 if (shark.getMove() < 3) {
                     shark.setMove(3);
-                    shark.soundShark();
+                    if (Configuration.isSound()) shark.soundShark();
                     shark.setJaws();
                 }
                 if (move < 3) {
@@ -169,7 +171,7 @@ public class Hero extends ObjectGame {
             else if (object instanceof Missile) {
                 if (move < 3) {
                     move = 4;
-                    soundExplosion();
+                    if (Configuration.isSound()) soundExplosion();
                     setExplosion();
                 }
                 Missile missile = (Missile)object;
@@ -180,12 +182,9 @@ public class Hero extends ObjectGame {
             else {
                 if (move < 3) {
                     move = 4;
-                    soundExplosion();
+                    if (Configuration.isSound()) soundExplosion();
                     setExplosion();
                 }
-                /*bearGame.display.addToRemovedObjects(object);
-                bearGame.root.getChildren().remove(object.getSpriteFrame());
-                bearGame.display.resetRemovedObjects();*/
             }
         }
         return collisionDetect;
@@ -243,6 +242,14 @@ public class Hero extends ObjectGame {
 
     public static void setRight(boolean right) {
         Hero.right = right;
+    }
+
+    public static boolean isIsAlive() {
+        return isAlive;
+    }
+
+    public static void setIsAlive(boolean isAlive) {
+        Hero.isAlive = isAlive;
     }
     
     

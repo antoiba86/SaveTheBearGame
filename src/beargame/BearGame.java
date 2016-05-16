@@ -65,7 +65,7 @@ public class BearGame {
         skyLine = sky.sky();
         window.setScene(menu);
         window.show();
-        playMusic();
+        if (Configuration.isSound()) playMusic();
         loadImageAssets();
         createBear();
         loadEnemies();
