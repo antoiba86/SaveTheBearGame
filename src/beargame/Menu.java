@@ -1,6 +1,7 @@
 package beargame;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -9,9 +10,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 /**
  *
  * @author Anto
@@ -19,19 +22,28 @@ import javafx.stage.Stage;
 public class Menu extends Application {
     static final int HEIGHT_PIXELS = 700;
     static final int WIDTH_PIXELS = 800;
-    Scene scene, play;
-    BearGame beargame = new BearGame();
+    Scene scene;
+    Pane paneRoot;
     
     @Override
     public void start(Stage primaryStage) {
+        paneRoot = new Pane();
         primaryStage.setTitle("Save the bear!");
         primaryStage.setResizable(false);
-        Label titleGame = new Label("Save the Bear!");
-        Label titleGame2 = new Label("Save the World!");
+        Label titleGame = new Label(" Save the Bear! \n"
+                + "Save the World!");
+        titleGame.setId("title");
         primaryStage.getIcons().add(new Image("oso1.png"));
         Button buttonPlay = new Button("Play");
         buttonPlay.setOnAction((ActionEvent e) -> {
-            primaryStage.setScene(play);
+            Stage stage = new Stage();
+            stage.initStyle(StageStyle.UNDECORATED);
+            BearGame beargame = new BearGame();
+            Scene play = beargame.play(scene, primaryStage, stage);
+            stage.setScene(play);
+            stage.show();
+            //hide this current window
+            primaryStage.getScene().getWindow().hide();
             BearGame.timeline.play();
             if (Configuration.isSound()) BearGame.gameMusicPlayer.play();
         });
@@ -45,24 +57,27 @@ public class Menu extends Application {
             primaryStage.setScene(Configuration.configuration(scene, primaryStage));
         });
         buttonIntr.setOnAction(e -> primaryStage.setScene(Configuration.instructions(scene, primaryStage)));
+        Button buttonExit = new Button("Exit");
+        buttonExit.setOnAction((ActionEvent e) -> {
+            System.exit(0);
+        });
         Label copyrigth= new Label ("Creado por Antonio J. Ibáñez");
         VBox menuIni = new VBox(20);
         //Para que todos los botones tenga la misma medida
-        menuIni.setPrefWidth(300);
+        menuIni.setPrefWidth(200);
         menuIni.setSpacing(10);
         menuIni.setPadding(new Insets(0, 20, 10, 20));
         buttonPlay.setMaxWidth(menuIni.getPrefWidth());
         buttonConf.setMaxWidth(menuIni.getPrefWidth());
         buttonIntr.setMaxWidth(menuIni.getPrefWidth());
-        menuIni.getChildren().addAll(titleGame,titleGame2,buttonPlay,buttonConf, buttonIntr, copyrigth);
+        buttonExit.setMaxWidth(menuIni.getPrefWidth());
+        menuIni.getChildren().addAll(titleGame,buttonPlay,buttonConf, buttonIntr, buttonExit, copyrigth);
         menuIni.setAlignment(Pos.CENTER);
-        //String css = Menu.class.getResource("menu.css").toExternalForm();
-        //scene.getStylesheets().add(css);
         scene = new Scene(menuIni, WIDTH_PIXELS, HEIGHT_PIXELS, Color.WHITE);
         scene.getStylesheets().add(BearGame.class.getResource("Menu.css").toExternalForm());
-        play = beargame.play(scene, primaryStage);
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
-    
     
     /**
      * @param args the command line arguments

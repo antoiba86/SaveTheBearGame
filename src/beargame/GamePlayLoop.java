@@ -12,9 +12,7 @@ import javafx.animation.AnimationTimer;
  * @author DAW13
  */
 public class GamePlayLoop extends AnimationTimer {
-    
-    private BearGame bearGame;
-    private DisplayObject displayObject = new DisplayObject();
+    BearGame bearGame;
     
     public GamePlayLoop (BearGame bearGame) {
         this.bearGame = bearGame;
@@ -39,7 +37,7 @@ public class GamePlayLoop extends AnimationTimer {
     
     public void updateSprites() {
         //spriteManager es DisplayObject
-        displayObject.getDISPLAYED_OBJECT().stream().forEach((object) -> {
+        bearGame.getDisplay().getDISPLAYED_OBJECT().stream().forEach((object) -> {
             handleUpdate(object);
         });
     }

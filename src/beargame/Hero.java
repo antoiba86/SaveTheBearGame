@@ -28,7 +28,6 @@ public class Hero extends ObjectGame {
     protected static final double LEFTBOUNDARY = 0;
     protected static final double BOTTOMBOUNDARY = Menu.HEIGHT_PIXELS - SPRITE_PIXELS_Y;
     protected static final double TOPBOUNDARY = Slidding.HEIGTH_SKY;
-    private static boolean isAlive = true;
     private int move = 0;
     Timeline timeline;
     Timeline timeExplosion;
@@ -79,7 +78,6 @@ public class Hero extends ObjectGame {
             @Override
             public void handle(ActionEvent ae) {
                 explosion();
-                vX = vY = 0;
             }
         }));
         timeExplosion.setCycleCount(Animation.INDEFINITE);
@@ -98,10 +96,10 @@ public class Hero extends ObjectGame {
         else if (move >= 3 && move < 19) spriteFrame.setImage(imageStates.get(move));
         else {
             timeExplosion.stop();
-            bearGame.display.addToRemovedObjects(BearGame.iHero);
+            bearGame.getDisplay().addToRemovedObjects(BearGame.iHero);
             bearGame.paneRoot.getChildren().remove(BearGame.iHero.getSpriteFrame());
-            bearGame.display.resetRemovedObjects();
-            isAlive = false;
+            bearGame.getDisplay().resetRemovedObjects();
+            bearGame.bearAlive();
         }
     }
     
@@ -127,13 +125,13 @@ public class Hero extends ObjectGame {
     }
     
     public void checkCollision() {
-        for(int i=0; i< bearGame.display.getDISPLAYED_OBJECT().size(); i++) {
-            ObjectGame object = bearGame.display.getDISPLAYED_OBJECT().get(i);
+        for(int i=0; i< bearGame.getDisplay().getDISPLAYED_OBJECT().size(); i++) {
+            ObjectGame object = bearGame.getDisplay().getDISPLAYED_OBJECT().get(i);
             collide(object);
         }
     }
     
-    public boolean collide(ObjectGame object) {
+    public void collide(ObjectGame object) {
         boolean collisionDetect = false;
         if ( BearGame.iHero.getSpriteFrame().getBoundsInParent().intersects(object.getSpriteFrame().getBoundsInParent())) {
             Shape intersection = SVGPath.intersect(BearGame.iHero.getSpriteBound(), object.getSpriteBound());
@@ -142,16 +140,16 @@ public class Hero extends ObjectGame {
         if(collisionDetect) {
             //Quitar objetos del escenario
             if (object instanceof Coin) {
-                bearGame.display.addToRemovedObjects(object);
+                bearGame.getDisplay().addToRemovedObjects(object);
                 bearGame.paneRoot.getChildren().remove(object.getSpriteFrame());
-                bearGame.display.resetRemovedObjects();
+                bearGame.getDisplay().resetRemovedObjects();
                 if (Configuration.isSound()) Coin.musicCoin();
                 Slidding.gameScore += 10;
             }
             else if (object instanceof Gemstone) {
-                bearGame.display.addToRemovedObjects(object);
+                bearGame.getDisplay().addToRemovedObjects(object);
                 bearGame.paneRoot.getChildren().remove(object.getSpriteFrame());
-                bearGame.display.resetRemovedObjects();
+                bearGame.getDisplay().resetRemovedObjects();
                 if (Configuration.isSound()) Coin.musicCoin();
                 Slidding.gameScore += 50;
             }
@@ -166,6 +164,7 @@ public class Hero extends ObjectGame {
                     move = 4;
                     soundExplosion();
                     setExplosion();
+                    vX = vY = 0;
                 }
             }
             else if (object instanceof Missile) {
@@ -173,22 +172,25 @@ public class Hero extends ObjectGame {
                     move = 4;
                     if (Configuration.isSound()) soundExplosion();
                     setExplosion();
+                    vX = vY = 0;
                 }
                 Missile missile = (Missile)object;
-                bearGame.display.addToRemovedObjects(missile);
+                bearGame.getDisplay().addToRemovedObjects(missile);
                 bearGame.paneRoot.getChildren().remove(missile.getSpriteFrame());
-                bearGame.display.resetRemovedObjects();
+                bearGame.getDisplay().resetRemovedObjects();
             }
             else {
                 if (move < 3) {
                     move = 4;
                     if (Configuration.isSound()) soundExplosion();
                     setExplosion();
+                    vX = vY = 0;
                 }
             }
         }
-        return collisionDetect;
     }
+    
+    
     
     public static void soundExplosion() {
         String uriString = new File("explosion.mp3").toURI().toString();
@@ -243,15 +245,4 @@ public class Hero extends ObjectGame {
     public static void setRight(boolean right) {
         Hero.right = right;
     }
-
-    public static boolean isIsAlive() {
-        return isAlive;
-    }
-
-    public static void setIsAlive(boolean isAlive) {
-        Hero.isAlive = isAlive;
-    }
-    
-    
-    
 }

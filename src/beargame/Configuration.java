@@ -5,6 +5,7 @@
  */
 package beargame;
 
+import java.io.File;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -15,6 +16,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import static javafx.scene.layout.VBox.setMargin;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
@@ -44,12 +47,13 @@ public class Configuration {
         //paneRoot.getStylesheets().add(BearGame.class.getResource("Fondo.css").toExternalForm());
         VBox conf = new VBox(20);
         //Para que todos los botones tenga la misma medida
-        conf.setPrefWidth(300);
+        conf.setPrefWidth(200);
         conf.setSpacing(10);
         conf.setPadding(new Insets(0, 20, 10, 20));
         buttonOn.setMaxWidth(conf.getPrefWidth());
         buttonOff.setMaxWidth(conf.getPrefWidth());
         HBox buttonSound = new HBox(20);
+        buttonSound.setAlignment(Pos.CENTER);
         buttonSound.getChildren().addAll(buttonOn, buttonOff);
         buttonMenu.setMaxWidth(conf.getPrefWidth());
         conf.getChildren().addAll(title,buttonSound, buttonMenu);
@@ -87,6 +91,40 @@ public class Configuration {
         window.show();
         return instructions;
      }
+     
+     public static Scene gameOver(Scene menu, Stage window) {
+        Scene gameOver = null;
+        Button buttonCont = new Button("Continuar");
+        buttonCont.setOnAction((ActionEvent e) -> {
+            window.setScene(menu);
+        });
+        Button buttonExit = new Button("Salir");
+        buttonExit.setOnAction((ActionEvent e) -> {
+            System.exit(0);
+        });
+        soundOver();
+        //paneRoot.getStylesheets().add(BearGame.class.getResource("Fondo.css").toExternalForm());
+        VBox conf = new VBox(20);
+        //Para que todos los botones tenga la misma medida
+        conf.setPrefWidth(200);
+        conf.setSpacing(10);
+        conf.setPadding(new Insets(0, 20, 10, 20));
+        buttonCont.setMaxWidth(conf.getPrefWidth());
+        buttonExit.setMaxWidth(conf.getPrefWidth());
+        HBox buttonMenu = new HBox(20);
+        VBox moveButtons = new VBox(100);
+        buttonMenu.setAlignment(Pos.CENTER);
+        buttonMenu.getChildren().addAll(buttonCont, buttonExit);
+        moveButtons.getChildren().add(buttonMenu);
+        conf.getChildren().addAll(moveButtons);
+        conf.setAlignment(Pos.CENTER);
+        gameOver = new Scene(conf, Menu.WIDTH_PIXELS, Menu.HEIGHT_PIXELS);
+        gameOver.getStylesheets().add(BearGame.class.getResource("GameOver.css").toExternalForm());
+        window.setScene(gameOver);
+        window.show();
+        return gameOver;
+    }
+     
 
     public static boolean isSound() {
         return sound;
@@ -96,5 +134,10 @@ public class Configuration {
         Configuration.sound = sound;
     }
      
+    public static void soundOver() {
+        String uriString = new File("gameOver.mp3").toURI().toString();
+        MediaPlayer player = new MediaPlayer( new Media(uriString));
+        player.play();
+    }
     
 }

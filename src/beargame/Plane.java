@@ -22,7 +22,7 @@ public class Plane extends Population{
     private static final double HALF_OF_IMAGE_WIDTH = 42;
     private static final double HALF_OF_IMAGE_HEIGHT = 32;
     private Image[] missile_image = new Image[4];
-    Timeline timeFire;
+    private Timeline timeFire;
     
     public Plane() {
         
@@ -74,7 +74,17 @@ public class Plane extends Population{
     
     private void fire_missile() {
         Missile missile = new Missile(bearGame, iX+13, iY+40, 0,1,missile_image[0],missile_image[1],missile_image[2],missile_image[3]);
-        BearGame.display.addDisplayed_Object(missile);
+        bearGame.getDisplay().addDisplayed_Object(missile);
         bearGame.paneRoot.getChildren().add(missile.spriteFrame);
     }
+
+    public Timeline getTimeFire() {
+        return timeFire;
+    }
+
+    public void setTimeFire(Timeline timeFire) {
+        this.timeFire = timeFire;
+    }
+    
+    
 }

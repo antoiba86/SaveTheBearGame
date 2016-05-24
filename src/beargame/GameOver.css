@@ -1,0 +1,25 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : May 24, 2016, 6:35:43 PM
+    Author     : Anto
+*/
+.root {
+     -fx-background-image: url("gameover.png");
+     -fx-background-repeat: no-repeat;
+}
+
+.button {
+    -fx-text-fill: black;
+    -fx-font-size: 15px;
+    -fx-font-family: "Arial Narrow";
+    -fx-font-weight: bold;
+    -fx-background-color: linear-gradient(#ecb535, #936b0e);
+}
+
+.button:hover {
+    -fx-background-color: linear-gradient(#f9e6ba, #ecb535);
+}

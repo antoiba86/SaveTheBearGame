@@ -8,9 +8,13 @@ package beargame;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -29,7 +33,8 @@ import javafx.util.Duration;
  * @author DAW13
  */
 public class BearGame {
-    Scene scene;
+    Scene scene, play;
+    Stage window, primary;
     Pane paneRoot;
     static Hero iHero;
     ArrayList<EnemyLocation> enemies = new ArrayList<>();
@@ -47,24 +52,24 @@ public class BearGame {
     Image[] gem_image = new Image[6];
     Image[] shark_image = new Image[9];
     Image[] plane_image = new Image[9];
-    Image petrol_boat;
     Image fondo;
-    static DisplayObject display = new DisplayObject();;
+    Random random = new Random();
+    private final DisplayObject display = new DisplayObject();
+    
     GamePlayLoop playGame;
     private static final String GAME_MUSIC_PATH = "sound_track.mp3";
     public static MediaPlayer gameMusicPlayer; //Si no esta declarado aquí el, recolector de basura de Java lo detiene en diez segundos.
     
     
-    public Scene play(Scene menu, Stage window) {
+    public Scene play(Scene menu, Stage window, Stage primary) {
         scene = menu;
-        Scene play;
+        this.window = window;
+        this.primary = primary;
         paneRoot = new Pane();
         paneRoot.setId("paneRoot");
         paneRoot.getStylesheets().add(BearGame.class.getResource("Fondo.css").toExternalForm());
         Slidding sky = new Slidding();
         skyLine = sky.sky();
-        window.setScene(menu);
-        window.show();
         if (Configuration.isSound()) playMusic();
         loadImageAssets();
         createBear();
@@ -167,8 +172,8 @@ public class BearGame {
      * @param n Is the variable to choose between a coin or a gem in order to put in the game
      */
     public void createTreasure(int n) {
-        double width = (Math.random()*690+100);
-        double height = (Math.random()*390+310);
+        double width = random.nextDouble()*690+100;
+        double height = random.nextDouble()*390+310;
         if (n == 1 )coin = new Coin(this, width,height, coin_image[0],coin_image[1],coin_image[2],coin_image[3],coin_image[4],coin_image[5],coin_image[6],coin_image[7]);
         else gemstone = new Gemstone(this, width,height, gem_image[0],gem_image[1],gem_image[2],gem_image[3],gem_image[4],gem_image[5]);
     }
@@ -276,8 +281,29 @@ public class BearGame {
         } catch (MalformedURLException ex) {
         }
         gameMusicPlayer.setOnEndOfMedia(() -> {
+            gameMusicPlayer.setVolume(0.5);
             gameMusicPlayer.seek(Duration.ZERO);
             gameMusicPlayer.play();
         });
     }
+    
+    public void bearAlive() {
+        playGame.stop();
+        paneRoot.getChildren().clear();
+        display.resetDisplayed_Object();
+        display.resetRemovedObjects();
+        display.resetCollideCheckList();
+        enemies.clear();
+        gameMusicPlayer.stop();
+        timeline.stop();
+        tiempo = 0;
+        Slidding.gameScore = 0;
+        primary.close();
+        window.setScene(Configuration.gameOver(scene, window));
+    }
+    
+    public DisplayObject getDisplay() {
+        return display;
+    }
+    
 }

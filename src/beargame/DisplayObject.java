@@ -12,12 +12,12 @@ import java.util.Set;
  */
 public class DisplayObject {
     
-    private static List<ObjectGame> DISPLAYED_OBJECT;
+    private List<ObjectGame> DISPLAYED_OBJECT;
     private List<ObjectGame> COLLIDE_CHECKLIST;
     private Set<ObjectGame> REMOVED_OBJECTS;
     
     public DisplayObject() {
-        DisplayObject.DISPLAYED_OBJECT = new ArrayList<>();
+        this.DISPLAYED_OBJECT = new ArrayList<>();
         this.COLLIDE_CHECKLIST = new ArrayList<>();
         this.REMOVED_OBJECTS = new HashSet<>();
     }
@@ -34,7 +34,7 @@ public class DisplayObject {
         DISPLAYED_OBJECT.removeAll( Arrays.asList(objectGames) );
     }
     
-    public void resetDisplayed_Object(ObjectGame... objectGames) {
+    public void resetDisplayed_Object() {
         DISPLAYED_OBJECT.clear();
     }
     

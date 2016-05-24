@@ -1,11 +1,14 @@
 package beargame;
 
+import java.io.File;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
 /**
@@ -56,13 +59,16 @@ public class Shark extends Population{
         }
         else {
             timeJaws.stop();
-            bearGame.display.addToRemovedObjects(this);
+            bearGame.getDisplay().addToRemovedObjects(this);
             bearGame.paneRoot.getChildren().remove(this.getSpriteFrame());
         }
     }
     
     public void soundShark() {
-        
+        String uriString = new File("shark.mp3").toURI().toString();
+        MediaPlayer player = new MediaPlayer( new Media(uriString));
+        player.setVolume(1.0);
+        player.play();
     }
     
     

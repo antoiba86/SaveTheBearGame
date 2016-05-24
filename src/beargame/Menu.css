@@ -8,7 +8,7 @@ and open the template in the editor.
     Author     : DAW13
 */
 .root {
-     -fx-background-image: url("savethebear.jpg");
+     -fx-background-image: url("savethebear2.jpg");
      -fx-background-repeat: no-repeat;
 }
 
@@ -29,4 +29,9 @@ and open the template in the editor.
 
 .button:hover {
     -fx-background-color: linear-gradient(#2A5058, #61a2b1);
+}
+
+#title {
+    -fx-text-fill: #00bfff;
+    -fx-font-size: 50px;
 }
