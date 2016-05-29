@@ -33,7 +33,7 @@ public class Menu extends Application {
         Label titleGame = new Label(" Save the Bear! \n"
                 + "Save the World!");
         titleGame.setId("title");
-        primaryStage.getIcons().add(new Image("oso1.png"));
+        primaryStage.getIcons().add(new Image("resources/oso1.png"));
         Button buttonPlay = new Button("Play");
         buttonPlay.setOnAction((ActionEvent e) -> {
             Stage stage = new Stage();

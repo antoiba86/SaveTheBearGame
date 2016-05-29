@@ -14,8 +14,8 @@ import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 
 /**
- *
- * @author Anto
+ * Class of the Hero
+ * @author Antonio Jesús Ibáñez Garcia
  */
 public class Hero extends ObjectGame {
     protected BearGame bearGame;
@@ -32,12 +32,25 @@ public class Hero extends ObjectGame {
     Timeline timeline;
     Timeline timeExplosion;
     
+    /**
+     * Method to create a Hero object
+     * @param bearHero It is the Game object
+     * @param SVGdata It is the SVG data of the object
+     * @param xLocation It is the position of the object into the X axis
+     * @param yLocation It is the position of the object into the Y axis
+     * @param spriteCels They are the object's images
+     */
     public Hero(BearGame bearHero, String SVGdata, double xLocation, double yLocation, Image... spriteCels) {
         super(SVGdata, xLocation, yLocation, spriteCels);
         vX = vY =2;
         bearGame = bearHero;
         setTime();
     }
+    
+     
+     /**
+     * Method to update the object
+     */
     @Override
     public void update() {
         setXYLocation();
@@ -62,6 +75,9 @@ public class Hero extends ObjectGame {
         timeline.setCycleCount(Animation.INDEFINITE);
     }
     
+    /**
+     * Method to change the object's image
+     */
     public void changeImage() {
         switch (move) {
             case 0: move++;break;
@@ -71,6 +87,9 @@ public class Hero extends ObjectGame {
         }
     }
     
+    /**
+     * Method to set a Timer to change the object's image displayed when the Hero dies
+     */
     public void setExplosion() {
         timeline.stop();
         timeExplosion = new Timeline(new KeyFrame(
@@ -84,10 +103,16 @@ public class Hero extends ObjectGame {
         timeExplosion.play();
     }
     
+    /**
+     * Method to change the object's image
+     */
     public void explosion() {
         if (move < 19) move++;
     }
     
+    /**
+     * Method to change the object's image in the game
+     */
     private void setImageState() {
         if (move < 3) {
             spriteFrame.setImage(imageStates.get(move));
@@ -103,6 +128,11 @@ public class Hero extends ObjectGame {
         }
     }
     
+    /**
+     * Method to set the object frame and bounds inside the game loop
+     * @param x It is the position in the X axis
+     * @param y It is the position in the Y axis
+     */
     private void moveBear(double x, double y) {
         spriteFrame.setTranslateX(x);
         spriteFrame.setTranslateY(y);
@@ -110,6 +140,9 @@ public class Hero extends ObjectGame {
         spriteBound.setTranslateY(y);
     }
     
+    /**
+     * Method to move the object inside the game loop
+     */
     private void setXYLocation() {
         if(right) iX += vX;
         if(left) iX -= vX;
@@ -117,6 +150,9 @@ public class Hero extends ObjectGame {
         if(up) iY -= vY;
     }
     
+    /**
+     * Method to set the boundaries of the object
+     */
     public void setBoundaries() {
         if (iX >= RIGHTBOUNDARY) { iX=RIGHTBOUNDARY; }
         if (iX <= LEFTBOUNDARY) { iX=LEFTBOUNDARY; }
@@ -124,6 +160,9 @@ public class Hero extends ObjectGame {
         if (iY <= TOPBOUNDARY) { iY=TOPBOUNDARY; }
     }
     
+    /**
+     * Method to check the collision of the hero with other objects
+     */
     public void checkCollision() {
         for(int i=0; i< bearGame.getDisplay().getDISPLAYED_OBJECT().size(); i++) {
             ObjectGame object = bearGame.getDisplay().getDISPLAYED_OBJECT().get(i);
@@ -131,6 +170,10 @@ public class Hero extends ObjectGame {
         }
     }
     
+    /**
+     * Method to detect collisions of the hero object
+     * @param object 
+     */
     public void collide(ObjectGame object) {
         boolean collisionDetect = false;
         if ( BearGame.iHero.getSpriteFrame().getBoundsInParent().intersects(object.getSpriteFrame().getBoundsInParent())) {
@@ -191,7 +234,9 @@ public class Hero extends ObjectGame {
     }
     
     
-    
+     /**
+     * Method to get the object sound when there is a collision
+     */
     public static void soundExplosion() {
         String uriString = new File("explosion.mp3").toURI().toString();
         MediaPlayer player = new MediaPlayer( new Media(uriString));

@@ -25,8 +25,8 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 /**
- *
- * @author Anto
+ * Class of the game's sky and the score
+ * @author Antonio Jesús Ibáñez Garcia
  */
 public class Slidding {
     static int gameScore = 0;
@@ -40,6 +40,9 @@ public class Slidding {
     Group sun = new Group();
     Circle sunCircle = new Circle(SUNX, SUNY, 60);
     
+    /**
+     * Method to create the score of the game
+     */
     public void createScore() {
         scoreText = new Text();
         scoreText.setText("SCORE: " + String.valueOf(gameScore));
@@ -51,7 +54,10 @@ public class Slidding {
         scoreText.toFront();
     }
     
-    
+    /**
+     * Method to create the sky for the game
+     * @return The sky
+     */
     public Group sky() {
         sky.setFill(new LinearGradient(0, 0, 0, 1, true, CycleMethod.NO_CYCLE, new Stop(0.0, Color.LIGHTBLUE), new Stop(0.7, Color.LIGHTYELLOW), new Stop(1.0, Color.YELLOW)));
         skyBack.getChildren().add(sky);
@@ -94,7 +100,15 @@ public class Slidding {
         return skyBack;
     }
     
+    /**
+     * Class to create a cloud
+     */
     class Cloud extends Ellipse {
+        /**
+         * Constructor of the class
+         * @param centerX It is the position in the X axis
+         * @param centerY It is the position in the Y axis
+         */
         public Cloud(double centerX, double centerY) {
             super(0, 0, 50, 25);
             this.setTranslateX(centerX);
@@ -104,7 +118,16 @@ public class Slidding {
         }
     }
     
+    /**
+     * Class to create a tree
+     */
     class Tree extends Polygon {
+        
+        /**
+         * Constructor of the class
+         * @param x It is the position in the X axis
+         * @param y It is the position in the Y axis
+         */
         public Tree(double x, double y) {
             super(0, 0, 10, 30, -10, 30);
             this.setTranslateX(x);
@@ -112,11 +135,18 @@ public class Slidding {
         }
     }
     
-    
+    /**
+     * Class to create the movement
+     */
     class Sliding extends Group {
         final Node[] content;
         Timeline anim = new Timeline();
-
+        
+        /**
+         * Constructor of the class
+         * @param content It is the node to move
+         * @param width It is the width of the screen
+         */
         public Sliding(final Node[] content,final int width) {
             this.content = content;
             this.getChildren().addAll(content);

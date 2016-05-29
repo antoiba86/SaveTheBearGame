@@ -6,15 +6,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 /**
- *
- * @author Anto
+ * Class to get the enemies location from the database
+ * @author Antonio Jesús Ibáñez García
  */
 public class EnemyLocation {
     
-    static String nombreBD = "savebear";
-    static String usuario = "root";
+    static String nombreBD = "";
+    static String usuario = "";
     static String password = "";
-    static String url = "jdbc:mysql://localhost/" + nombreBD;
+    static String url = "jdbc:mysql://" + nombreBD;
     private int id = 0;
     private int tiempo = 0;
     private int type = 0;
@@ -23,6 +23,9 @@ public class EnemyLocation {
     private double vX = 0;
     private double vY = 0;
     
+    /**
+     * Empty constructor of the class
+     */
     public EnemyLocation() {
         id = 0;
         tiempo = 0;
@@ -33,6 +36,16 @@ public class EnemyLocation {
         vY = 0;
     }
     
+    /**
+     * Constructor of the class
+     * @param id It is the id
+     * @param tiempo It is the time when the enemy enter into the game
+     * @param type It is the type's enemy
+     * @param width It is the X position in the game
+     * @param height It is the Y position in the game
+     * @param vX It is the velocity of the X axis
+     * @param vY It is the velocity in the Y axis
+     */
     public EnemyLocation(int id, int tiempo, int type, double width, double height, double vX, double vY) {
         this.id = id;
         this.tiempo = tiempo;
@@ -43,7 +56,10 @@ public class EnemyLocation {
         this.vY = vY;
     }
     
-    
+    /**
+     * Method to get the enemy with the ID
+     * @param id_ref It is the ID of the enemy
+     */
     public void selectEnemy(int id_ref) {
         Connection con = conectarBD();
         
@@ -72,6 +88,10 @@ public class EnemyLocation {
         desconectarBD(con);
     }
     
+    /**
+     * Method to get the last ID in the database of an enemy
+     * @return The max ID
+     */
     public static int getMaxID () {
         Connection con = conectarBD();
         int id = 0;
@@ -94,6 +114,10 @@ public class EnemyLocation {
         return id;
     }
     
+    /**
+     * Method to connect with the database
+     * @return The connection
+     */
     public static Connection conectarBD() {
         Connection con = null;
         // Conectamos con la BD
@@ -108,6 +132,10 @@ public class EnemyLocation {
         
     }
     
+    /**
+     * Method to disconnect the database
+     * @param con It is the connection
+     */
     public static void desconectarBD(Connection con) {
         try {
             con.close();

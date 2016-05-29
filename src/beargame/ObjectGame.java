@@ -8,8 +8,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.shape.SVGPath;
 
 /**
- *
- * @author anto
+ * Class of the father object
+ * @author Antonio Jesús Ibáñez García
  */
 public abstract class ObjectGame {
     protected List<Image> imageStates = new ArrayList<>();
@@ -25,6 +25,13 @@ public abstract class ObjectGame {
         
     }
     
+    /**
+     * Method to create a objectGame
+     * @param SVGdata It is the SVG data of the object
+     * @param xLocation It is the position of the object into the X axis
+     * @param yLocation It is the position of the object into the Y axis
+     * @param spriteCels They are the object's images
+     */
     public ObjectGame(String SVGdata, double xLocation, double yLocation, Image... spriteCels) {
         spriteBound = new SVGPath();
         spriteBound.setContent(SVGdata);
@@ -33,6 +40,7 @@ public abstract class ObjectGame {
         iX = xLocation;
         iY = yLocation;
     }
+    
     
     public abstract void update();
     

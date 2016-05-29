@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package beargame;
 
 import java.io.File;
@@ -17,8 +12,8 @@ import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
 /**
- *
- * @author DAW13
+ * Class of the coin object
+ * @author Antonio Jesús Ibáñez García
  */
 public class Coin extends Population{
     protected BearGame bearGame;
@@ -27,6 +22,13 @@ public class Coin extends Population{
     protected double vY;
     protected int move = 0;
     
+    /**
+     * Method to create a coin object
+     * @param object It is the Game object
+     * @param xLocation It is the position of the object into the X axis
+     * @param yLocation It is the position of the object into the Y axis
+     * @param spriteCels They are the object's images
+     */
     public Coin(BearGame object, double xLocation, double yLocation, Image... spriteCels) {
         super(object, "M 19,2L 19,2 9,5 4,10 1,16 1,26 6,33 11,36 15,38 25,38 34,32 37,24 37,14 33,7 26,4 22,2 Z", xLocation, yLocation, spriteCels);
         bearGame = object;
@@ -34,6 +36,9 @@ public class Coin extends Population{
         setTime();
     }
     
+    /**
+     * Method to update the object
+     */
     @Override
     public void update() {
         setImageState();
@@ -42,6 +47,9 @@ public class Coin extends Population{
         
     }
     
+    /**
+     * Method to set a Timer to change the object's image displayed
+     */
     @Override
     public void setTime() {
         timeline = new Timeline(new KeyFrame(
@@ -54,6 +62,10 @@ public class Coin extends Population{
         timeline.setCycleCount(Animation.INDEFINITE);
     }
     
+    /**
+     * Method to change the object's image
+     */
+    @Override
     public void changeImage() {
         switch (move) {
             case 0: move++; break;
@@ -68,18 +80,19 @@ public class Coin extends Population{
             default: move = 0;break;
         }
     }
+    
+    /**
+     * Method to change the object's image in the game
+     */
     @Override
     protected void setImageState() {
         spriteFrame.setImage(imageStates.get(move));
         timeline.play();
     }
     
-    @Override
-    protected void setXYLocation() {
-        iX -= vX;
-        iY -= vY;
-    }
-    
+    /**
+     * Method to get the object sound when there is a collision
+     */
     public static void musicCoin () {
         String uriString = new File("coin.mp3").toURI().toString();
         MediaPlayer player = new MediaPlayer( new Media(uriString));

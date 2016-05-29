@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package beargame;
 
 import java.io.File;
@@ -17,8 +12,8 @@ import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
 /**
- *
- * @author Anto
+ * Class of the gem object
+ * @author Antonio Jesús Ibáñez García
  */
 public class Gemstone extends Population{
     protected BearGame bearGame;
@@ -27,6 +22,13 @@ public class Gemstone extends Population{
     protected double vY;
     protected int move = 0;
     
+      /**
+     * Method to create a gem object
+     * @param object It is the Game object
+     * @param xLocation It is the position of the object into the X axis
+     * @param yLocation It is the position of the object into the Y axis
+     * @param spriteCels They are the object's images
+     */
     public Gemstone(BearGame object, double xLocation, double yLocation, Image... spriteCels) {
         super(object, "M 20,1 L 20,1 9,1 0,11 0,30 7,39 31,39 39,31 39,10 31,1 Z", xLocation, yLocation, spriteCels);
         bearGame = object;
@@ -34,6 +36,9 @@ public class Gemstone extends Population{
         setTime();
     }
     
+    /**
+     * Method to update the object
+     */
     @Override
     public void update() {
         setImageState();
@@ -42,6 +47,9 @@ public class Gemstone extends Population{
         
     }
     
+    /**
+     * Method to set a Timer to change the object's image displayed
+     */
     @Override
     public void setTime() {
         timeline = new Timeline(new KeyFrame(
@@ -54,6 +62,9 @@ public class Gemstone extends Population{
         timeline.setCycleCount(Animation.INDEFINITE);
     }
     
+    /**
+     * Method to change the object's image
+     */
     @Override
     public void changeImage() {
         switch (move) {
@@ -67,12 +78,19 @@ public class Gemstone extends Population{
             default: move = 0;break;
         }
     }
+    
+    /**
+     * Method to change the object's image in the game
+     */
     @Override
     protected void setImageState() {
         spriteFrame.setImage(imageStates.get(move));
         timeline.play();
     }
     
+    /**
+     * Method to get the object sound when there is a collision
+     */
     public static void musicCoin() {
         String uriString = new File("coin.mp3").toURI().toString();
         MediaPlayer player = new MediaPlayer( new Media(uriString));

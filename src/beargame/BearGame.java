@@ -1,20 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package beargame;
 
 import java.io.File;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
-import java.util.Set;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -29,8 +21,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
- *
- * @author DAW13
+ * Principal Game's class
+ * @author Antonio Jesús Ibáñez Garcia
  */
 public class BearGame {
     Scene scene, play;
@@ -55,12 +47,17 @@ public class BearGame {
     Image fondo;
     Random random = new Random();
     private final DisplayObject display = new DisplayObject();
-    
     GamePlayLoop playGame;
     private static final String GAME_MUSIC_PATH = "sound_track.mp3";
     public static MediaPlayer gameMusicPlayer; //Si no esta declarado aquí el, recolector de basura de Java lo detiene en diez segundos.
     
-    
+    /**
+     * This class is the playgame menu 
+     * @param menu It is the scene to return to the menu
+     * @param window It is the stage of the menu
+     * @param primary It is this stage
+     * @return This scene to the game's menu
+     */
     public Scene play(Scene menu, Stage window, Stage primary) {
         scene = menu;
         this.window = window;
@@ -87,28 +84,26 @@ public class BearGame {
      */
     public void loadImageAssets() {
         for (int i=0; i < polarBear.length; i++) {
-            polarBear[i] = new Image("osohieloagua" + (i+1) + ".png", 120,73, true, false, true );
+            polarBear[i] = new Image("resources/osohieloagua" + (i+1) + ".png", 120,73, true, false, true );
         }
         for (int i=0; i< explosion.length;i++) {
-            explosion[i] = new Image("explosion" + (i+1) + ".png", 120,73,true,false,true);
+            explosion[i] = new Image("resources/explosion" + (i+1) + ".png", 120,73,true,false,true);
         }
         for (int i=0; i< pirate_boat.length;i++) {
-            pirate_boat[i] = new Image("barcoestela" + (i+1) + ".png", 150,122,true,false,true);
+            pirate_boat[i] = new Image("resources/barcoestela" + (i+1) + ".png", 150,122,true,false,true);
         }
         for (int i=0; i < coin_image.length;i++) {
-            coin_image[i] = new Image("moneda" + (i+1) + ".png", 40,39,true,false,true);
+            coin_image[i] = new Image("resources/moneda" + (i+1) + ".png", 40,39,true,false,true);
         }
         for (int i = 0; i < gem_image.length;i++) {
-            gem_image[i] = new Image("gema" + (i+1) + ".png", 40,40,true,false,true);
+            gem_image[i] = new Image("resources/gema" + (i+1) + ".png", 40,40,true,false,true);
         }
         for (int i = 0; i < shark_image.length;i++) {
-            shark_image[i] = new Image("tiburon" + (i+1) + ".png",140,86,true,false,true);
+            shark_image[i] = new Image("resources/tiburon" + (i+1) + ".png",140,86,true,false,true);
         }
         for (int i = 0; i < plane_image.length;i++) {
-            plane_image[i] = new Image("plane" + (i+1) + ".png", 83,64,true,false,true);
+            plane_image[i] = new Image("resources/plane" + (i+1) + ".png", 83,64,true,false,true);
         }
-        
-        //splashScreen = new ImageView(fondo);
     }
     
     /**
@@ -142,6 +137,9 @@ public class BearGame {
         timeline.setCycleCount(Animation.INDEFINITE);
     }
     
+    /**
+     * Method to add every enemy in the game
+     */
     public void getEnemy() {
             for (int i = 0; i < enemies.size(); i++) {
                 if (tiempo == enemies.get(i).getTiempo()) {
@@ -155,9 +153,11 @@ public class BearGame {
                     id = 0;
                 }
             }
-            
     }
     
+    /**
+     * Method to get every enemy from the database
+     */
     public void loadEnemies() {
         maxId = EnemyLocation.getMaxID();
         for (int i = 1; i < maxId+1; i++) {
@@ -169,7 +169,7 @@ public class BearGame {
     
     /**
      * Method to create a coin or a gem to put in the game
-     * @param n Is the variable to choose between a coin or a gem in order to put in the game
+     * @param n It is the variable to choose between a coin or gem in order to put in the game
      */
     public void createTreasure(int n) {
         double width = random.nextDouble()*690+100;
@@ -180,12 +180,12 @@ public class BearGame {
     
     /**
      * Method to create enemies in the game
-     * @param type
-     * @param width
-     * @param height
-     * @param vX
-     * @param vY
-     * @return 
+     * @param type It is the type of enemy, there is three types
+     * @param width It is the X axis of the game where you put the enemy
+     * @param height It is the Y axis of the game
+     * @param vX It is the velocity of the enemy in the X axis
+     * @param vY It is the velocity of the enemy in the Y axis
+     * @return The enemy created
      */
     public ObjectGame createEnemy(int type, double width, double height, double vX, double vY) {
         ObjectGame object = new Population();
@@ -195,34 +195,36 @@ public class BearGame {
         return object;
     }
     
-    /*public ObjectGame createEnemy() {
-        ObjectGame object;
-        object = new Plane(this, 800, 100, plane_image[0],plane_image[1],plane_image[2],plane_image[3],plane_image[4],plane_image[5],plane_image[6],plane_image[7],plane_image[8]);
-        return object;
-    }*/
-    
     /**
      * Method to add to objects to the array of objects
-     * @param n Is the variable that decide is if a coin or a gem to add to the array;
+     * @param n It is the variable that decide is if a coin or a gem to add to the array;
      */
     public void createDisplayedTreasure(int n) {
         if (n==1)display.addDisplayed_Object(coin);
         else display.addDisplayed_Object(gemstone);
     }
     
+    /**
+     * Method to add the enemy into the array of objects
+     * @param object It is the enemy
+     */
     public void createDisplayedObject(ObjectGame object) {
         display.addDisplayed_Object(object);
     }
     
     /**
      * Method to add the sprite of every object to the game to display in the screen
-     * @param n Is the variable that decide if is a coin or a gem
+     * @param n It is the variable that decide if is a coin or a gem
      */
     public void addNewTreasureNodes(int n) {
         if (n ==1) paneRoot.getChildren().add(coin.spriteFrame);
         else paneRoot.getChildren().add(gemstone.spriteFrame);   
     }
     
+    /**
+     * Method to add the sprite of an object into the game to display in the screen
+     * @param spriteFrame It is the sprite of the object
+     */
     public void addNewGameObjectNodes(ImageView spriteFrame) {
         paneRoot.getChildren().add(spriteFrame);    
     }
@@ -287,6 +289,9 @@ public class BearGame {
         });
     }
     
+    /**
+     * Method to stop the variables of the game when the Hero dies
+     */
     public void bearAlive() {
         playGame.stop();
         paneRoot.getChildren().clear();
@@ -302,6 +307,10 @@ public class BearGame {
         window.setScene(Configuration.gameOver(scene, window));
     }
     
+    /**
+     * Method to get the arraylist of the Display's game
+     * @return The arrayList of the display of enemies
+     */
     public DisplayObject getDisplay() {
         return display;
     }
