@@ -7,14 +7,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 /**
  * Class to get the enemies location from the database
+ * This class was built because it was a class requirement, but now it doesn't connect with the game
  * @author Antonio Jesús Ibáñez García
  */
 public class EnemyLocation {
     
-    static String nombreBD = "";
-    static String usuario = "";
+    static String nombreBD = "savebear";
+    static String usuario = "root";
     static String password = "";
-    static String url = "jdbc:mysql://" + nombreBD;
+    static String url = "jdbc:mysql://localhost/" + nombreBD;
     private int id = 0;
     private int tiempo = 0;
     private int type = 0;
@@ -144,62 +145,150 @@ public class EnemyLocation {
             e.printStackTrace();
         }
     }
-
+    
+    /**
+     * Method to get the enemy's ID
+     * @return The enemy's ID
+     */
     public int getId() {
         return id;
     }
-
+    
+    /**
+     * Method to get the variable Time when the enemy enter into the game
+     * @return The enemy's time
+     */
     public int getTiempo() {
         return tiempo;
     }
     
+    /**
+     * Method to get the enemy's type
+     * @return The enemy's type
+     */
     public int getType() {
         return type;
     }
 
+    /**
+     * Method to get the enemy's X position in the game
+     * @return The enemy's X position 
+     */
     public double getWidth() {
         return width;
     }
 
+    /**
+     * Method to get the enemy's Y position in the game
+     * @return The enemy's Y position 
+     */
     public double getHeight() {
         return height;
     }
 
+    /**
+     * Method to get the enemy's X velocity in the game
+     * @return The enemy's X velocity 
+     */
     public double getvX() {
         return vX;
     }
 
+    /**
+     * Method to get the enemy's Y velocity in the game
+     * @return The enemy's Y velocity 
+     */
     public double getvY() {
         return vY;
     }
 
+    /**
+     * Method to set the enemy's ID
+     * @param id It is the enemy's ID
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     * Method to set the enemy's time
+     * @param tiempo It is the enemy's time when enter into the game
+     */
     public void setTiempo(int tiempo) {
         this.tiempo = tiempo;
     }
 
+    /**
+     * Method to set the enemy's type
+     * @param type It is the enemy's type
+     */
     public void setType(int type) {
         this.type = type;
     }
 
+    /**
+     * Method to set the enemy's X position in the game
+     * @param width It is the enemy's X position 
+     */
     public void setWidth(double width) {
         this.width = width;
     }
 
+    /**
+     * Method to set the enemy's Y position in the game
+     * @param height It is the enemy's Y position 
+     */
     public void setHeight(double height) {
         this.height = height;
     }
 
+    /**
+     * Method to set the enemy's X velocity in the game
+     * @param vX It is the enemy's X velocity 
+     */
     public void setvX(double vX) {
         this.vX = vX;
     }
 
+    /**
+     * Method to set the enemy's Y velocity in the game
+     * @param vY It is the enemy's Y velocity 
+     */
     public void setvY(double vY) {
         this.vY = vY;
     }
+    
+    /**
+     * Method to add every enemy in the game
+     */
+    /*
+    public void getEnemy() {
+            for (int i = 0; i < enemies.size(); i++) {
+                if (tiempo == enemies.get(i).getTiempo()) {
+                    ObjectGame object = createEnemy(enemies.get(i).getType(),enemies.get(i).getWidth(),enemies.get(i).getHeight(), enemies.get(i).getvX(), enemies.get(i).getvY());
+                    createDisplayedObject(object);
+                    addNewGameObjectNodes(object.spriteFrame);
+                    id++;
+                }
+                if (maxId == id) {
+                    tiempo = 0;
+                    id = 0;
+                }
+            }
+    }
+    
+    /**
+     * Method to get every enemy from the database
+     */
+    /*
+    public void loadEnemies() {
+        maxId = EnemyLocation.getMaxID();
+        for (int i = 1; i < maxId+1; i++) {
+            EnemyLocation enemy = new EnemyLocation();
+            enemy.selectEnemy(i);
+            enemies.add(enemy);
+        }
+    }*/
     
     
 }

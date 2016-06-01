@@ -1,9 +1,7 @@
 package beargame;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -80,7 +78,7 @@ public class Menu extends Application {
     }
     
     /**
-     * @param args the command line arguments
+     * @param args the command line arguments to launch the project
      */
     public static void main(String[] args) {
         launch(args);

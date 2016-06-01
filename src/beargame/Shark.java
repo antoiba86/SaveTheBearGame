@@ -7,6 +7,7 @@ import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
@@ -89,10 +90,9 @@ public class Shark extends Population{
      * Method to get the object sound when there is a collision
      */
     public void soundShark() {
-        String uriString = new File("shark.mp3").toURI().toString();
-        MediaPlayer player = new MediaPlayer( new Media(uriString));
-        player.setVolume(1.0);
-        player.play();
+        AudioClip soundShark = new AudioClip(this.getClass().getResource("/shark.mp3").toExternalForm());
+        soundShark.setVolume(1.0);
+        soundShark.play();
     }
     
     

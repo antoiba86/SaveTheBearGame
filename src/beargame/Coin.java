@@ -7,6 +7,7 @@ import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
@@ -93,9 +94,8 @@ public class Coin extends Population{
     /**
      * Method to get the object sound when there is a collision
      */
-    public static void musicCoin () {
-        String uriString = new File("coin.mp3").toURI().toString();
-        MediaPlayer player = new MediaPlayer( new Media(uriString));
-        player.play();
+    public void musicCoin () {
+        AudioClip soundCoin = new AudioClip(this.getClass().getResource("/coin.mp3").toExternalForm());
+        soundCoin.play();
     }
 }

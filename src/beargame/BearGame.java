@@ -1,7 +1,5 @@
 package beargame;
 
-import java.io.File;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Random;
 import javafx.animation.Animation;
@@ -48,7 +46,7 @@ public class BearGame {
     Random random = new Random();
     private final DisplayObject display = new DisplayObject();
     GamePlayLoop playGame;
-    private static final String GAME_MUSIC_PATH = "sound_track.mp3";
+    private static final String GAME_MUSIC_PATH = "/sound_track.mp3";
     public static MediaPlayer gameMusicPlayer; //Si no esta declarado aquí el, recolector de basura de Java lo detiene en diez segundos.
     
     /**
@@ -70,8 +68,8 @@ public class BearGame {
         if (Configuration.isSound()) playMusic();
         loadImageAssets();
         createBear();
-        loadEnemies();
         setTime();
+        timeline.play();
         addGameObjectNodes();
         createStartGameLoop();
         play = new Scene(paneRoot, Menu.WIDTH_PIXELS, Menu.HEIGHT_PIXELS);
@@ -121,13 +119,12 @@ public class BearGame {
     /**
      * Method to set a timer in order to add objects to the game such as coins or boats
      */
-    public void setTime () {
+    public void setTime() {
         timeline = new Timeline(new KeyFrame(
         Duration.millis(10000), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent ae) {
-                tiempo += 10;
-                int n = (int)(Math.random()*2+1);
+                int n = random.nextInt()*2+1;
                 createTreasure(n);
                 createDisplayedTreasure(n);
                 addNewTreasureNodes(n);
@@ -137,33 +134,33 @@ public class BearGame {
         timeline.setCycleCount(Animation.INDEFINITE);
     }
     
+    
+    
     /**
      * Method to add every enemy in the game
      */
     public void getEnemy() {
-            for (int i = 0; i < enemies.size(); i++) {
-                if (tiempo == enemies.get(i).getTiempo()) {
-                    ObjectGame object = createEnemy(enemies.get(i).getType(),enemies.get(i).getWidth(),enemies.get(i).getHeight(), enemies.get(i).getvX(), enemies.get(i).getvY());
-                    createDisplayedObject(object);
-                    addNewGameObjectNodes(object.spriteFrame);
-                    id++;
-                }
-                if (maxId == id) {
-                    tiempo = 0;
-                    id = 0;
-                }
+        int n = 3+random.nextInt(3);
+        for (int i = 0; i < n; i++) {
+            int type = 1+random.nextInt(3);
+            double width;
+            double height;
+            if (type == 3) {
+                width = random.nextDouble()*350+850;
+                height = random.nextDouble()*150+100;
             }
-    }
-    
-    /**
-     * Method to get every enemy from the database
-     */
-    public void loadEnemies() {
-        maxId = EnemyLocation.getMaxID();
-        for (int i = 1; i < maxId+1; i++) {
-            EnemyLocation enemy = new EnemyLocation();
-            enemy.selectEnemy(i);
-            enemies.add(enemy);
+            else {
+                width = random.nextDouble()*350+850;
+                height = random.nextDouble()*300+310;
+            }
+            double vY = 0;
+            double vX = -(1+random.nextInt(2));
+            int velocity9 = 1+random.nextInt(5);
+            if (velocity9 == 5) vY = -(1+random.nextInt(2));
+            else vY = 0;
+            ObjectGame object = createEnemy(type,width,height,vX, vY);
+            createDisplayedObject(object);
+            addNewGameObjectNodes(object.spriteFrame);
         }
     }
     
@@ -277,11 +274,8 @@ public class BearGame {
     /**
      * Method with the principal theme of the game
      */
-    private static void playMusic(){
-        try {
-            gameMusicPlayer = new MediaPlayer(new Media(new File(GAME_MUSIC_PATH).toURI().toURL().toString()));
-        } catch (MalformedURLException ex) {
-        }
+    private void playMusic(){
+        gameMusicPlayer = new MediaPlayer(new Media(this.getClass().getResource(GAME_MUSIC_PATH).toExternalForm()));
         gameMusicPlayer.setOnEndOfMedia(() -> {
             gameMusicPlayer.setVolume(0.5);
             gameMusicPlayer.seek(Duration.ZERO);
@@ -293,6 +287,7 @@ public class BearGame {
      * Method to stop the variables of the game when the Hero dies
      */
     public void bearAlive() {
+        Configuration conf = new Configuration();
         playGame.stop();
         paneRoot.getChildren().clear();
         display.resetDisplayed_Object();
@@ -304,7 +299,7 @@ public class BearGame {
         tiempo = 0;
         Slidding.gameScore = 0;
         primary.close();
-        window.setScene(Configuration.gameOver(scene, window));
+        window.setScene(conf.gameOver(scene, window));
     }
     
     /**

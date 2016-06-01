@@ -14,6 +14,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
@@ -142,7 +143,7 @@ public class Configuration {
      * @param window It is the stage of the menu
      * @return This scene to the game's menu
      */
-     public static Scene gameOver(Scene menu, Stage window) {
+     public Scene gameOver(Scene menu, Stage window) {
         Scene gameOver = null;
         Button buttonCont = new Button("Continuar");
         buttonCont.setOnAction((ActionEvent e) -> {
@@ -152,7 +153,8 @@ public class Configuration {
         buttonExit.setOnAction((ActionEvent e) -> {
             System.exit(0);
         });
-        soundOver();
+        AudioClip soundOver = new AudioClip(this.getClass().getResource("/gameOver.mp3").toExternalForm());
+        if (isSound()) soundOver.play();;
         VBox conf = new VBox(20);
         conf.setPrefWidth(200);
         conf.setSpacing(10);
@@ -187,15 +189,6 @@ public class Configuration {
      */
     public static void setSound(boolean sound) {
         Configuration.sound = sound;
-    }
-     
-    /**
-     * Method to play the game over sound
-     */
-    public static void soundOver() {
-        String uriString = new File("gameOver.mp3").toURI().toString();
-        MediaPlayer player = new MediaPlayer( new Media(uriString));
-        player.play();
     }
     
 }

@@ -7,6 +7,7 @@ import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.shape.SVGPath;
@@ -29,6 +30,7 @@ public class Hero extends ObjectGame {
     protected static final double BOTTOMBOUNDARY = Menu.HEIGHT_PIXELS - SPRITE_PIXELS_Y;
     protected static final double TOPBOUNDARY = Slidding.HEIGTH_SKY;
     private int move = 0;
+    private AudioClip explosion;
     Timeline timeline;
     Timeline timeExplosion;
     
@@ -44,6 +46,7 @@ public class Hero extends ObjectGame {
         super(SVGdata, xLocation, yLocation, spriteCels);
         vX = vY =2;
         bearGame = bearHero;
+        explosion = new AudioClip(this.getClass().getResource("/explosion.mp3").toExternalForm());
         setTime();
     }
     
@@ -183,17 +186,19 @@ public class Hero extends ObjectGame {
         if(collisionDetect) {
             //Quitar objetos del escenario
             if (object instanceof Coin) {
+                Coin coin = (Coin)object;
                 bearGame.getDisplay().addToRemovedObjects(object);
                 bearGame.paneRoot.getChildren().remove(object.getSpriteFrame());
                 bearGame.getDisplay().resetRemovedObjects();
-                if (Configuration.isSound()) Coin.musicCoin();
+                if (Configuration.isSound()) coin.musicCoin();
                 Slidding.gameScore += 10;
             }
             else if (object instanceof Gemstone) {
+                Gemstone gem = (Gemstone)object;
                 bearGame.getDisplay().addToRemovedObjects(object);
                 bearGame.paneRoot.getChildren().remove(object.getSpriteFrame());
                 bearGame.getDisplay().resetRemovedObjects();
-                if (Configuration.isSound()) Coin.musicCoin();
+                if (Configuration.isSound()) gem.musicCoin();
                 Slidding.gameScore += 50;
             }
             else if (object instanceof Shark) {
@@ -205,7 +210,7 @@ public class Hero extends ObjectGame {
                 }
                 if (move < 3) {
                     move = 4;
-                    soundExplosion();
+                    if (Configuration.isSound()) explosion.play();
                     setExplosion();
                     vX = vY = 0;
                 }
@@ -213,7 +218,7 @@ public class Hero extends ObjectGame {
             else if (object instanceof Missile) {
                 if (move < 3) {
                     move = 4;
-                    if (Configuration.isSound()) soundExplosion();
+                    if (Configuration.isSound()) explosion.play();
                     setExplosion();
                     vX = vY = 0;
                 }
@@ -225,7 +230,7 @@ public class Hero extends ObjectGame {
             else {
                 if (move < 3) {
                     move = 4;
-                    if (Configuration.isSound()) soundExplosion();
+                    if (Configuration.isSound()) explosion.play();
                     setExplosion();
                     vX = vY = 0;
                 }
@@ -233,60 +238,98 @@ public class Hero extends ObjectGame {
         }
     }
     
-    
-     /**
-     * Method to get the object sound when there is a collision
+    /**
+     * Method to get the Hero's velocity in the X axis
+     * @return The velocity in the X axis
      */
-    public static void soundExplosion() {
-        String uriString = new File("explosion.mp3").toURI().toString();
-        MediaPlayer player = new MediaPlayer( new Media(uriString));
-        player.play();
-    }
-    
     public double getvX() {
         return vX;
     }
 
+    /**
+     * Method to set the Hero's velocity in the X axis
+     * @param vX The velocity in the X axis
+     */
     public void setvX(double vX) {
         this.vX = vX;
     }
 
+    /**
+     * Method to get the Hero's velocity in the Y axis
+     * @return The velocity in the Y axis
+     */
     public double getvY() {
         return vY;
     }
 
+    /**
+     * Method to set the Hero's velocity in the Y axis
+     * @param vY The velocity in the Y axis
+     */
     public void setvY(double vY) {
         this.vY = vY;
     }
 
+    /**
+     * Method to get when the Hero is moving up
+     * @return The variable up to set the Hero moving
+     */
     public static boolean isUp() {
         return up;
     }
 
+    /**
+     * Method to set the Hero moving up
+     * @param up It is the direction
+     */
     public static void setUp(boolean up) {
         Hero.up = up;
     }
 
+    /**
+     * Method to get when the Hero is moving down
+     * @return The variable down to get the Hero moving
+     */
     public static boolean isDown() {
         return down;
     }
 
+    /**
+     * Method to set the Hero moving down
+     * @param down It is the direction
+     */
     public static void setDown(boolean down) {
         Hero.down = down;
     }
 
+    /**
+     * Method to get when the Hero is moving left
+     * @return The variable left to get the Hero moving
+     */
     public static boolean isLeft() {
         return left;
     }
 
+    /**
+     * Method to set the Hero moving left
+     * @param left It is the direction
+     */
     public static void setLeft(boolean left) {
         Hero.left = left;
     }
 
+    /**
+     * Method to get when the Hero is moving right
+     * @return The variable right to get the Hero moving
+     */
     public static boolean isRight() {
         return right;
     }
 
+    /**
+     * Method to set the Hero moving right
+     * @param right It is the direction
+     */
     public static void setRight(boolean right) {
         Hero.right = right;
     }

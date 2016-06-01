@@ -19,7 +19,7 @@ public class GamePlayLoop extends AnimationTimer {
     
     /**
      * Method to update the game
-     * @param now 
+     * @param now It is the actual time in miliseconds
      */
     @Override
     public void handle(long now) {
