@@ -42,7 +42,7 @@ public class Menu extends Application {
             stage.show();
             //hide this current window
             primaryStage.getScene().getWindow().hide();
-            BearGame.timeline.play();
+            BearGame.getTimeline().play();
             if (Configuration.isSound()) BearGame.gameMusicPlayer.play();
         });
                 //setOnAction(e -> primaryStage.setScene(play));

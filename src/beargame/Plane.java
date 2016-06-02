@@ -76,7 +76,7 @@ public class Plane extends Population{
      */
     @Override
     public void setBoundaries() {  
-        if (iX <= LEFTBOUNDARY-50) bearGame.paneRoot.getChildren().remove(this.getSpriteFrame());
+        if (iX <= LEFTBOUNDARY-50) bearGame.getPaneRoot().getChildren().remove(this.getSpriteFrame());
     }
     
     /**
@@ -94,7 +94,7 @@ public class Plane extends Population{
     private void fire_missile() {
         Missile missile = new Missile(bearGame, iX+13, iY+40, 0,1,missile_image[0],missile_image[1],missile_image[2],missile_image[3]);
         bearGame.getDisplay().addDisplayed_Object(missile);
-        bearGame.paneRoot.getChildren().add(missile.spriteFrame);
+        bearGame.getPaneRoot().getChildren().add(missile.spriteFrame);
     }
     
     /**

@@ -1,6 +1,5 @@
 package beargame;
 
-import java.io.File;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -15,8 +14,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 /**
@@ -36,13 +33,11 @@ public class Configuration {
         Scene configuration = null;
         Label title = new Label("Configuración");
         Label titleSound = new Label("SONIDO");
-        Button buttonOn = new Button("On");
+        Button buttonOn = new Button();
+        if (sound) buttonOn.setText("On");
+        else buttonOn.setText("Off");
         buttonOn.setOnAction((ActionEvent e) -> {
-            sound = true;
-        });
-        Button buttonOff = new Button("Off");
-        buttonOff.setOnAction((ActionEvent e) -> {
-            sound = false;
+                buttonOn.setText(configButtonSound());
         });
         Button buttonMenu = new Button("Exit");
         buttonMenu.setOnAction((ActionEvent e) -> {
@@ -53,10 +48,9 @@ public class Configuration {
         conf.setSpacing(10);
         conf.setPadding(new Insets(0, 20, 10, 20));
         buttonOn.setMaxWidth(conf.getPrefWidth());
-        buttonOff.setMaxWidth(conf.getPrefWidth());
         HBox buttonSound = new HBox(20);
         buttonSound.setAlignment(Pos.CENTER);
-        buttonSound.getChildren().addAll(titleSound, buttonOn, buttonOff);
+        buttonSound.getChildren().addAll(titleSound, buttonOn);
         buttonMenu.setMaxWidth(conf.getPrefWidth());
         conf.getChildren().addAll(title,buttonSound, buttonMenu);
         conf.setAlignment(Pos.CENTER);
@@ -145,15 +139,15 @@ public class Configuration {
      */
      public Scene gameOver(Scene menu, Stage window) {
         Scene gameOver = null;
-        Button buttonCont = new Button("Continuar");
+        Button buttonCont = new Button("Volver al menú");
         buttonCont.setOnAction((ActionEvent e) -> {
             window.setScene(menu);
         });
-        Button buttonExit = new Button("Salir");
+        Button buttonExit = new Button("Salir del juego");
         buttonExit.setOnAction((ActionEvent e) -> {
             System.exit(0);
         });
-        AudioClip soundOver = new AudioClip(this.getClass().getResource("/gameOver.mp3").toExternalForm());
+        AudioClip soundOver = new AudioClip(this.getClass().getResource("/resources/gameOver.mp3").toExternalForm());
         if (isSound()) soundOver.play();;
         VBox conf = new VBox(20);
         conf.setPrefWidth(200);
@@ -189,6 +183,19 @@ public class Configuration {
      */
     public static void setSound(boolean sound) {
         Configuration.sound = sound;
+    }
+    
+    public static String configButtonSound() {
+        String text = "";
+        if (sound) {
+            sound = false;
+            text = "Off";
+        }
+        else {
+            sound = true;
+            text = "On";
+        }
+        return text;
     }
     
 }

@@ -27,7 +27,7 @@ public class DisplayObject {
     
     /**
      * Method to get the Object's displayed
-     * @return The ArrayList of hte objects displayed
+     * @return The ArrayList of the objects displayed
      */
     public List<ObjectGame> getDISPLAYED_OBJECT() {
         return DISPLAYED_OBJECT;

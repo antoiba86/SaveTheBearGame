@@ -1,6 +1,5 @@
 package beargame;
 
-import java.io.File;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -8,8 +7,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
 /**
@@ -95,7 +92,7 @@ public class Coin extends Population{
      * Method to get the object sound when there is a collision
      */
     public void musicCoin () {
-        AudioClip soundCoin = new AudioClip(this.getClass().getResource("/coin.mp3").toExternalForm());
+        AudioClip soundCoin = new AudioClip(this.getClass().getResource("/resources/coin.mp3").toExternalForm());
         soundCoin.play();
     }
 }

@@ -1,12 +1,10 @@
 package beargame;
 
-import java.util.ArrayList;
 import java.util.Random;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -23,30 +21,31 @@ import javafx.util.Duration;
  * @author Antonio Jesús Ibáñez Garcia
  */
 public class BearGame {
-    Scene scene, play;
-    Stage window, primary;
-    Pane paneRoot;
+    private Scene scene, play;
+    private Stage window, primary;
+    private Pane paneRoot;
     static Hero iHero;
-    ArrayList<EnemyLocation> enemies = new ArrayList<>();
+    /*Si se utiliza la base de datos
+    private ArrayList<EnemyLocation> enemies = new ArrayList<>();
     int tiempo = 0;
     int maxId;
-    int id = 0;
-    Coin coin;
-    Gemstone gemstone;
-    Group skyLine = new Group();
-    static Timeline timeline;
-    Image[] polarBear = new Image[4];
-    Image[] explosion = new Image[15];
-    Image[] pirate_boat = new Image[4];
-    Image[] coin_image = new Image[8];
-    Image[] gem_image = new Image[6];
-    Image[] shark_image = new Image[9];
-    Image[] plane_image = new Image[9];
-    Image fondo;
-    Random random = new Random();
+    int id = 0;*/
+    private Coin coin;
+    private Gemstone gemstone;
+    private Group skyLine = new Group();
+    private static Timeline timeline;
+    private Image[] polarBear = new Image[4];
+    private Image[] explosion = new Image[15];
+    private Image[] pirate_boat = new Image[4];
+    private Image[] coin_image = new Image[8];
+    private Image[] gem_image = new Image[6];
+    private Image[] shark_image = new Image[9];
+    private Image[] plane_image = new Image[9];
+    private Image fondo;
+    private Random random = new Random();
     private final DisplayObject display = new DisplayObject();
     GamePlayLoop playGame;
-    private static final String GAME_MUSIC_PATH = "/sound_track.mp3";
+    private static final String GAME_MUSIC_PATH = "/resources/sound_track.mp3";
     public static MediaPlayer gameMusicPlayer; //Si no esta declarado aquí el, recolector de basura de Java lo detiene en diez segundos.
     
     /**
@@ -121,15 +120,12 @@ public class BearGame {
      */
     public void setTime() {
         timeline = new Timeline(new KeyFrame(
-        Duration.millis(10000), new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent ae) {
-                int n = random.nextInt()*2+1;
-                createTreasure(n);
-                createDisplayedTreasure(n);
-                addNewTreasureNodes(n);
-                getEnemy();
-            }
+        Duration.millis(10000), (ActionEvent ae) -> {
+            int n = random.nextInt()*2+1;
+            createTreasure(n);
+            createDisplayedTreasure(n);
+            addNewTreasureNodes(n);
+            getEnemy();
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
     }
@@ -153,7 +149,7 @@ public class BearGame {
                 width = random.nextDouble()*350+850;
                 height = random.nextDouble()*300+310;
             }
-            double vY = 0;
+            double vY;
             double vX = -(1+random.nextInt(2));
             int velocity9 = 1+random.nextInt(5);
             if (velocity9 == 5) vY = -(1+random.nextInt(2));
@@ -282,6 +278,22 @@ public class BearGame {
             gameMusicPlayer.play();
         });
     }
+
+    public Pane getPaneRoot() {
+        return paneRoot;
+    }
+
+    public void setPaneRoot(Pane paneRoot) {
+        this.paneRoot = paneRoot;
+    }
+
+    public static Timeline getTimeline() {
+        return timeline;
+    }
+
+    public static void setTimeline(Timeline timeline) {
+        BearGame.timeline = timeline;
+    }
     
     /**
      * Method to stop the variables of the game when the Hero dies
@@ -293,13 +305,12 @@ public class BearGame {
         display.resetDisplayed_Object();
         display.resetRemovedObjects();
         display.resetCollideCheckList();
-        enemies.clear();
         gameMusicPlayer.stop();
         timeline.stop();
-        tiempo = 0;
         Slidding.gameScore = 0;
         primary.close();
         window.setScene(conf.gameOver(scene, window));
+        //enemies.clear();
     }
     
     /**

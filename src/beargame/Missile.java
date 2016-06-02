@@ -40,6 +40,6 @@ public class Missile extends Population {
      */
     @Override
     public void setBoundaries() {  
-        if (iY >= BOTTOMBOUNDARY+50) bearGame.paneRoot.getChildren().remove(this.getSpriteFrame());
+        if (iY >= BOTTOMBOUNDARY+50) bearGame.getPaneRoot().getChildren().remove(this.getSpriteFrame());
     }
 }
