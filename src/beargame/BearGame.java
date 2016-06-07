@@ -121,7 +121,7 @@ public class BearGame {
     public void setTime() {
         timeline = new Timeline(new KeyFrame(
         Duration.millis(10000), (ActionEvent ae) -> {
-            int n = random.nextInt()*2+1;
+            int n = 1+random.nextInt(2);
             createTreasure(n);
             createDisplayedTreasure(n);
             addNewTreasureNodes(n);
@@ -303,7 +303,7 @@ public class BearGame {
         Score.loadFromXML();
         boolean maxScore = Score.verifyMaxScore(Slidding.gameScore);
         if (maxScore) {
-            Score.setMaxScore(Slidding.gameScore);
+            Score.setMaxScore(Slidding.gameScore, "Anto");
             Score.saveToXML();
         }
         playGame.stop();

@@ -22,6 +22,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -31,7 +32,7 @@ import org.xml.sax.SAXException;
  */
 public class Score {
     
-    private static final String SCORES = "highestScore.xml";
+    private static final String SCORES = "score.xml";
     private static ArrayList<String> listScores = new ArrayList<>();
     private static ArrayList<String> listAuthor = new ArrayList<>();
     
@@ -39,18 +40,31 @@ public class Score {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
-            Document document = builder.parse(SCORES);
-            document.setXmlVersion("1.0");
-            for(byte i = 0; i < listScores.size(); i++){
-                document.getElementsByTagName("points").item(i).setTextContent(listScores.get(i));
-                document.getElementsByTagName("player").item(i).setTextContent(listAuthor.get(i));
+            Document document = builder.newDocument();
+            Element rootElement = document.createElement("ListScores");
+            document.appendChild(rootElement);
+            int size;
+            if (listScores.size() < 5) size = listScores.size();
+            else size = 5;
+            for(byte i = 0; i < size; i++){
+                //score
+                Element score = document.createElement("score");
+                rootElement.appendChild(score);
+                //name
+                Element name = document.createElement("name");
+                name.appendChild(document.createTextNode(listAuthor.get(i)));
+                score.appendChild(name);
+                //points
+                Element points = document.createElement("points");
+                points.appendChild(document.createTextNode(listScores.get(i)));
+                score.appendChild(points);
             }
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(document);
             StreamResult result = new StreamResult(new File(SCORES));
             transformer.transform(source, result);
-        } catch (ParserConfigurationException | SAXException | IOException ex) {
+        } catch (ParserConfigurationException ex) {
             Logger.getLogger(Score.class.getName()).log(Level.SEVERE, null, ex);
         } catch (TransformerConfigurationException ex) {
             Logger.getLogger(Score.class.getName()).log(Level.SEVERE, null, ex);
@@ -63,26 +77,29 @@ public class Score {
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder documentBuilder = null;
         Document configXML = null;
-        try {
-            documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            configXML = documentBuilder.parse(SCORES);
-        } catch (ParserConfigurationException | SAXException | IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        NodeList highScores = configXML.getElementsByTagName("points");
-        NodeList recordAuthorNodeList = configXML.getElementsByTagName("player");
-        
-        listScores = new ArrayList<>();
-        listAuthor = new ArrayList<>();
-        for(byte i = 0; i < highScores.getLength(); i++){
-            listScores.add(i, highScores.item(i).getTextContent());
-            listAuthor.add(i, recordAuthorNodeList.item(i).getTextContent());
+        File f = new File(SCORES);
+        if (f.exists()) {
+            try {
+                documentBuilder = documentBuilderFactory.newDocumentBuilder();
+                configXML = documentBuilder.parse(SCORES);
+            } catch (ParserConfigurationException | SAXException | IOException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            NodeList highScores = configXML.getElementsByTagName("points");
+            NodeList recordAuthorNodeList = configXML.getElementsByTagName("name");
+
+            listScores = new ArrayList<>();
+            listAuthor = new ArrayList<>();
+            for(byte i = 0; i < highScores.getLength(); i++){
+                listAuthor.add(i, recordAuthorNodeList.item(i).getTextContent());
+                listScores.add(i, highScores.item(i).getTextContent());
+            }
         }
     }
     
     public static boolean verifyMaxScore(double score) {
         boolean bigger = false;
-        if (listScores.isEmpty() || listScores.size() < 6) bigger = true;
+        if (listScores.isEmpty() || listScores.size() < 5) bigger = true;
         else {
             for(byte i = 0; i < listScores.size(); i++){
                 if (score > Double.parseDouble(listScores.get(i))) {
@@ -95,15 +112,34 @@ public class Score {
     }
     
     
-    public static void setMaxScore(double score) {
+    public static void setMaxScore(double score, String name) {
         String next = null;
-        if (listScores.isEmpty() || listScores.size() < 6) listScores.add(String.valueOf(score));
+        String nameNext = null;
+        if (listScores.isEmpty() || listScores.size() < 5) {
+            listScores.add(String.valueOf(score));
+            listAuthor.add(name);
+            for(byte i = 0; i < listScores.size(); i++){
+                for (byte j = i; j > 0; j--) {
+                    if (Double.parseDouble(listScores.get(j)) < Double.parseDouble(listScores.get(j-1))) {
+                        next = listScores.get(j);
+                        nameNext = listAuthor.get(j);
+                        listScores.set(j, listScores.get(j-1));
+                        listAuthor.set(j, listAuthor.get(j-1));
+                        listScores.set(j-1, next);
+                        listAuthor.set(j-1, nameNext);
+                    }
+                }
+            }
+        }
         else {
             for(byte i = 0; i < listScores.size(); i++){
                 if (score > Double.parseDouble(listScores.get(i))) {
                     next = listScores.get(i);
+                    nameNext = listAuthor.get(i);
                     listScores.set(i, String.valueOf(score));
+                    listAuthor.set(i, name);
                     score = Double.parseDouble(next);
+                    name = nameNext;
                 }
             }
         }
