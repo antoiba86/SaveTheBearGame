@@ -300,6 +300,12 @@ public class BearGame {
      */
     public void bearAlive() {
         Configuration conf = new Configuration();
+        Score.loadFromXML();
+        boolean maxScore = Score.verifyMaxScore(Slidding.gameScore);
+        if (maxScore) {
+            Score.setMaxScore(Slidding.gameScore);
+            Score.saveToXML();
+        }
         playGame.stop();
         paneRoot.getChildren().clear();
         display.resetDisplayed_Object();
