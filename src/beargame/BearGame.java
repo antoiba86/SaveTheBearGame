@@ -302,10 +302,6 @@ public class BearGame {
         Configuration conf = new Configuration();
         Score.loadFromXML();
         boolean maxScore = Score.verifyMaxScore(Slidding.gameScore);
-        if (maxScore) {
-            Score.setMaxScore(Slidding.gameScore, "Anto");
-            Score.saveToXML();
-        }
         playGame.stop();
         paneRoot.getChildren().clear();
         display.resetDisplayed_Object();
@@ -315,7 +311,10 @@ public class BearGame {
         timeline.stop();
         Slidding.gameScore = 0;
         primary.close();
-        window.setScene(conf.gameOver(scene, window));
+        if(maxScore) {
+            window.setScene(conf.gameOver(scene, window,true));
+        }
+        else window.setScene(conf.gameOver(scene, window,false));
         //enemies.clear();
     }
     

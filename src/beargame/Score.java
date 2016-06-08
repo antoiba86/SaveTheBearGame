@@ -120,7 +120,7 @@ public class Score {
             listAuthor.add(name);
             for(byte i = 0; i < listScores.size(); i++){
                 for (byte j = i; j > 0; j--) {
-                    if (Double.parseDouble(listScores.get(j)) < Double.parseDouble(listScores.get(j-1))) {
+                    if (Double.parseDouble(listScores.get(j)) > Double.parseDouble(listScores.get(j-1))) {
                         next = listScores.get(j);
                         nameNext = listAuthor.get(j);
                         listScores.set(j, listScores.get(j-1));
@@ -132,14 +132,20 @@ public class Score {
             }
         }
         else {
-            for(byte i = 0; i < listScores.size(); i++){
-                if (score > Double.parseDouble(listScores.get(i))) {
-                    next = listScores.get(i);
-                    nameNext = listAuthor.get(i);
-                    listScores.set(i, String.valueOf(score));
-                    listAuthor.set(i, name);
-                    score = Double.parseDouble(next);
-                    name = nameNext;
+            if (score > Double.parseDouble(listScores.get(listScores.size()-1))) {
+                listScores.set(listScores.size()-1, String.valueOf(score));
+                listAuthor.set(listScores.size()-1, name);
+                for(byte i = 0; i < listScores.size(); i++){
+                    for (byte j = i; j > 0; j--) {
+                        if (Double.parseDouble(listScores.get(j)) > Double.parseDouble(listScores.get(j-1))) {
+                            next = listScores.get(j);
+                            nameNext = listAuthor.get(j);
+                            listScores.set(j, listScores.get(j-1));
+                            listAuthor.set(j, listAuthor.get(j-1));
+                            listScores.set(j-1, next);
+                            listAuthor.set(j-1, nameNext);
+                        }
+                    }
                 }
             }
         }

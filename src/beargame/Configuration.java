@@ -1,11 +1,13 @@
 package beargame;
 
+import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
@@ -135,9 +137,10 @@ public class Configuration {
      * Method to show the Game Over Scene
      * @param menu It is the scene to return to the menu
      * @param window It is the stage of the menu
+     * @param score
      * @return This scene to the game's menu
      */
-     public Scene gameOver(Scene menu, Stage window) {
+     public Scene gameOver(Scene menu, Stage window, boolean score) {
         Scene gameOver = null;
         Button buttonCont = new Button("Volver al menú");
         buttonCont.setOnAction((ActionEvent e) -> {
@@ -148,7 +151,7 @@ public class Configuration {
             System.exit(0);
         });
         AudioClip soundOver = new AudioClip(this.getClass().getResource("/resources/gameOver.mp3").toExternalForm());
-        if (isSound()) soundOver.play();;
+        //if (isSound()) soundOver.play();;
         VBox conf = new VBox(20);
         conf.setPrefWidth(200);
         conf.setSpacing(10);
@@ -166,7 +169,27 @@ public class Configuration {
         gameOver.getStylesheets().add(BearGame.class.getResource("GameOver.css").toExternalForm());
         window.setScene(gameOver);
         window.show();
+        if (score) {
+            String name = maxScore();
+            Score.setMaxScore(Slidding.gameScore, name);
+            Score.saveToXML();
+        }
         return gameOver;
+    }
+     
+    public String maxScore() {
+        String name = "Antonio";
+        TextInputDialog dialog = new TextInputDialog("walter");
+        dialog.setTitle("NUEVO RÉCORD");
+        dialog.setHeaderText("Escribe tu nombre compañero osezno");
+        dialog.setContentText("Nombre:");
+        Optional<String> result = dialog.showAndWait();
+        // Traditional way to get the response value.
+        if (result.isPresent()){
+            if (result.get().isEmpty()) name = "Abcde";
+            else name = result.get();
+        }
+        return name;
     }
      
      /**
