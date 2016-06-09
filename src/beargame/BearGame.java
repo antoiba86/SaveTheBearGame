@@ -61,7 +61,7 @@ public class BearGame {
         this.primary = primary;
         paneRoot = new Pane();
         paneRoot.setId("paneRoot");
-        paneRoot.getStylesheets().add(BearGame.class.getResource("Fondo.css").toExternalForm());
+        paneRoot.getStylesheets().add(BearGame.class.getResource("/css/Fondo.css").toExternalForm());
         Slidding sky = new Slidding();
         skyLine = sky.sky();
         if (Configuration.isSound()) playMusic();
@@ -309,12 +309,12 @@ public class BearGame {
         display.resetCollideCheckList();
         gameMusicPlayer.stop();
         timeline.stop();
-        Slidding.gameScore = 0;
         primary.close();
-        if(maxScore) {
-            window.setScene(conf.gameOver(scene, window,true));
+        if(maxScore) window.setScene(conf.gameOver(scene, window,true));
+        else {
+            Slidding.gameScore = 0;
+            window.setScene(conf.gameOver(scene, window,false));
         }
-        else window.setScene(conf.gameOver(scene, window,false));
         //enemies.clear();
     }
     

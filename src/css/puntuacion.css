@@ -1,0 +1,44 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jun 9, 2016, 2:24:41 PM
+    Author     : Anto
+*/
+
+.root {
+     -fx-background-image: url("/img/savethebear2.jpg");
+     -fx-background-repeat: no-repeat;
+}
+
+.label {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+    -fx-opacity: 1;
+}
+
+#caja {
+    -fx-background-color: rgba(0,0,0, 0.5);
+}
+
+#title {
+    -fx-text-fill: #00bfff;
+    -fx-font-size: 20px;
+}
+
+.button {
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-font-family: "Arial Narrow";
+    -fx-font-weight: bold;
+    -fx-background-color: linear-gradient(#61a2b1, #2A5058);
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+}
+
+.button:hover {
+    -fx-background-color: linear-gradient(#2A5058, #61a2b1);
+}

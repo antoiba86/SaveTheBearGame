@@ -8,7 +8,7 @@ and open the template in the editor.
     Author     : DAW13
 */
 .root {
-     -fx-background-image: url("savethebear2.jpg");
+     -fx-background-image: url("/img/savethebear2.jpg");
      -fx-background-repeat: no-repeat;
 }
 
@@ -35,3 +35,4 @@ and open the template in the editor.
     -fx-text-fill: #00bfff;
     -fx-font-size: 50px;
 }
+

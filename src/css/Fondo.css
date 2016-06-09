@@ -9,6 +9,6 @@ and open the template in the editor.
 */
 
 #paneRoot {
-    -fx-background-image: url("movement.gif");
+    -fx-background-image: url("/img/movement.gif");
     -fx-background-repeat: repeat;
 }

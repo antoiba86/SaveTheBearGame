@@ -54,7 +54,10 @@ public class Menu extends Application {
         buttonIntr.setOnAction((ActionEvent e) -> {
             primaryStage.setScene(Configuration.configuration(scene, primaryStage));
         });
-        buttonIntr.setOnAction(e -> primaryStage.setScene(Configuration.instructions(scene, primaryStage)));
+        Button buttonScore = new Button("Puntuaciones");
+        buttonScore.setOnAction((ActionEvent e) -> {
+            primaryStage.setScene(Configuration.listScore(scene, primaryStage));
+        });
         Button buttonExit = new Button("Exit");
         buttonExit.setOnAction((ActionEvent e) -> {
             System.exit(0);
@@ -69,10 +72,11 @@ public class Menu extends Application {
         buttonConf.setMaxWidth(menuIni.getPrefWidth());
         buttonIntr.setMaxWidth(menuIni.getPrefWidth());
         buttonExit.setMaxWidth(menuIni.getPrefWidth());
-        menuIni.getChildren().addAll(titleGame,buttonPlay,buttonConf, buttonIntr, buttonExit, copyrigth);
+        buttonScore.setMaxWidth(menuIni.getPrefWidth());
+        menuIni.getChildren().addAll(titleGame,buttonPlay,buttonConf, buttonIntr, buttonScore, buttonExit, copyrigth);
         menuIni.setAlignment(Pos.CENTER);
         scene = new Scene(menuIni, WIDTH_PIXELS, HEIGHT_PIXELS, Color.WHITE);
-        scene.getStylesheets().add(BearGame.class.getResource("Menu.css").toExternalForm());
+        scene.getStylesheets().add(BearGame.class.getResource("/css/Menu.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
     }

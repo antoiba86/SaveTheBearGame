@@ -1,11 +1,15 @@
 package beargame;
 
+import java.util.ArrayList;
 import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
@@ -57,7 +61,7 @@ public class Configuration {
         conf.getChildren().addAll(title,buttonSound, buttonMenu);
         conf.setAlignment(Pos.CENTER);
         configuration = new Scene(conf, Menu.WIDTH_PIXELS, Menu.HEIGHT_PIXELS);
-        configuration.getStylesheets().add(BearGame.class.getResource("Menu.css").toExternalForm());
+        configuration.getStylesheets().add(BearGame.class.getResource("/css/Menu.css").toExternalForm());
         window.setScene(configuration);
         window.show();
         return configuration;
@@ -127,7 +131,7 @@ public class Configuration {
         newBox.getChildren().addAll(panel, buttonMenu);
         pane.getChildren().addAll(newBox);
         instructions = new Scene(pane, Menu.WIDTH_PIXELS, Menu.HEIGHT_PIXELS);
-        instructions.getStylesheets().add(BearGame.class.getResource("instructions.css").toExternalForm());
+        instructions.getStylesheets().add(BearGame.class.getResource("/css/instructions.css").toExternalForm());
         window.setScene(instructions);
         window.show();
         return instructions;
@@ -142,6 +146,9 @@ public class Configuration {
      */
      public Scene gameOver(Scene menu, Stage window, boolean score) {
         Scene gameOver = null;
+        Label titleGame = new Label(" GAME OVER \n"
+                + " ");
+        titleGame.setId("title");
         Button buttonCont = new Button("Volver al menú");
         buttonCont.setOnAction((ActionEvent e) -> {
             window.setScene(menu);
@@ -151,45 +158,115 @@ public class Configuration {
             System.exit(0);
         });
         AudioClip soundOver = new AudioClip(this.getClass().getResource("/resources/gameOver.mp3").toExternalForm());
-        //if (isSound()) soundOver.play();;
+        if (isSound()) soundOver.play();;
         VBox conf = new VBox(20);
+        VBox moveButtons = new VBox(100);
         conf.setPrefWidth(200);
         conf.setSpacing(10);
         conf.setPadding(new Insets(0, 20, 10, 20));
         buttonCont.setMaxWidth(conf.getPrefWidth());
         buttonExit.setMaxWidth(conf.getPrefWidth());
+        HBox hboxNameScore = new HBox(20);
+        HBox hboxButtonScore = new HBox(20);
+        Label congratLabel = new Label("HAS CONSEGUIDO UN HIGHSCORE!!!");
+        Label nameLabel = new Label("Introduce tu nombre: ");
+        nameLabel.setId("nameLabel");
+        TextField textName = new TextField();
+        Button buttonAccept = new Button("Aceptar");
+        buttonAccept.setOnAction((ActionEvent e) -> {
+            String name = textName.getText();
+            if (name.length() >= 12) {
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Información");
+                alert.setHeaderText("Revasado máximo de carácteres permitido");
+                alert.setContentText("El máximo de carácteres permitido es 12");
+                alert.showAndWait();
+            }
+            else {
+                if ("".equals(name)) name = "Anto";
+                Score.setMaxScore(Slidding.gameScore, name);
+                Score.saveToXML();
+                congratLabel.setVisible(false);
+                hboxNameScore.setVisible(false);
+                hboxButtonScore.setVisible(false);
+                moveButtons.setVisible(true);
+                Slidding.gameScore = 0;
+            }
+        });
+        Button buttonCancel = new Button("Cancelar");
+        buttonCancel.setOnAction((ActionEvent e) -> {
+            Score.setMaxScore(Slidding.gameScore, "AAA");
+            Score.saveToXML();
+            congratLabel.setVisible(false);
+            hboxNameScore.setVisible(false);
+            hboxButtonScore.setVisible(false);
+            moveButtons.setVisible(true);
+            Slidding.gameScore = 0;
+        });
+        hboxNameScore.getChildren().addAll(nameLabel,textName);
+        hboxButtonScore.getChildren().addAll(buttonAccept,buttonCancel);
         HBox buttonMenu = new HBox(20);
-        VBox moveButtons = new VBox(100);
+        hboxNameScore.setAlignment(Pos.CENTER);
+        hboxButtonScore.setAlignment(Pos.CENTER);
         buttonMenu.setAlignment(Pos.CENTER);
         buttonMenu.getChildren().addAll(buttonCont, buttonExit);
         moveButtons.getChildren().add(buttonMenu);
-        conf.getChildren().addAll(moveButtons);
+        conf.getChildren().addAll(titleGame, congratLabel, hboxNameScore, hboxButtonScore, moveButtons);
         conf.setAlignment(Pos.CENTER);
+        congratLabel.setVisible(false);
+        hboxNameScore.setVisible(false);
+            hboxButtonScore.setVisible(false);
+        if (score) {
+            congratLabel.setVisible(true);
+            hboxNameScore.setVisible(true);
+            hboxButtonScore.setVisible(true);
+            moveButtons.setVisible(false);
+        }
         gameOver = new Scene(conf, Menu.WIDTH_PIXELS, Menu.HEIGHT_PIXELS);
-        gameOver.getStylesheets().add(BearGame.class.getResource("GameOver.css").toExternalForm());
+        gameOver.getStylesheets().add(BearGame.class.getResource("/css/GameOver.css").toExternalForm());
+        if(!score) conf.setId("gameover");
+        else conf.setId("trophy");
+        congratLabel.setId("congrat");
         window.setScene(gameOver);
         window.show();
-        if (score) {
-            String name = maxScore();
-            Score.setMaxScore(Slidding.gameScore, name);
-            Score.saveToXML();
-        }
         return gameOver;
     }
      
-    public String maxScore() {
-        String name = "Antonio";
-        TextInputDialog dialog = new TextInputDialog("walter");
-        dialog.setTitle("NUEVO RÉCORD");
-        dialog.setHeaderText("Escribe tu nombre compañero osezno");
-        dialog.setContentText("Nombre:");
-        Optional<String> result = dialog.showAndWait();
-        // Traditional way to get the response value.
-        if (result.isPresent()){
-            if (result.get().isEmpty()) name = "Abcde";
-            else name = result.get();
+    public static Scene listScore(Scene menu, Stage window) {
+        Scene listScore = null;
+        Score.loadFromXML();
+        Label title = new Label("Puntuaciones de los compañeros oseznos");
+        ArrayList<String> autores = Score.getListAuthor();
+        ArrayList<String> puntos = Score.getListScores();
+        GridPane listWinner = new GridPane();
+        listWinner.setHgap(10);
+        listWinner.setVgap(12);
+        listWinner.add(new Label("NOMBRE"), 0, 0);
+        listWinner.add(new Label("PUNTUACIÓN"), 1, 0);
+        for (int i = 0; i < puntos.size();i++) {
+            String[] point = puntos.get(i).split("\\."); 
+            listWinner.add(new Label(autores.get(i)), 0,i+1);
+            listWinner.add(new Label(point[0]), 1,i+1);
         }
-        return name;
+        Button buttonMenu = new Button("Exit");
+        buttonMenu.setMaxWidth(150);
+        buttonMenu.setOnAction((ActionEvent e) -> {
+            window.setScene(menu);
+        });
+        VBox newBox = new VBox(100);
+        newBox.setMaxWidth(500);
+        newBox.setMaxHeight(500);
+        newBox.setAlignment(Pos.CENTER);
+        newBox.setId("caja");
+        title.setId("title");
+        newBox.getChildren().addAll(title, listWinner, buttonMenu);
+        listWinner.setAlignment(Pos.CENTER);
+        StackPane pane = new StackPane();
+        pane.getChildren().add(newBox);
+        listScore = new Scene(pane, Menu.WIDTH_PIXELS, Menu.HEIGHT_PIXELS);
+        listScore.getStylesheets().add(BearGame.class.getResource("/css/puntuacion.css").toExternalForm());
+        return listScore;
+        
     }
      
      /**

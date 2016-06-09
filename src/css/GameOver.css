@@ -7,9 +7,20 @@ and open the template in the editor.
     Created on : May 24, 2016, 6:35:43 PM
     Author     : Anto
 */
-.root {
-     -fx-background-image: url("gameover.png");
+#gameover {
+     -fx-background-image: url("/img/gameoverexplo.png");
      -fx-background-repeat: no-repeat;
+}
+
+#trophy {
+    -fx-background-image: url("/img/gameoverfirst.png");
+     -fx-background-repeat: no-repeat;
+}
+
+#congrat {
+    -fx-text-fill: whitesmoke;
+    -fx-font-size: 30px;
+    -fx-font-weight: bolder;
 }
 
 .button {
@@ -22,4 +33,15 @@ and open the template in the editor.
 
 .button:hover {
     -fx-background-color: linear-gradient(#f9e6ba, #ecb535);
+}
+
+#title {
+    -fx-text-fill: whitesmoke;
+    -fx-font-size: 50px;
+    -fx-font-weight: bolder;
+}
+
+#nameLabel {
+   -fx-text-fill: whitesmoke;
+   -fx-font-size: 20px; 
 }
