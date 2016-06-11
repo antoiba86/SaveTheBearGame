@@ -176,8 +176,8 @@ public class Hero extends ObjectGame {
      */
     public void collide(ObjectGame object) {
         boolean collisionDetect = false;
-        if ( BearGame.iHero.getSpriteFrame().getBoundsInParent().intersects(object.getSpriteFrame().getBoundsInParent())) {
-            Shape intersection = SVGPath.intersect(BearGame.iHero.getSpriteBound(), object.getSpriteBound());
+        if ( this.getSpriteFrame().getBoundsInParent().intersects(object.getSpriteFrame().getBoundsInParent())) {
+            Shape intersection = SVGPath.intersect(this.getSpriteBound(), object.getSpriteBound());
             if (intersection.getBoundsInLocal().getWidth() != -1) collisionDetect = true;
         }
         if(collisionDetect) {
