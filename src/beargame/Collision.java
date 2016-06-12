@@ -17,7 +17,7 @@ public class Collision {
     /**
      * Method to detect collisions of the hero object
      * @param object 
-     * @param hero 
+     * @param character 
      * @param bearGame 
      */
     public static void collide (ObjectGame object, ObjectGame character, BearGame bearGame) {
@@ -28,12 +28,18 @@ public class Collision {
         }
         if(collisionDetect) {
             Hero iHero = null;
-            boolean notRock = false;
-            if (object instanceof Rock) notRock = true;
-            if (character instanceof Hero && !notRock) {
+            Rock rock = null;
+            boolean notRock = true;
+            if (object instanceof Rock) notRock = false;
+            if (character instanceof Hero && notRock) {
                 iHero = (Hero)character;
                 collisionHero(object, iHero, bearGame);
             }
+            if (character instanceof Rock && !notRock) {
+                rock = (Rock)character;
+                collisionRock(object, rock, bearGame);
+            }
+            
         }
     }
     
@@ -69,13 +75,45 @@ public class Collision {
                 bearGame.getDisplay().resetRemovedObjects();
             }
             if (hero.getMove() < 3) {
-                hero.setMove(4);
+                hero.setMove(3);
                 if (Configuration.isSound()) hero.getExplosion().play();
                 hero.setExplosion();
                 hero.setvX(0);
                 hero.setvY(0);
             }
         }
+    }
+    
+    public static void collisionRock (ObjectGame object, Rock rock, BearGame bearGame) {
+        if (object instanceof Shark) {
+            Shark shark = (Shark)object;
+            if (shark.getMove() < 3) {
+                shark.setMove(9);
+                if (Configuration.isSound()) shark.getExplosion().play();
+                shark.setExplosion();
+                shark.setvX(0);
+                shark.setvY(0);
+            }
+        }
+        else if (object instanceof Missile) {
+            Missile missile = (Missile)object;
+            missile.setMove(3);
+            if (Configuration.isSound()) missile.getExplosion().play();
+            missile.setExplosion();
+            missile.setvX(0);
+            missile.setvY(0);
+        }
+        else if (object instanceof PirateBoat) {
+            PirateBoat pirateBoat = (PirateBoat)object;
+            pirateBoat.setMove(3);
+            if (Configuration.isSound()) pirateBoat.getExplosion().play();
+            pirateBoat.setExplosion();
+            pirateBoat.setvX(0);
+            pirateBoat.setvY(0);
+        }
+        bearGame.getDisplay().addToRemovedObjects(rock);
+        bearGame.getPaneRoot().getChildren().remove(rock.getSpriteFrame());
+        bearGame.getDisplay().resetRemovedObjects();
     }
     
 }

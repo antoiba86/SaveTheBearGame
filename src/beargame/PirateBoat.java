@@ -1,13 +1,21 @@
 package beargame;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.image.Image;
+import javafx.scene.media.AudioClip;
+import javafx.util.Duration;
 
 /**
  * Class of the pirate boat object
  * @author Antonio Jesús Ibáñez García
  */
 public class PirateBoat extends Population{
-    
+    private Timeline timeExplosion;
+    private AudioClip explosion;
     /**
      * Empty Constructor of the class
      */
@@ -29,5 +37,54 @@ public class PirateBoat extends Population{
         this.vY = vY;
         setTime();
         timeline.play();
+        explosion = new AudioClip(this.getClass().getResource("/resources/explosion.mp3").toExternalForm());
+    }
+    
+    /**
+     * Method to set a Timer to change the object's image displayed when the enemy dies
+     */
+    public void setExplosion() {
+        timeline.stop();
+        timeExplosion = new Timeline(new KeyFrame(
+        Duration.millis(200), new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent ae) {
+                explosion();
+            }
+        }));
+        timeExplosion.setCycleCount(Animation.INDEFINITE);
+        timeExplosion.play();
+    }
+    
+    /**
+     * Method to change the object's image
+     */
+    public void explosion() {
+        if (move < 19) move++;
+    }
+    
+    /**
+     * Method to change the object's image in the game
+     */
+    @Override
+    public void setImageState() {
+        if (move < 3) {
+            spriteFrame.setImage(imageStates.get(move));
+            timeline.play();
+        }
+        else if (move >= 3 && move < 19) spriteFrame.setImage(imageStates.get(move));
+        else {
+            timeExplosion.stop();
+            bearGame.getDisplay().addToRemovedObjects(this);
+            bearGame.getPaneRoot().getChildren().remove(this.getSpriteFrame());
+        }
+    }
+    
+    public AudioClip getExplosion() {
+        return explosion;
+    }
+
+    public void setExplosion(AudioClip explosion) {
+        this.explosion = explosion;
     }
 }

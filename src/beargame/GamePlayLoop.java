@@ -50,7 +50,7 @@ public class GamePlayLoop extends AnimationTimer {
     public void updateSprites() {
         //spriteManager es DisplayObject
         bearGame.getDisplay().getDISPLAYED_OBJECT().stream().forEach((object) -> {
-            handleUpdate(object);
+            this.handleUpdate(object);
         });
     }
     

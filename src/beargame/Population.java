@@ -136,6 +136,22 @@ public class Population extends ObjectGame {
     public void setMove(int move) {
         this.move = move;
     }
+
+    public double getvX() {
+        return vX;
+    }
+
+    public void setvX(double vX) {
+        this.vX = vX;
+    }
+
+    public double getvY() {
+        return vY;
+    }
+
+    public void setvY(double vY) {
+        this.vY = vY;
+    }
     
     
     

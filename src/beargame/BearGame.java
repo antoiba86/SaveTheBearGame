@@ -182,8 +182,14 @@ public class BearGame {
      */
     public ObjectGame createEnemy(int type, double width, double height, double vX, double vY) {
         ObjectGame object = new Population();
-        if (type == 1) object = new PirateBoat(this, width, height, vX, vY, pirate_boat[0], pirate_boat[1], pirate_boat[2], pirate_boat[3]);
-        if (type == 2) object = new Shark(this, width, height, vX, vY, shark_image[0],shark_image[1],shark_image[2],shark_image[3],shark_image[4],shark_image[5],shark_image[6],shark_image[7],shark_image[8]);
+        if (type == 1) object = new PirateBoat(this, width, height, vX, vY, pirate_boat[0], pirate_boat[1], pirate_boat[2], pirate_boat[3], explosion[0],explosion[1],explosion[2],explosion[3],
+                explosion[4],explosion[5],explosion[6],explosion[7],explosion[8],
+                explosion[9],explosion[10],explosion[11],explosion[12],explosion[13],
+                explosion[14]);
+        if (type == 2) object = new Shark(this, width, height, vX, vY, shark_image[0],shark_image[1],shark_image[2],shark_image[3],shark_image[4],shark_image[5],shark_image[6],shark_image[7],shark_image[8], explosion[0],explosion[1],explosion[2],explosion[3],
+                explosion[4],explosion[5],explosion[6],explosion[7],explosion[8],
+                explosion[9],explosion[10],explosion[11],explosion[12],explosion[13],
+                explosion[14]);
         if (type == 3) object = new Plane(this, width, height, vX, vY, plane_image[0],plane_image[1],plane_image[2],plane_image[3],plane_image[4],plane_image[5],plane_image[6],plane_image[7],plane_image[8]);
         return object;
     }

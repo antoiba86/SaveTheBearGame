@@ -15,6 +15,8 @@ import javafx.util.Duration;
  */
 public class Shark extends Population{
     private Timeline timeJaws;
+    Timeline timeExplosion;
+    private AudioClip explosion;
     
     /**
      * Empty constructor of the object
@@ -35,6 +37,7 @@ public class Shark extends Population{
         super(object, "M 88,21 L 88,21 56,40 42,50 27,58 28,72 44,72 61,62 66,58 75,52 78,49 85,31 Z", xLocation, yLocation, spriteCels);
         this.vX = vX;
         this.vY = vY;
+        explosion = new AudioClip(this.getClass().getResource("/resources/explosion.mp3").toExternalForm());
         setTime();
     }
     
@@ -65,6 +68,29 @@ public class Shark extends Population{
     }
     
     /**
+     * Method to set a Timer to change the object's image displayed when the Hero dies
+     */
+    public void setExplosion() {
+        timeline.stop();
+        timeExplosion = new Timeline(new KeyFrame(
+        Duration.millis(200), new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent ae) {
+                explosion();
+            }
+        }));
+        timeExplosion.setCycleCount(Animation.INDEFINITE);
+        timeExplosion.play();
+    }
+    
+    /**
+     * Method to change the object's image
+     */
+    public void explosion() {
+        if (move < 25) move++;
+    }
+    
+    /**
      * Method to change the object's image in the game
      */
     @Override
@@ -75,6 +101,11 @@ public class Shark extends Population{
         }
         else if (move >= 3 && move < 9) {
             spriteFrame.setImage(imageStates.get(move));
+        }
+        else if (move >= 10 && move < 25) {
+            timeExplosion.stop();
+            bearGame.getDisplay().addToRemovedObjects(this);
+            bearGame.getPaneRoot().getChildren().remove(this.getSpriteFrame());
         }
         else {
             timeJaws.stop();
@@ -90,6 +121,14 @@ public class Shark extends Population{
         AudioClip soundShark = new AudioClip(this.getClass().getResource("/resources/shark.mp3").toExternalForm());
         soundShark.setVolume(1.0);
         soundShark.play();
+    }
+    
+    public AudioClip getExplosion() {
+        return explosion;
+    }
+
+    public void setExplosion(AudioClip explosion) {
+        this.explosion = explosion;
     }
     
     

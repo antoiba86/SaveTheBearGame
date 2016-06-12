@@ -15,6 +15,7 @@ import javafx.util.Duration;
 public class Plane extends Population{
     private boolean reverse = false;
     private Image[] missile_image = new Image[4];
+    private Image[] explosion = new Image[15];
     private Timeline timeFire;
     
     /**
@@ -86,13 +87,20 @@ public class Plane extends Population{
         for (int i = 0; i < missile_image.length;i++) {
             missile_image[i] = new Image("resources/missile" + (i+1) + ".png", 13,40,true,false,true);
         }
+        for (int i=0; i< explosion.length;i++) {
+            explosion[i] = new Image("resources/explosion" + (i+1) + ".png", 120,73,true,false,true);
+        }
     }
     
     /**
      * Method to fire a missile in the right position
      */
     private void fire_missile() {
-        Missile missile = new Missile(bearGame, iX+13, iY+40, 0,1,missile_image[0],missile_image[1],missile_image[2],missile_image[3]);
+        Missile missile = new Missile(bearGame, iX+13, iY+40, 0,1,missile_image[0],missile_image[1],missile_image[2],missile_image[3],
+        explosion[0],explosion[1],explosion[2],explosion[3],
+                explosion[4],explosion[5],explosion[6],explosion[7],explosion[8],
+                explosion[9],explosion[10],explosion[11],explosion[12],explosion[13],
+                explosion[14]);
         bearGame.getDisplay().addDisplayed_Object(missile);
         bearGame.getPaneRoot().getChildren().add(missile.spriteFrame);
     }

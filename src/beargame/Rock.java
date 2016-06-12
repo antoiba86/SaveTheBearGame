@@ -36,11 +36,33 @@ public class Rock extends Population{
     }
     
     /**
+     * Method to update the object
+     */
+    @Override
+    public void update() {
+        moveImage(iX, iY);
+        setXYLocation();
+        setBoundaries();
+        setImageState();
+        checkCollision();
+    }
+    
+    /**
      * Method to set the boundaries of the object
      */
     @Override
     public void setBoundaries() {  
         if (iX >= BOTTOMBOUNDARY+50) bearGame.getPaneRoot().getChildren().remove(this.getSpriteFrame());
+    }
+    
+    /**
+     * Method to check the collision of the hero with other objects
+     */
+    public void checkCollision() {
+        for(int i=0; i< bearGame.getDisplay().getDISPLAYED_OBJECT().size(); i++) {
+            ObjectGame object = bearGame.getDisplay().getDISPLAYED_OBJECT().get(i);
+            Collision.collide(object, this, bearGame);
+        }
     }
     
     /**

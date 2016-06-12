@@ -81,7 +81,7 @@ public class Hero extends ObjectGame {
     
     public void setShoot() {
         timeShoot = new Timeline(new KeyFrame(
-        Duration.millis(200), new EventHandler<ActionEvent>() {
+        Duration.millis(400), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent ae) {
                 setAllow_shoot(true);
@@ -199,7 +199,7 @@ public class Hero extends ObjectGame {
     private void fire_rock() {
         timeShoot.play();
         if (allow_shoot) {
-            Rock rock = new Rock(bearGame, iX+30, iY+28, 5,0,rock_image[0],rock_image[1]);
+            Rock rock = new Rock(bearGame, iX+90, iY+36.5, 5,0,rock_image[0],rock_image[1]);
             bearGame.getDisplay().addDisplayed_Object(rock);
             bearGame.getPaneRoot().getChildren().add(rock.spriteFrame);
             allow_shoot = false;
