@@ -17,19 +17,22 @@ import javafx.util.Duration;
  */
 public class Hero extends ObjectGame {
     protected BearGame bearGame;
-    protected double vX;
-    protected double vY;
-    private static boolean up, down, left, right;
-    protected static final double SPRITE_PIXELS_X = 120;
-    protected static final double SPRITE_PIXELS_Y = 73;
-    protected static final double RIGHTBOUNDARY = Menu.WIDTH_PIXELS - SPRITE_PIXELS_X;
-    protected static final double LEFTBOUNDARY = 0;
-    protected static final double BOTTOMBOUNDARY = Menu.HEIGHT_PIXELS - SPRITE_PIXELS_Y;
-    protected static final double TOPBOUNDARY = Slidding.HEIGTH_SKY;
+    private double vX;
+    private double vY;
+    private static boolean up, down, left, right, space;
+    private static boolean allow_shoot = true;
+    private static final double SPRITE_PIXELS_X = 120;
+    private static final double SPRITE_PIXELS_Y = 73;
+    private static final double RIGHTBOUNDARY = Menu.WIDTH_PIXELS - SPRITE_PIXELS_X;
+    private static final double LEFTBOUNDARY = 0;
+    private static final double BOTTOMBOUNDARY = Menu.HEIGHT_PIXELS - SPRITE_PIXELS_Y;
+    private static final double TOPBOUNDARY = Slidding.HEIGTH_SKY;
     private int move = 0;
+    private Image[] rock_image = new Image[2];
     private AudioClip explosion;
     Timeline timeline;
     Timeline timeExplosion;
+    Timeline timeShoot;
     
     /**
      * Method to create a Hero object
@@ -45,8 +48,9 @@ public class Hero extends ObjectGame {
         bearGame = bearHero;
         explosion = new AudioClip(this.getClass().getResource("/resources/explosion.mp3").toExternalForm());
         setTime();
+        setShoot();
+        imageRock();
     }
-    
      
      /**
      * Method to update the object
@@ -73,6 +77,18 @@ public class Hero extends ObjectGame {
             }
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
+    }
+    
+    public void setShoot() {
+        timeShoot = new Timeline(new KeyFrame(
+        Duration.millis(200), new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent ae) {
+                setAllow_shoot(true);
+                timeShoot.stop();
+            }
+        }));
+        timeShoot.setCycleCount(Animation.INDEFINITE);
     }
     
     /**
@@ -148,6 +164,7 @@ public class Hero extends ObjectGame {
         if(left) iX -= vX;
         if(down) iY += vY;
         if(up) iY -= vY;
+        if(space) fire_rock();
     }
     
     /**
@@ -166,60 +183,29 @@ public class Hero extends ObjectGame {
     public void checkCollision() {
         for(int i=0; i< bearGame.getDisplay().getDISPLAYED_OBJECT().size(); i++) {
             ObjectGame object = bearGame.getDisplay().getDISPLAYED_OBJECT().get(i);
-            collide(object);
+            Collision.collide(object, this, bearGame);
+        }
+    }
+    
+    private void imageRock() {
+        for (int i = 0; i < rock_image.length;i++) {
+            rock_image[i] = new Image("img/roca" + (i+1) + ".png", 30,28,true,false,true);
         }
     }
     
     /**
-     * Method to detect collisions of the hero object
-     * @param object 
+     * Method to fire a missile in the right position
      */
-    public void collide(ObjectGame object) {
-        boolean collisionDetect = false;
-        if ( this.getSpriteFrame().getBoundsInParent().intersects(object.getSpriteFrame().getBoundsInParent())) {
-            Shape intersection = SVGPath.intersect(this.getSpriteBound(), object.getSpriteBound());
-            if (intersection.getBoundsInLocal().getWidth() != -1) collisionDetect = true;
+    private void fire_rock() {
+        timeShoot.play();
+        if (allow_shoot) {
+            Rock rock = new Rock(bearGame, iX+30, iY+28, 5,0,rock_image[0],rock_image[1]);
+            bearGame.getDisplay().addDisplayed_Object(rock);
+            bearGame.getPaneRoot().getChildren().add(rock.spriteFrame);
+            allow_shoot = false;
         }
-        if(collisionDetect) {
-            //Quitar objetos del escenario
-            if (object instanceof Coin || object instanceof Gemstone) {
-                bearGame.getDisplay().addToRemovedObjects(object);
-                bearGame.getPaneRoot().getChildren().remove(object.getSpriteFrame());
-                bearGame.getDisplay().resetRemovedObjects();
-                if (object instanceof Gemstone) {
-                    Gemstone gem = (Gemstone)object;
-                    if (Configuration.isSound()) gem.musicCoin();
-                    Slidding.gameScore += 50;
-                }
-                else {
-                    Coin coin = (Coin)object;
-                    if (Configuration.isSound()) coin.musicCoin();
-                    Slidding.gameScore += 10;
-                }
-            }
-            else {
-                if (object instanceof Shark) {
-                    Shark shark = (Shark)object;
-                    if (shark.getMove() < 3) {
-                        shark.setMove(3);
-                        if (Configuration.isSound()) shark.soundShark();
-                        shark.setJaws();
-                    }
-                }
-                else if (object instanceof Missile) {
-                    Missile missile = (Missile)object;
-                    bearGame.getDisplay().addToRemovedObjects(missile);
-                    bearGame.getPaneRoot().getChildren().remove(missile.getSpriteFrame());
-                    bearGame.getDisplay().resetRemovedObjects();
-                }
-                if (move < 3) {
-                    move = 4;
-                    if (Configuration.isSound()) explosion.play();
-                    setExplosion();
-                    vX = vY = 0;
-                }
-            }
-        }
+        
+        
     }
     
     /**
@@ -317,4 +303,64 @@ public class Hero extends ObjectGame {
     public static void setRight(boolean right) {
         Hero.right = right;
     }
+
+    public static boolean isSpace() {
+        return space;
+    }
+
+    public static void setSpace(boolean space) {
+        Hero.space = space;
+    }
+
+    public BearGame getBearGame() {
+        return bearGame;
+    }
+
+    public void setBearGame(BearGame bearGame) {
+        this.bearGame = bearGame;
+    }
+
+    public int getMove() {
+        return move;
+    }
+
+    public void setMove(int move) {
+        this.move = move;
+    }
+
+    public AudioClip getExplosion() {
+        return explosion;
+    }
+
+    public void setExplosion(AudioClip explosion) {
+        this.explosion = explosion;
+    }
+
+    public Timeline getTimeline() {
+        return timeline;
+    }
+
+    public void setTimeline(Timeline timeline) {
+        this.timeline = timeline;
+    }
+
+    public Timeline getTimeExplosion() {
+        return timeExplosion;
+    }
+
+    public void setTimeExplosion(Timeline timeExplosion) {
+        this.timeExplosion = timeExplosion;
+    }
+
+    public static boolean isAllow_shoot() {
+        return allow_shoot;
+    }
+
+    public static void setAllow_shoot(boolean allow_shoot) {
+        Hero.allow_shoot = allow_shoot;
+    }
+    
+    
+    
+    
 }

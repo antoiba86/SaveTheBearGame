@@ -52,7 +52,7 @@ public class Menu extends Application {
         });
         Button buttonIntr = new Button("Instrucciones");
         buttonIntr.setOnAction((ActionEvent e) -> {
-            primaryStage.setScene(Configuration.configuration(scene, primaryStage));
+            primaryStage.setScene(Configuration.instructions(scene, primaryStage));
         });
         Button buttonScore = new Button("Puntuaciones");
         buttonScore.setOnAction((ActionEvent e) -> {

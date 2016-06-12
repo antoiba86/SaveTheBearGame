@@ -247,6 +247,7 @@ public class BearGame {
                 case DOWN: Hero.setDown(true); break;
                 case LEFT: Hero.setLeft(true); break;
                 case RIGHT: Hero.setRight(true); break;
+                case SPACE: Hero.setSpace(true); break;
                 case W: Hero.setUp(true); break;
                 case S: Hero.setDown(true); break;
                 case A: Hero.setLeft(true); break;
@@ -259,6 +260,7 @@ public class BearGame {
                 case DOWN: Hero.setDown(false); break;
                 case LEFT: Hero.setLeft(false); break;
                 case RIGHT: Hero.setRight(false); break;
+                case SPACE: Hero.setSpace(false); break;
                 case W: Hero.setUp(false); break;
                 case S: Hero.setDown(false); break;
                 case A: Hero.setLeft(false); break;
