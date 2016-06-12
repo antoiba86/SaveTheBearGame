@@ -52,7 +52,7 @@ public class Rock extends Population{
      */
     @Override
     public void setBoundaries() {  
-        if (iX >= BOTTOMBOUNDARY+50) bearGame.getPaneRoot().getChildren().remove(this.getSpriteFrame());
+        if (iX >= RIGHTBOUNDARY+50) bearGame.getPaneRoot().getChildren().remove(this.getSpriteFrame());
     }
     
     /**

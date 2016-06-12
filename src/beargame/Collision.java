@@ -35,7 +35,7 @@ public class Collision {
                 iHero = (Hero)character;
                 collisionHero(object, iHero, bearGame);
             }
-            if (character instanceof Rock && !notRock) {
+            if (character instanceof Rock) {
                 rock = (Rock)character;
                 collisionRock(object, rock, bearGame);
             }
@@ -111,9 +111,9 @@ public class Collision {
             pirateBoat.setvX(0);
             pirateBoat.setvY(0);
         }
-        bearGame.getDisplay().addToRemovedObjects(rock);
+        bearGame.getDisplay().addToRemovedRocks(rock);
         bearGame.getPaneRoot().getChildren().remove(rock.getSpriteFrame());
-        bearGame.getDisplay().resetRemovedObjects();
+        bearGame.getDisplay().resetRemovedRocks();
     }
     
 }

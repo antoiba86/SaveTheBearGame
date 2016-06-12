@@ -12,9 +12,9 @@ import java.util.Set;
  */
 public class DisplayObject {
     
-    private List<ObjectGame> DISPLAYED_OBJECT;
-    private List<ObjectGame> COLLIDE_CHECKLIST;
-    private Set<ObjectGame> REMOVED_OBJECTS;
+    private List<ObjectGame> DISPLAYED_OBJECT, DISPLAYED_ROCKS;
+    private List<ObjectGame> COLLIDE_CHECKLIST, COLLIDE_ROCKS;
+    private Set<ObjectGame> REMOVED_OBJECTS, REMOVED_ROCKS;
     
     /**
      * Method to create the objects arrayList
@@ -23,6 +23,9 @@ public class DisplayObject {
         this.DISPLAYED_OBJECT = new ArrayList<>();
         this.COLLIDE_CHECKLIST = new ArrayList<>();
         this.REMOVED_OBJECTS = new HashSet<>();
+        this.DISPLAYED_ROCKS = new ArrayList<>();
+        this.COLLIDE_ROCKS = new ArrayList<>();
+        this.REMOVED_ROCKS = new HashSet<>();
     }
     
     /**
@@ -42,6 +45,14 @@ public class DisplayObject {
     }
     
     /**
+     * Method to add an object into the Array of Rocks displayed
+     * @param rock It is the object to display
+     */
+    public void addDisplayed_Rock(Rock... rock) {
+        DISPLAYED_ROCKS.addAll(Arrays.asList(rock) );
+    }
+    
+    /**
      * Method to remove an object from the game
      * @param objectGames It is the object to remove
      */
@@ -50,10 +61,25 @@ public class DisplayObject {
     }
     
     /**
+     * Method to remove an object from the game
+     * @param rock It is the object to remove
+     */
+    public void removeDisplayed_Rocks(Rock... rock) {
+        DISPLAYED_ROCKS.removeAll( Arrays.asList(rock) );
+    }
+    
+    /**
      * Method to clean the display_object array
      */
     public void resetDisplayed_Object() {
         DISPLAYED_OBJECT.clear();
+    }
+    
+    /**
+     * Method to clean the display_object array
+     */
+    public void resetDisplayed_Rock() {
+        DISPLAYED_ROCKS.clear();
     }
     
     /**
@@ -65,11 +91,27 @@ public class DisplayObject {
     }
     
     /**
+     * Method to return the collision state
+     * @return The variable of the collision check
+     */
+    public List getCollideRock() {
+        return COLLIDE_ROCKS;
+    }
+    
+    /**
      * Method to reset the collision array
      */
     public void resetCollideCheckList() {
         COLLIDE_CHECKLIST.clear();
         COLLIDE_CHECKLIST.addAll(DISPLAYED_OBJECT);
+    }
+    
+    /**
+     * Method to reset the collision array
+     */
+    public void resetCollideRock() {
+        COLLIDE_ROCKS.clear();
+        COLLIDE_ROCKS.addAll(DISPLAYED_ROCKS);
     }
     
     /**
@@ -82,6 +124,15 @@ public class DisplayObject {
     }
     
     /**
+     * Method to add the objects to remove from the game
+     * @param rock It is the object to remove
+     */
+    public void addToRemovedRocks(Rock... rock) {
+        if (rock.length > 1) REMOVED_ROCKS.addAll(Arrays.asList((Rock[]) rock));
+        else REMOVED_ROCKS.add(rock[0]);
+    }
+    
+    /**
      * Method to reset the object removed
      */
     public void resetRemovedObjects() {
@@ -89,6 +140,14 @@ public class DisplayObject {
         REMOVED_OBJECTS.clear();
     }
 
+    /**
+     * Method to reset the object removed
+     */
+    public void resetRemovedRocks() {
+        DISPLAYED_ROCKS.removeAll(REMOVED_ROCKS);
+        REMOVED_ROCKS.clear();
+    }
+    
     /**
      * Method to get the object whit who you can collide
      * @return 
@@ -120,5 +179,31 @@ public class DisplayObject {
     public void setREMOVED_OBJECTS(Set<ObjectGame> REMOVED_OBJECTS) {
         this.REMOVED_OBJECTS = REMOVED_OBJECTS;
     }
+
+    public List<ObjectGame> getDISPLAYED_ROCKS() {
+        return DISPLAYED_ROCKS;
+    }
+
+    public void setDISPLAYED_ROCKS(List<ObjectGame> DISPLAYED_ROCKS) {
+        this.DISPLAYED_ROCKS = DISPLAYED_ROCKS;
+    }
+
+    public List<ObjectGame> getCOLLIDE_ROCKS() {
+        return COLLIDE_ROCKS;
+    }
+
+    public void setCOLLIDE_ROCKS(List<ObjectGame> COLLIDE_ROCKS) {
+        this.COLLIDE_ROCKS = COLLIDE_ROCKS;
+    }
+
+    public Set<ObjectGame> getREMOVED_ROCKS() {
+        return REMOVED_ROCKS;
+    }
+
+    public void setREMOVED_ROCKS(Set<ObjectGame> REMOVED_ROCKS) {
+        this.REMOVED_ROCKS = REMOVED_ROCKS;
+    }
+    
+    
     
 }
