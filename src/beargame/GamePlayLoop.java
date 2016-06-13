@@ -49,8 +49,16 @@ public class GamePlayLoop extends AnimationTimer {
      */
     public void updateSprites() {
         //spriteManager es DisplayObject
-        bearGame.getDisplay().getDISPLAYED_OBJECT().stream().forEach(this::handleUpdate);
-        bearGame.getDisplay().getDISPLAYED_ROCKS().stream().forEach((rock) -> this.handleUpdate(rock));
+        bearGame.getDisplay().getObjectDisplayed().stream().forEach(this::handleUpdate);
+        bearGame.getDisplay().addToRemovedObjects(bearGame.getDisplay().getObjectRemoved().stream().toArray(ObjectGame[]::new));
+        bearGame.getDisplay().resetRemovedObjects();
+        bearGame.getDisplay().addDisplayed_Object(bearGame.getDisplay().getObjectToAdd().stream().toArray(ObjectGame[]::new));
+        bearGame.getDisplay().resetObjectToAdd();
+        bearGame.getDisplay().getRockDisplayed().stream().forEach(this::handleRock);
+        bearGame.getDisplay().addToRemovedRocks(bearGame.getDisplay().getRocksRemoved().stream().toArray(Rock[]::new));
+        bearGame.getDisplay().resetRemovedRocks();
+        bearGame.getDisplay().addDisplayed_Rock(bearGame.getDisplay().getRockToAdd().stream().toArray(Rock[]::new));
+        bearGame.getDisplay().resetRockToAdd();
     }
     
     /** 
@@ -63,6 +71,17 @@ public class GamePlayLoop extends AnimationTimer {
             Population character = (Population) object;
             character.update();
         }
+    }
+    
+    /** 
+     * Updates the sprite object's information to position on the game surface.
+     * @param object It is the object
+     */
+    protected void handleRock(ObjectGame rock) {
+        //Sprite class es de Population class, donde se origina los personajes
+
+        rock.update();
+        
     }
     
 }

@@ -34,15 +34,14 @@ public class BearGame {
     private Gemstone gemstone;
     private Group skyLine = new Group();
     private static Timeline timeline;
-    private Image[] polarBear = new Image[4];
-    private Image[] explosion = new Image[15];
-    private Image[] pirate_boat = new Image[4];
-    private Image[] coin_image = new Image[8];
-    private Image[] gem_image = new Image[6];
-    private Image[] shark_image = new Image[9];
-    private Image[] plane_image = new Image[9];
-    private Image fondo;
-    private Random random = new Random();
+    private final Image[] polarBear = new Image[4];
+    private final Image[] explosion = new Image[15];
+    private final Image[] pirate_boat = new Image[4];
+    private final Image[] coin_image = new Image[8];
+    private final Image[] gem_image = new Image[6];
+    private final Image[] shark_image = new Image[9];
+    private final Image[] plane_image = new Image[9];
+    private final Random random = new Random();
     private final DisplayObject display = new DisplayObject();
     GamePlayLoop playGame;
     private static final String GAME_MUSIC_PATH = "/resources/sound_track.mp3";
@@ -199,8 +198,8 @@ public class BearGame {
      * @param n It is the variable that decide is if a coin or a gem to add to the array;
      */
     public void createDisplayedTreasure(int n) {
-        if (n==1)display.addDisplayed_Object(coin);
-        else display.addDisplayed_Object(gemstone);
+        if (n==1)display.addToObjectToAdd(coin);
+        else display.addToObjectToAdd(gemstone);
     }
     
     /**
@@ -208,7 +207,7 @@ public class BearGame {
      * @param object It is the enemy
      */
     public void createDisplayedObject(ObjectGame object) {
-        display.addDisplayed_Object(object);
+        display.addToObjectToAdd(object);
     }
     
     /**

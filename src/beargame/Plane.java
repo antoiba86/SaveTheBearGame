@@ -101,7 +101,7 @@ public class Plane extends Population{
                 explosion[4],explosion[5],explosion[6],explosion[7],explosion[8],
                 explosion[9],explosion[10],explosion[11],explosion[12],explosion[13],
                 explosion[14]);
-        bearGame.getDisplay().addDisplayed_Object(missile);
+        bearGame.getDisplay().addToObjectToAdd(missile);
         bearGame.getPaneRoot().getChildren().add(missile.spriteFrame);
     }
     

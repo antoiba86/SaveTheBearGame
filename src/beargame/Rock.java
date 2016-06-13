@@ -59,8 +59,8 @@ public class Rock extends Population{
      * Method to check the collision of the hero with other objects
      */
     public void checkCollision() {
-        for(int i=0; i< bearGame.getDisplay().getDISPLAYED_OBJECT().size(); i++) {
-            ObjectGame object = bearGame.getDisplay().getDISPLAYED_OBJECT().get(i);
+        for(int i=0; i< bearGame.getDisplay().getObjectDisplayed().size(); i++) {
+            ObjectGame object = bearGame.getDisplay().getObjectDisplayed().get(i);
             Collision.collide(object, this, bearGame);
         }
     }
