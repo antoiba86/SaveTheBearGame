@@ -75,8 +75,8 @@ public class PirateBoat extends Population{
         else if (move >= 3 && move < 19) spriteFrame.setImage(imageStates.get(move));
         else {
             timeExplosion.stop();
-            bearGame.getDisplay().addToRemovedObjects(this);
             bearGame.getPaneRoot().getChildren().remove(this.getSpriteFrame());
+            bearGame.getDisplay().resetRemovedObjects();
         }
     }
     

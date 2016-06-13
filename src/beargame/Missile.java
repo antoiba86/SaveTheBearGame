@@ -90,6 +90,7 @@ public class Missile extends Population {
             timeExplosion.stop();
             bearGame.getDisplay().addToRemovedObjects(this);
             bearGame.getPaneRoot().getChildren().remove(this.getSpriteFrame());
+            bearGame.getDisplay().resetRemovedObjects();
         }
     }
     

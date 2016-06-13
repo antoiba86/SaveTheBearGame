@@ -89,6 +89,7 @@ public class Collision {
             Shark shark = (Shark)object;
             if (shark.getMove() < 3) {
                 shark.setMove(9);
+                bearGame.getDisplay().addToRemovedObjects(shark);
                 if (Configuration.isSound()) shark.getExplosion().play();
                 shark.setExplosion();
                 shark.setvX(0);
@@ -98,6 +99,7 @@ public class Collision {
         else if (object instanceof Missile) {
             Missile missile = (Missile)object;
             missile.setMove(3);
+            bearGame.getDisplay().addToRemovedObjects(missile);
             if (Configuration.isSound()) missile.getExplosion().play();
             missile.setExplosion();
             missile.setvX(0);
@@ -106,6 +108,7 @@ public class Collision {
         else if (object instanceof PirateBoat) {
             PirateBoat pirateBoat = (PirateBoat)object;
             pirateBoat.setMove(3);
+            bearGame.getDisplay().addToRemovedObjects(pirateBoat);
             if (Configuration.isSound()) pirateBoat.getExplosion().play();
             pirateBoat.setExplosion();
             pirateBoat.setvX(0);

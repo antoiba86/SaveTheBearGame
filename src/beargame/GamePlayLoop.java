@@ -19,7 +19,7 @@ public class GamePlayLoop extends AnimationTimer {
     
     /**
      * Method to update the game
-     * @param now It is the actual time in miliseconds
+     * @param now It is the actual time in milliseconds
      */
     @Override
     public void handle(long now) {
@@ -45,7 +45,7 @@ public class GamePlayLoop extends AnimationTimer {
     }
     
     /**
-     * Method to update the object's sprites
+     * Method to update the object's sprite
      */
     public void updateSprites() {
         //spriteManager es DisplayObject

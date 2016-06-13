@@ -62,7 +62,7 @@ public class Shark extends Population{
      * Method to change the object's image
      */
     public void jaws() {
-        if (move < 9) {
+        if (move < 8) {
             move++;
         }
     }
@@ -102,12 +102,13 @@ public class Shark extends Population{
         else if (move >= 3 && move < 9) {
             spriteFrame.setImage(imageStates.get(move));
         }
-        else if (move >= 10 && move < 25) {
-            timeExplosion.stop();
-            bearGame.getDisplay().addToRemovedObjects(this);
+        else if (move >= 9 && move < 25) {
+            spriteFrame.setImage(imageStates.get(move));
             bearGame.getPaneRoot().getChildren().remove(this.getSpriteFrame());
+            bearGame.getDisplay().resetRemovedObjects();
         }
         else {
+            timeExplosion.stop();
             timeJaws.stop();
             bearGame.getDisplay().addToRemovedObjects(this);
             bearGame.getPaneRoot().getChildren().remove(this.getSpriteFrame());
