@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javafx.scene.image.ImageView;
 
 /**
  * Class to display or delete the objects of the game
@@ -14,6 +15,7 @@ public class DisplayObject {
     
     private List<ObjectGame> objectDisplayed, rockDisplayed, objectToAdd, rockToAdd, objectAddToRemove, rockAddToRemove ;
     private Set<ObjectGame> objectRemoved, rocksRemoved ;
+    private List<ImageView> spriteToAdd, spriteRockToAdd, laterSpriteToAdd;
     
     /**
      * Method to create the objects arrayList
@@ -27,6 +29,9 @@ public class DisplayObject {
         this.rockToAdd = new ArrayList<>();
         this.rocksRemoved = new HashSet<>();
         this.rockAddToRemove = new ArrayList<>();
+        spriteToAdd = new ArrayList<>();
+        laterSpriteToAdd = new ArrayList<>();
+        spriteRockToAdd = new ArrayList<>();
     }
     
     /**
@@ -47,6 +52,7 @@ public class DisplayObject {
      */
     public void addDisplayed_Object(ObjectGame... objectGames) {
         objectDisplayed.addAll(Arrays.asList(objectGames));
+        
     }
     
     public void addToObjectToAdd(ObjectGame... objectGames) {
@@ -202,9 +208,44 @@ public class DisplayObject {
     public List<ObjectGame> getRockAddToRemove() {
         return rockAddToRemove;
     }
+
+    public List<ImageView> getSpriteToAdd() {
+        return spriteToAdd;
+    }
         
+    /**
+     * Method to add the objects to remove from the game
+     * @param rocks It is the object to remove
+     */
+    public void addToSpriteToAdd(ImageView... spriteFrame) {
+        spriteToAdd.addAll(Arrays.asList(spriteFrame));
+    }
     
+    /**
+     * Method to reset the object removed
+     */
+    public void resetSpriteToAdd() {
+        spriteToAdd.clear();
+    }
     
+    public List<ImageView> getSpriteRockToAdd() {
+        return spriteRockToAdd;
+    }
+        
+    /**
+     * Method to add the objects to remove from the game
+     * @param rocks It is the object to remove
+     */
+    public void addToSpriteRockToAdd(ImageView... spriteFrame) {
+        spriteRockToAdd.addAll(Arrays.asList(spriteFrame));
+    }
+    
+    /**
+     * Method to reset the object removed
+     */
+    public void resetSpriteRockToAdd() {
+        spriteRockToAdd.clear();
+    }
     
     
 }

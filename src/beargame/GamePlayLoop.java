@@ -54,11 +54,15 @@ public class GamePlayLoop extends AnimationTimer {
         bearGame.getDisplay().resetObjectAddToRemove();
         bearGame.getDisplay().addDisplayed_Object(bearGame.getDisplay().getObjectToAdd().stream().toArray(ObjectGame[]::new));
         bearGame.getDisplay().resetObjectToAdd();
+        bearGame.AddSpriteToPane(bearGame.getDisplay().getSpriteToAdd());
+        bearGame.getDisplay().resetSpriteToAdd();
         bearGame.getDisplay().getRockDisplayed().stream().forEach(this::handleRock);
         bearGame.getDisplay().addToRemovedRocks(bearGame.getDisplay().getRockAddToRemove().stream().toArray(Rock[]::new));
         bearGame.getDisplay().resetRemovedRocks();
         bearGame.getDisplay().addDisplayed_Rock(bearGame.getDisplay().getRockToAdd().stream().toArray(Rock[]::new));
         bearGame.getDisplay().resetRockToAdd();
+        bearGame.AddSpriteToPane(bearGame.getDisplay().getSpriteRockToAdd());
+        bearGame.getDisplay().resetSpriteRockToAdd();
     }
     
     /** 

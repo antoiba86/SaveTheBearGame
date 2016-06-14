@@ -1,5 +1,7 @@
 package beargame;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -215,8 +217,8 @@ public class BearGame {
      * @param n It is the variable that decide if is a coin or a gem
      */
     public void addNewTreasureNodes(int n) {
-        if (n ==1) paneRoot.getChildren().add(coin.spriteFrame);
-        else paneRoot.getChildren().add(gemstone.spriteFrame);   
+        if (n ==1) display.addToSpriteToAdd(coin.spriteFrame);
+        else display.addToSpriteToAdd(gemstone.spriteFrame);   
     }
     
     /**
@@ -224,7 +226,7 @@ public class BearGame {
      * @param spriteFrame It is the sprite of the object
      */
     public void addNewGameObjectNodes(ImageView spriteFrame) {
-        paneRoot.getChildren().add(spriteFrame);    
+        display.addToSpriteToAdd(spriteFrame);    
     }
     
     /**
@@ -329,6 +331,10 @@ public class BearGame {
      */
     public DisplayObject getDisplay() {
         return display;
+    }
+    
+    public void AddSpriteToPane(List<ImageView> spriteFrame) {
+        paneRoot.getChildren().addAll(spriteFrame);
     }
     
 }

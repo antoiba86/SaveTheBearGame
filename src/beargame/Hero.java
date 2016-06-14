@@ -199,7 +199,7 @@ public class Hero extends ObjectGame {
         if (allow_shoot) {
             Rock rock = new Rock(bearGame, iX+90, iY+36.5, 5,0,rock_image[0],rock_image[1]);
             bearGame.getDisplay().addToRockToAdd(rock);
-            bearGame.getPaneRoot().getChildren().add(rock.spriteFrame);
+            bearGame.getDisplay().addToSpriteRockToAdd(rock.spriteFrame);
             allow_shoot = false;
         }
         
