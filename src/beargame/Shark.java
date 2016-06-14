@@ -110,8 +110,6 @@ public class Shark extends Population{
         }
         else if (move >= 9 && move < 24) {
             spriteFrame.setImage(imageStates.get(move));
-            //bearGame.getPaneRoot().getChildren().remove(this.getSpriteFrame());
-            //bearGame.getDisplay().resetRemovedObjects();
         }
         else {
             if(explosionActive) timeExplosion.stop();

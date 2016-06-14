@@ -311,6 +311,7 @@ public class BearGame {
         Configuration conf = new Configuration();
         Score.loadFromXML();
         boolean maxScore = Score.verifyMaxScore(Slidding.gameScore);
+        Collision.setCollisionAnimation(false);
         playGame.stop();
         paneRoot.getChildren().clear();
         display.resetDisplayed_Object();

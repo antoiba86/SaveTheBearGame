@@ -13,7 +13,7 @@ import javafx.scene.shape.Shape;
  * @author Anto
  */
 public class Collision {
-    
+    static boolean collisionAnimation = false;
     /**
      * Method to detect collisions of the hero object
      * @param object 
@@ -26,7 +26,7 @@ public class Collision {
             Shape intersection = SVGPath.intersect(character.getSpriteBound(), object.getSpriteBound());
             if (intersection.getBoundsInLocal().getWidth() != -1) collisionDetect = true;
         }
-        if(collisionDetect) {
+        if(collisionDetect && !collisionAnimation) {
             Hero iHero = null;
             Rock rock = null;
             boolean notRock = true;
@@ -67,13 +67,16 @@ public class Collision {
             }
             else if (object instanceof Missile) {
                 Missile missile = (Missile)object;
+                bearGame.getDisplay().addObjectToRemove(object);
                 bearGame.getPaneRoot().getChildren().remove(missile.getSpriteFrame());
             }
+            collisionAnimation = true;
             if (hero.getMove() < 3) hero.setMove(3);
             if (Configuration.isSound()) hero.getExplosion().play();
             if (hero.getMove() == 3) hero.setExplosion();
             hero.setvX(0);
             hero.setvY(0);
+            
         }
     }
     
@@ -111,5 +114,15 @@ public class Collision {
             bearGame.getPaneRoot().getChildren().remove(rock.getSpriteFrame());
         }
     }
+
+    public static boolean isCollisionAnimation() {
+        return collisionAnimation;
+    }
+
+    public static void setCollisionAnimation(boolean collisionAnimation) {
+        Collision.collisionAnimation = collisionAnimation;
+    }
+    
+    
     
 }
