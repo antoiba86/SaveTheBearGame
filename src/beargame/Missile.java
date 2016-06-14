@@ -81,11 +81,10 @@ public class Missile extends Population {
      */
     @Override
     public void setImageState() {
-        if (move < 3) {
+        if (move < 4) {
             spriteFrame.setImage(imageStates.get(move));
-            timeline.play();
         }
-        else if (move >= 3 && move < 19) spriteFrame.setImage(imageStates.get(move));
+        else if (move >= 4 && move < 19) spriteFrame.setImage(imageStates.get(move));
         else {
             timeExplosion.stop();
             bearGame.getDisplay().addObjectToRemove(this);

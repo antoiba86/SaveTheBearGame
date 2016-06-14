@@ -41,6 +41,7 @@ public class Shark extends Population{
         this.vY = vY;
         explosion = new AudioClip(this.getClass().getResource("/resources/explosion.mp3").toExternalForm());
         setTime();
+        timeline.play();
     }
     
     /**
@@ -99,11 +100,11 @@ public class Shark extends Population{
      */
     @Override
     public void setImageState() {
-        if (move < 3) {
+        if (move < 4) {
             spriteFrame.setImage(imageStates.get(move));
-            timeline.play();
+            
         }
-        else if (move >= 3 && move < 9) {
+        else if (move >= 4 && move < 9) {
             spriteFrame.setImage(imageStates.get(move));
             if (move == 8) move = 25;
         }
