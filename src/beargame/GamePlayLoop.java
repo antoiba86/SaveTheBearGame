@@ -50,12 +50,12 @@ public class GamePlayLoop extends AnimationTimer {
     public void updateSprites() {
         //spriteManager es DisplayObject
         bearGame.getDisplay().getObjectDisplayed().stream().forEach(this::handleUpdate);
-        bearGame.getDisplay().addToRemovedObjects(bearGame.getDisplay().getObjectRemoved().stream().toArray(ObjectGame[]::new));
-        bearGame.getDisplay().resetRemovedObjects();
+        bearGame.getDisplay().addToRemovedObjects(bearGame.getDisplay().getObjectAddToRemove().stream().toArray(ObjectGame[]::new));
+        bearGame.getDisplay().resetObjectAddToRemove();
         bearGame.getDisplay().addDisplayed_Object(bearGame.getDisplay().getObjectToAdd().stream().toArray(ObjectGame[]::new));
         bearGame.getDisplay().resetObjectToAdd();
         bearGame.getDisplay().getRockDisplayed().stream().forEach(this::handleRock);
-        bearGame.getDisplay().addToRemovedRocks(bearGame.getDisplay().getRocksRemoved().stream().toArray(Rock[]::new));
+        bearGame.getDisplay().addToRemovedRocks(bearGame.getDisplay().getRockAddToRemove().stream().toArray(Rock[]::new));
         bearGame.getDisplay().resetRemovedRocks();
         bearGame.getDisplay().addDisplayed_Rock(bearGame.getDisplay().getRockToAdd().stream().toArray(Rock[]::new));
         bearGame.getDisplay().resetRockToAdd();

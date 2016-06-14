@@ -45,9 +45,8 @@ public class Collision {
     
     public static void collisionHero (ObjectGame object, Hero hero, BearGame bearGame) {
         if (object instanceof Coin || object instanceof Gemstone) {
-            bearGame.getDisplay().addToRemovedObjects(object);
+            bearGame.getDisplay().addObjectToRemove(object);
             bearGame.getPaneRoot().getChildren().remove(object.getSpriteFrame());
-            bearGame.getDisplay().resetRemovedObjects();
             if (object instanceof Gemstone) {
                 Gemstone gem = (Gemstone)object;
                 if (Configuration.isSound()) gem.musicCoin();
@@ -70,9 +69,8 @@ public class Collision {
             }
             else if (object instanceof Missile) {
                 Missile missile = (Missile)object;
-                bearGame.getDisplay().addToRemovedObjects(missile);
+                bearGame.getDisplay().addObjectToRemove(missile);
                 bearGame.getPaneRoot().getChildren().remove(missile.getSpriteFrame());
-                bearGame.getDisplay().resetRemovedObjects();
             }
             if (hero.getMove() < 3) {
                 hero.setMove(3);
@@ -91,9 +89,8 @@ public class Collision {
         else {
             if (object instanceof Shark) {
                 Shark shark = (Shark)object;
-                if (shark.getMove() < 4) {
-                    shark.setMove(10);
-                    bearGame.getDisplay().addToRemovedObjects(shark);
+                if (shark.getMove() < 3) {
+                    shark.setMove(9);
                     if (Configuration.isSound()) shark.getExplosion().play();
                     shark.setExplosion();
                     shark.setvX(0);
@@ -102,23 +99,25 @@ public class Collision {
             }
             else if (object instanceof Missile) {
                 Missile missile = (Missile)object;
-                missile.setMove(3);
-                bearGame.getDisplay().addToRemovedObjects(missile);
-                if (Configuration.isSound()) missile.getExplosion().play();
-                missile.setExplosion();
-                missile.setvX(0);
-                missile.setvY(0);
+                if (missile.getMove() < 3) {
+                    missile.setMove(3);
+                    if (Configuration.isSound()) missile.getExplosion().play();
+                    missile.setExplosion();
+                    missile.setvX(0);
+                    missile.setvY(0);
+                }
             }
             else if (object instanceof PirateBoat) {
                 PirateBoat pirateBoat = (PirateBoat)object;
-                pirateBoat.setMove(3);
-                bearGame.getDisplay().addToRemovedObjects(pirateBoat);
-                if (Configuration.isSound()) pirateBoat.getExplosion().play();
-                pirateBoat.setExplosion();
-                pirateBoat.setvX(0);
-                pirateBoat.setvY(0);
+                if (pirateBoat.getMove() < 3) {
+                    pirateBoat.setMove(3);
+                    if (Configuration.isSound()) pirateBoat.getExplosion().play();
+                    pirateBoat.setExplosion();
+                    pirateBoat.setvX(0);
+                    pirateBoat.setvY(0);
+                }
             }
-            bearGame.getDisplay().addToRemovedRocks(rock);
+            bearGame.getDisplay().addRockToRemove(rock);
             bearGame.getPaneRoot().getChildren().remove(rock.getSpriteFrame());
         }
     }

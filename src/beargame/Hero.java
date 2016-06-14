@@ -7,8 +7,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
-import javafx.scene.shape.SVGPath;
-import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 
 /**
@@ -139,7 +137,7 @@ public class Hero extends ObjectGame {
             timeExplosion.stop();
             bearGame.getDisplay().addToRemovedObjects(BearGame.iHero);
             bearGame.getPaneRoot().getChildren().remove(BearGame.iHero.getSpriteFrame());
-            bearGame.getDisplay().resetRemovedObjects();
+            //bearGame.getDisplay().resetRemovedObjects();
             bearGame.bearAlive();
         }
     }

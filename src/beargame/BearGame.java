@@ -312,8 +312,6 @@ public class BearGame {
         playGame.stop();
         paneRoot.getChildren().clear();
         display.resetDisplayed_Object();
-        display.resetRemovedObjects();
-        display.resetCollideCheckList();
         gameMusicPlayer.stop();
         timeline.stop();
         primary.close();

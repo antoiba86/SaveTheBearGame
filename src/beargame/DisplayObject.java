@@ -12,9 +12,8 @@ import java.util.Set;
  */
 public class DisplayObject {
     
-    private List<ObjectGame> objectDisplayed, rockDisplayed, objectToAdd, rockToAdd ;
-    private List<ObjectGame> COLLIDE_CHECKLIST, COLLIDE_ROCKS;
-    private Set<ObjectGame> objectRemoved, rocksRemoved;
+    private List<ObjectGame> objectDisplayed, rockDisplayed, objectToAdd, rockToAdd, objectAddToRemove, rockAddToRemove ;
+    private Set<ObjectGame> objectRemoved, rocksRemoved ;
     
     /**
      * Method to create the objects arrayList
@@ -22,12 +21,12 @@ public class DisplayObject {
     public DisplayObject() {
         this.objectDisplayed = new ArrayList<>();
         this.objectToAdd = new ArrayList<>();
-        this.COLLIDE_CHECKLIST = new ArrayList<>();
         this.objectRemoved = new HashSet<>();
+        this.objectAddToRemove = new ArrayList<>();
         this.rockDisplayed = new ArrayList<>();
         this.rockToAdd = new ArrayList<>();
-        this.COLLIDE_ROCKS = new ArrayList<>();
         this.rocksRemoved = new HashSet<>();
+        this.rockAddToRemove = new ArrayList<>();
     }
     
     /**
@@ -76,7 +75,14 @@ public class DisplayObject {
      */
     public void removeDisplayed_Object(ObjectGame... objectGames) {
         objectDisplayed.removeAll( Arrays.asList(objectGames) );
-        
+    }
+    
+    /**
+     * Method to remove an object from the game
+     * @param objectGames It is the object to remove
+     */
+    public void addObjectToRemove(ObjectGame... objectGames) {
+        objectAddToRemove.addAll(Arrays.asList(objectGames) );
     }
     
     /**
@@ -85,6 +91,14 @@ public class DisplayObject {
      */
     public void removeDisplayed_Rocks(Rock... rock) {
         rockDisplayed.removeAll( Arrays.asList(rock) );
+    }
+    
+    /**
+     * Method to remove an object from the game
+     * @param rocks It is the object to remove
+     */
+    public void addRockToRemove(Rock... rocks) {
+        rockAddToRemove.addAll(Arrays.asList(rocks) );
     }
     
     /**
@@ -101,37 +115,7 @@ public class DisplayObject {
         rockDisplayed.clear();
     }
     
-    /**
-     * Method to return the collision state
-     * @return The variable of the collision check
-     */
-    public List getCollideCheckList() {
-        return COLLIDE_CHECKLIST;
-    }
-    
-    /**
-     * Method to return the collision state
-     * @return The variable of the collision check
-     */
-    public List getCollideRock() {
-        return COLLIDE_ROCKS;
-    }
-    
-    /**
-     * Method to reset the collision array
-     */
-    public void resetCollideCheckList() {
-        COLLIDE_CHECKLIST.clear();
-        COLLIDE_CHECKLIST.addAll(objectDisplayed);
-    }
-    
-    /**
-     * Method to reset the collision array
-     */
-    public void resetCollideRock() {
-        COLLIDE_ROCKS.clear();
-        COLLIDE_ROCKS.addAll(rockDisplayed);
-    }
+
     
     /**
      * Method to add the objects to remove from the game
@@ -155,33 +139,15 @@ public class DisplayObject {
     /**
      * Method to reset the object removed
      */
-    public void resetRemovedObjects() {
-        objectDisplayed.removeAll(objectRemoved);
-        objectRemoved.clear();
+    public void resetObjectAddToRemove() {
+        objectAddToRemove.clear();
     }
 
     /**
      * Method to reset the object removed
      */
     public void resetRemovedRocks() {
-        rockDisplayed.removeAll(rocksRemoved);
-        rocksRemoved.clear();
-    }
-    
-    /**
-     * Method to get the object whit who you can collide
-     * @return 
-     */
-    public List<ObjectGame> getCOLLIDE_CHECKLIST() {
-        return COLLIDE_CHECKLIST;
-    }
-
-    /**
-     * Method to set the Collision checklist
-     * @param COLLIDE_CHECKLIST 
-     */
-    public void setCOLLIDE_CHECKLIST(List<ObjectGame> COLLIDE_CHECKLIST) {
-        this.COLLIDE_CHECKLIST = COLLIDE_CHECKLIST;
+        rockAddToRemove.clear();
     }
 
     /**
@@ -212,13 +178,6 @@ public class DisplayObject {
         this.rockDisplayed = rockDisplayed;
     }
 
-    public List<ObjectGame> getCOLLIDE_ROCKS() {
-        return COLLIDE_ROCKS;
-    }
-
-    public void setCOLLIDE_ROCKS(List<ObjectGame> COLLIDE_ROCKS) {
-        this.COLLIDE_ROCKS = COLLIDE_ROCKS;
-    }
 
     public Set<ObjectGame> getRocksRemoved() {
         return rocksRemoved;
@@ -235,7 +194,16 @@ public class DisplayObject {
     void resetRockToAdd() {
         rockToAdd.clear();
     }
+
+    public List<ObjectGame> getObjectAddToRemove() {
+        return objectAddToRemove;
+    }
+
+    public List<ObjectGame> getRockAddToRemove() {
+        return rockAddToRemove;
+    }
         
+    
     
     
     

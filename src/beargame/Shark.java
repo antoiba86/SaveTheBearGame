@@ -17,6 +17,8 @@ public class Shark extends Population{
     private Timeline timeJaws;
     Timeline timeExplosion;
     private AudioClip explosion;
+    private boolean jawsActive = false;
+    private boolean explosionActive = false;
     
     /**
      * Empty constructor of the object
@@ -46,6 +48,7 @@ public class Shark extends Population{
      */
     public void setJaws() {
         timeline.stop();
+        jawsActive = true;
         timeJaws = new Timeline(new KeyFrame(
         Duration.millis(150), new EventHandler<ActionEvent>() {
             @Override
@@ -72,6 +75,7 @@ public class Shark extends Population{
      */
     public void setExplosion() {
         timeline.stop();
+        explosionActive = true;
         timeExplosion = new Timeline(new KeyFrame(
         Duration.millis(200), new EventHandler<ActionEvent>() {
             @Override
@@ -87,7 +91,7 @@ public class Shark extends Population{
      * Method to change the object's image
      */
     public void explosion() {
-        if (move < 25) move++;
+        if (move < 24) move++;
     }
     
     /**
@@ -102,18 +106,16 @@ public class Shark extends Population{
         else if (move >= 3 && move < 9) {
             spriteFrame.setImage(imageStates.get(move));
             if (move == 8) move = 25;
-            
-            
         }
-        else if (move >= 9 && move < 25) {
+        else if (move >= 9 && move < 24) {
             spriteFrame.setImage(imageStates.get(move));
-            bearGame.getPaneRoot().getChildren().remove(this.getSpriteFrame());
-            bearGame.getDisplay().resetRemovedObjects();
+            //bearGame.getPaneRoot().getChildren().remove(this.getSpriteFrame());
+            //bearGame.getDisplay().resetRemovedObjects();
         }
         else {
-            timeExplosion.stop();
-            timeJaws.stop();
-            bearGame.getDisplay().addToRemovedObjects(this);
+            if(explosionActive) timeExplosion.stop();
+            if (jawsActive) timeJaws.stop();
+            bearGame.getDisplay().addObjectToRemove(this);
             bearGame.getPaneRoot().getChildren().remove(this.getSpriteFrame());
         }
     }
