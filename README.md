@@ -35,7 +35,7 @@ Eres nuestra última esperanza.
     </tr>
     <tr>
       <td>ESPACIO</td>
-      <td>El oso dispara</td>
+      <td>El oso dispara una roca</td>
     </tr>
   </tbody>
 </table>
