@@ -87,7 +87,6 @@ public class Missile extends Population {
         else if (move >= 4 && move < 19) spriteFrame.setImage(imageStates.get(move));
         else {
             timeExplosion.stop();
-            bearGame.getDisplay().addObjectToRemove(this);
             bearGame.getPaneRoot().getChildren().remove(this.getSpriteFrame());
            // bearGame.getDisplay().resetRemovedObjects();
         }

@@ -63,7 +63,8 @@ public class Collision {
                 Shark shark = (Shark)object;
                 if (shark.getMove() < 3) shark.setMove(3);
                 if (Configuration.isSound()) shark.soundShark();
-                    shark.setJaws();
+                bearGame.getDisplay().addObjectToRemove(shark);
+                shark.setJaws();
             }
             else if (object instanceof Missile) {
                 Missile missile = (Missile)object;
@@ -72,9 +73,10 @@ public class Collision {
             }
             if (hero.getMove() < 3) hero.setMove(3);
             if (Configuration.isSound()) hero.getExplosion().play();
-                hero.setExplosion();
-                hero.setvX(0);
-                hero.setvY(0);
+            bearGame.getDisplay().addToRemovedObjects(hero);
+            hero.setExplosion();
+            hero.setvX(0);
+            hero.setvY(0);
         }
     }
     
@@ -87,25 +89,31 @@ public class Collision {
                 Shark shark = (Shark)object;
                 if (shark.getMove() < 4) shark.setMove(9);
                 if (Configuration.isSound()) shark.getExplosion().play();
-                    shark.setExplosion();
-                    shark.setvX(0);
-                    shark.setvY(0);
+                bearGame.getDisplay().addObjectToRemove(shark);
+                shark.setExplosion();
+                shark.setvX(0);
+                shark.setvY(0);
+                Slidding.gameScore += 20;
             }
             else if (object instanceof Missile) {
                 Missile missile = (Missile)object;
                 if (missile.getMove() < 4) missile.setMove(4);
                 if (Configuration.isSound()) missile.getExplosion().play();
-                    missile.setExplosion();
-                    missile.setvX(0);
-                    missile.setvY(0);
+                bearGame.getDisplay().addObjectToRemove(missile);
+                missile.setExplosion();
+                missile.setvX(0);
+                missile.setvY(0);
+                Slidding.gameScore += 100;
             }
             else if (object instanceof PirateBoat) {
                 PirateBoat pirateBoat = (PirateBoat)object;
                 if (pirateBoat.getMove() < 3) pirateBoat.setMove(3);
                 if (Configuration.isSound()) pirateBoat.getExplosion().play();
+                bearGame.getDisplay().addObjectToRemove(pirateBoat);
                 pirateBoat.setExplosion();
                 pirateBoat.setvX(0);
                 pirateBoat.setvY(0);
+                Slidding.gameScore += 10;
                 
             }
             bearGame.getDisplay().addRockToRemove(rock);
