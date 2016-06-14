@@ -5,7 +5,7 @@ Save the Bear es un juego típico en donde tienes que esquivar enemigos consigui
 <img src="https://github.com/antoiba86/SaveTheBearGame/blob/master/src/img/fondoinstrucciones.png" width="450">
 
 #Como jugar
-El objetivo es que tu oso sobreviva el máximo de tiempo posible pues es la única esperanza para salva a todos los compañeros oseznos y oseznas polares y eres tú el encargado de que eso suceda.
+El objetivo es que tu oso sobreviva el máximo de tiempo posible pues es la única esperanza para salva a todos los compañeros oseznos y oseznas polares y eres tú el encargado de que eso suceda. Debes de esquivar sus enemigos además de poder disparar rocas cuando no te quede más remedio. Pero ten cuidado con las explosiones, ¡que queman!
 No dejes que el último hielo se derrita y que los malvados humanos vean cumplidas sus promesas de aniquilación de la raza osezna polar.
 Eres nuestra última esperanza.
 
@@ -32,6 +32,10 @@ Eres nuestra última esperanza.
     <tr>
       <td>FLECHA DERECHA</td>
       <td>Mueve al oso hacia la derecha</td>
+    </tr>
+    <tr>
+      <td>ESPACIO</td>
+      <td>El oso dispara</td>
     </tr>
   </tbody>
 </table>
