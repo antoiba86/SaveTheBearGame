@@ -114,7 +114,10 @@ public class Population extends ObjectGame {
      * Method to set the boundaries of the object
      */
     public void setBoundaries() {  
-        if (iX <= LEFTBOUNDARY-50) bearGame.getPaneRoot().getChildren().remove(this.getSpriteFrame()); 
+        if (iX <= LEFTBOUNDARY-50) {
+            bearGame.getDisplay().addObjectToRemove(this);
+            bearGame.getPaneRoot().getChildren().remove(this.getSpriteFrame());
+        } 
         //Cuando choca contra el "suelo" el barco sigue para arriba
         if (iY >= BOTTOMBOUNDARY) vY=-vY; 
         //Cuando choca contra el "techo" el barcho va para abajo

@@ -77,7 +77,10 @@ public class Plane extends Population{
      */
     @Override
     public void setBoundaries() {  
-        if (iX <= LEFTBOUNDARY-50) bearGame.getPaneRoot().getChildren().remove(this.getSpriteFrame());
+        if (iX <= LEFTBOUNDARY-50) {
+            bearGame.getDisplay().addObjectToRemove(this);
+            bearGame.getPaneRoot().getChildren().remove(this.getSpriteFrame());
+        }
     }
     
     /**
