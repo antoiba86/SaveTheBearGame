@@ -6,6 +6,7 @@
 package beargame;
 
 import javafx.scene.image.Image;
+import javafx.scene.media.AudioClip;
 
 /**
  *
@@ -72,5 +73,13 @@ public class Rock extends Population{
     public void changeImage() {
         if (move == 0) move = 1;
         else move = 0;
+    }
+    
+    /**
+     * Method to get the object sound when there is a collision
+     */
+    public void rockSound() {
+        AudioClip soundCoin = new AudioClip(this.getClass().getResource("/resources/Sound/rockthrown.mp3").toExternalForm());
+        soundCoin.play();
     }
 }

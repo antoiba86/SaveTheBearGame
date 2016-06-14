@@ -8,12 +8,12 @@ and open the template in the editor.
     Author     : Anto
 */
 #gameover {
-     -fx-background-image: url("/img/gameoverexplo.png");
+     -fx-background-image: url("../img/gameoverexplo.png");
      -fx-background-repeat: no-repeat;
 }
 
 #trophy {
-    -fx-background-image: url("/img/gameoverfirst.png");
+    -fx-background-image: url("../img/gameoverfirst.png");
      -fx-background-repeat: no-repeat;
 }
 

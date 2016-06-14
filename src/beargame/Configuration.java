@@ -1,7 +1,6 @@
 package beargame;
 
 import java.util.ArrayList;
-import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -11,7 +10,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
@@ -61,7 +59,7 @@ public class Configuration {
         conf.getChildren().addAll(title,buttonSound, buttonMenu);
         conf.setAlignment(Pos.CENTER);
         configuration = new Scene(conf, Menu.WIDTH_PIXELS, Menu.HEIGHT_PIXELS);
-        configuration.getStylesheets().add(BearGame.class.getResource("/css/Menu.css").toExternalForm());
+        configuration.getStylesheets().add(BearGame.class.getResource("/resources/css/Menu.css").toExternalForm());
         window.setScene(configuration);
         window.show();
         return configuration;
@@ -100,9 +98,9 @@ public class Configuration {
         instr2.setPrefWidth(300);
         instr2.setSpacing(10);
         instr2.setPadding(new Insets(0, 20, 10, 20));
-        Image coin = new Image("resources/moneda1.png", 20,15,true,false,true);
-        Image gem = new Image("resources/gema1.png", 20,20,true,false,true);
-        Image flechas = new Image("resources/flechas.png", 100,63,true,false,true);
+        Image coin = new Image("resources/img/moneda1.png", 20,15,true,false,true);
+        Image gem = new Image("resources/img/gema1.png", 20,20,true,false,true);
+        Image flechas = new Image("resources/img/flechas.png", 100,63,true,false,true);
         ImageView photo1 = new ImageView();
         ImageView photo2 = new ImageView();
         ImageView flechaView = new ImageView();
@@ -131,7 +129,7 @@ public class Configuration {
         newBox.getChildren().addAll(panel, buttonMenu);
         pane.getChildren().addAll(newBox);
         instructions = new Scene(pane, Menu.WIDTH_PIXELS, Menu.HEIGHT_PIXELS);
-        instructions.getStylesheets().add(BearGame.class.getResource("/css/instructions.css").toExternalForm());
+        instructions.getStylesheets().add(BearGame.class.getResource("/resources/css/instructions.css").toExternalForm());
         window.setScene(instructions);
         window.show();
         return instructions;
@@ -157,7 +155,7 @@ public class Configuration {
         buttonExit.setOnAction((ActionEvent e) -> {
             System.exit(0);
         });
-        AudioClip soundOver = new AudioClip(this.getClass().getResource("/resources/gameOver.mp3").toExternalForm());
+        AudioClip soundOver = new AudioClip(this.getClass().getResource("/resources/Sound/gameOver.mp3").toExternalForm());
         if (isSound()) soundOver.play();;
         VBox conf = new VBox(20);
         VBox moveButtons = new VBox(100);
@@ -223,7 +221,7 @@ public class Configuration {
             moveButtons.setVisible(false);
         }
         gameOver = new Scene(conf, Menu.WIDTH_PIXELS, Menu.HEIGHT_PIXELS);
-        gameOver.getStylesheets().add(BearGame.class.getResource("/css/GameOver.css").toExternalForm());
+        gameOver.getStylesheets().add(BearGame.class.getResource("/resources/css/GameOver.css").toExternalForm());
         if(!score) conf.setId("gameover");
         else conf.setId("trophy");
         congratLabel.setId("congrat");
@@ -243,10 +241,13 @@ public class Configuration {
         listWinner.setVgap(12);
         listWinner.add(new Label("NOMBRE"), 0, 0);
         listWinner.add(new Label("PUNTUACIÓN"), 1, 0);
-        for (int i = 0; i < puntos.size();i++) {
-            String[] point = puntos.get(i).split("\\."); 
-            listWinner.add(new Label(autores.get(i)), 0,i+1);
-            listWinner.add(new Label(point[0]), 1,i+1);
+        if (Score.getListScores().isEmpty()) listWinner.add(new Label("NO HAY PUNTUACIÓN"), 0,1);
+        else  {
+            for (int i = 0; i < puntos.size();i++) {
+                String[] point = puntos.get(i).split("\\."); 
+                listWinner.add(new Label(autores.get(i)), 0,i+1);
+                listWinner.add(new Label(point[0]), 1,i+1);
+            }
         }
         Button buttonMenu = new Button("Exit");
         buttonMenu.setMaxWidth(150);
@@ -264,7 +265,7 @@ public class Configuration {
         StackPane pane = new StackPane();
         pane.getChildren().add(newBox);
         listScore = new Scene(pane, Menu.WIDTH_PIXELS, Menu.HEIGHT_PIXELS);
-        listScore.getStylesheets().add(BearGame.class.getResource("/css/puntuacion.css").toExternalForm());
+        listScore.getStylesheets().add(BearGame.class.getResource("/resources/css/puntuacion.css").toExternalForm());
         return listScore;
         
     }

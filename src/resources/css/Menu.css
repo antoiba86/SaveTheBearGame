@@ -4,30 +4,20 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 */
 /* 
-    Created on : 25-may-2016, 12:42:08
+    Created on : 11-may-2016, 14:01:45
     Author     : DAW13
 */
-
 .root {
-     -fx-background-image: url("/img/fondoinstrucciones.png");
+     -fx-background-image: url("../img/savethebear2.jpg");
      -fx-background-repeat: no-repeat;
 }
 
 .label {
     -fx-font-size: 20px;
     -fx-font-weight: bold;
-    -fx-text-fill: #f8f8ff;
+    -fx-text-fill: #333333;
     -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
-    -fx-opacity: 1;
 }
-
-.text {
-    -fx-font-size: 20px;
-    -fx-font-weight: bold;
-    -fx-text-fill: white;
-    
-}
-
 .button {
     -fx-text-fill: white;
     -fx-font-size: 15px;
@@ -41,7 +31,8 @@ and open the template in the editor.
     -fx-background-color: linear-gradient(#2A5058, #61a2b1);
 }
 
-#caja {
-    -fx-background-color: rgba(0,0,0, 0.5);
-    
+#title {
+    -fx-text-fill: #00bfff;
+    -fx-font-size: 50px;
 }
+

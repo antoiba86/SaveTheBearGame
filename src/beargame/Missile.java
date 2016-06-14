@@ -42,7 +42,7 @@ public class Missile extends Population {
         this.vY = vY;
         setTime();
         timeline.play();
-        explosion = new AudioClip(this.getClass().getResource("/resources/explosion.mp3").toExternalForm());
+        explosion = new AudioClip(this.getClass().getResource("/resources/Sound/explosion.mp3").toExternalForm());
     }
     
     /**

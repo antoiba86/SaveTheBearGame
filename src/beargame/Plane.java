@@ -85,10 +85,10 @@ public class Plane extends Population{
      */
     private void imageMissile() {
         for (int i = 0; i < missile_image.length;i++) {
-            missile_image[i] = new Image("resources/missile" + (i+1) + ".png", 13,40,true,false,true);
+            missile_image[i] = new Image("resources/img/missile" + (i+1) + ".png", 13,40,true,false,true);
         }
         for (int i=0; i< explosion.length;i++) {
-            explosion[i] = new Image("resources/explosion" + (i+1) + ".png", 120,73,true,false,true);
+            explosion[i] = new Image("resources/img/explosion" + (i+1) + ".png", 120,73,true,false,true);
         }
     }
     

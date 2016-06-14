@@ -31,7 +31,7 @@ public class Menu extends Application {
         Label titleGame = new Label(" Save the Bear! \n"
                 + "Save the World!");
         titleGame.setId("title");
-        primaryStage.getIcons().add(new Image("resources/oso1.png"));
+        primaryStage.getIcons().add(new Image("resources/img/oso1.png"));
         Button buttonPlay = new Button("Play");
         buttonPlay.setOnAction((ActionEvent e) -> {
             Stage stage = new Stage();
@@ -76,7 +76,7 @@ public class Menu extends Application {
         menuIni.getChildren().addAll(titleGame,buttonPlay,buttonConf, buttonIntr, buttonScore, buttonExit, copyrigth);
         menuIni.setAlignment(Pos.CENTER);
         scene = new Scene(menuIni, WIDTH_PIXELS, HEIGHT_PIXELS, Color.WHITE);
-        scene.getStylesheets().add(BearGame.class.getResource("/css/Menu.css").toExternalForm());
+        scene.getStylesheets().add(BearGame.class.getResource("/resources/css/Menu.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
     }

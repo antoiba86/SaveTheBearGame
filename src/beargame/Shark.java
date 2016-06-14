@@ -39,7 +39,7 @@ public class Shark extends Population{
         super(object, "M 88,21 L 88,21 56,40 42,50 27,58 28,72 44,72 61,62 66,58 75,52 78,49 85,31 Z", xLocation, yLocation, spriteCels);
         this.vX = vX;
         this.vY = vY;
-        explosion = new AudioClip(this.getClass().getResource("/resources/explosion.mp3").toExternalForm());
+        explosion = new AudioClip(this.getClass().getResource("/resources/Sound/explosion.mp3").toExternalForm());
         setTime();
         timeline.play();
     }
@@ -125,7 +125,7 @@ public class Shark extends Population{
      * Method to get the object sound when there is a collision
      */
     public void soundShark() {
-        AudioClip soundShark = new AudioClip(this.getClass().getResource("/resources/shark.mp3").toExternalForm());
+        AudioClip soundShark = new AudioClip(this.getClass().getResource("/resources/Sound/shark.mp3").toExternalForm());
         soundShark.setVolume(1.0);
         soundShark.play();
     }

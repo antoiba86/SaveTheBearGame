@@ -63,7 +63,7 @@ public class Collision {
                 Shark shark = (Shark)object;
                 if (shark.getMove() < 3) shark.setMove(3);
                 if (Configuration.isSound()) shark.soundShark();
-                shark.setJaws();
+                if (shark.getMove() == 3 ) shark.setJaws();
             }
             else if (object instanceof Missile) {
                 Missile missile = (Missile)object;
@@ -71,17 +71,14 @@ public class Collision {
             }
             if (hero.getMove() < 3) hero.setMove(3);
             if (Configuration.isSound()) hero.getExplosion().play();
-            hero.setExplosion();
+            if (hero.getMove() == 3) hero.setExplosion();
             hero.setvX(0);
             hero.setvY(0);
         }
     }
     
     public static void collisionRock (ObjectGame object, Rock rock, BearGame bearGame) {
-        if (object instanceof Gemstone || object instanceof Coin) {
-            
-        }
-        else {
+        if (object instanceof Shark || object instanceof PirateBoat || object instanceof Missile) {
             if (object instanceof Shark) {
                 Shark shark = (Shark)object;
                 if (shark.getMove() < 4) shark.setMove(9);

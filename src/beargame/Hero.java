@@ -44,8 +44,9 @@ public class Hero extends ObjectGame {
         super(SVGdata, xLocation, yLocation, spriteCels);
         vX = vY =2;
         bearGame = bearHero;
-        explosion = new AudioClip(this.getClass().getResource("/resources/explosion.mp3").toExternalForm());
+        explosion = new AudioClip(this.getClass().getResource("/resources/Sound/explosion.mp3").toExternalForm());
         setTime();
+        timeline.play();
         setShoot();
         imageRock();
     }
@@ -128,16 +129,12 @@ public class Hero extends ObjectGame {
      * Method to change the object's image in the game
      */
     private void setImageState() {
-        if (move < 3) {
-            spriteFrame.setImage(imageStates.get(move));
-            timeline.play();
-        }
+        if (move < 3) spriteFrame.setImage(imageStates.get(move));
         else if (move >= 3 && move < 19) spriteFrame.setImage(imageStates.get(move));
         else {
             timeExplosion.stop();
             bearGame.getDisplay().addToRemovedObjects(BearGame.iHero);
             bearGame.getPaneRoot().getChildren().remove(BearGame.iHero.getSpriteFrame());
-            //bearGame.getDisplay().resetRemovedObjects();
             bearGame.bearAlive();
         }
     }
@@ -187,7 +184,7 @@ public class Hero extends ObjectGame {
     
     private void imageRock() {
         for (int i = 0; i < rock_image.length;i++) {
-            rock_image[i] = new Image("img/roca" + (i+1) + ".png", 30,28,true,false,true);
+            rock_image[i] = new Image("resources/img/roca" + (i+1) + ".png", 30,28,true,false,true);
         }
     }
     
@@ -198,12 +195,11 @@ public class Hero extends ObjectGame {
         timeShoot.play();
         if (allow_shoot) {
             Rock rock = new Rock(bearGame, iX+90, iY+36.5, 5,0,rock_image[0],rock_image[1]);
+            rock.rockSound();
             bearGame.getDisplay().addToRockToAdd(rock);
             bearGame.getDisplay().addToSpriteRockToAdd(rock.spriteFrame);
             allow_shoot = false;
         }
-        
-        
     }
     
     /**

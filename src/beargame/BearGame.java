@@ -46,7 +46,7 @@ public class BearGame {
     private final Random random = new Random();
     private final DisplayObject display = new DisplayObject();
     GamePlayLoop playGame;
-    private static final String GAME_MUSIC_PATH = "/resources/sound_track.mp3";
+    private static final String GAME_MUSIC_PATH = "/resources/Sound/sound_track.mp3";
     public static MediaPlayer gameMusicPlayer; //Si no esta declarado aquí el, recolector de basura de Java lo detiene en diez segundos.
     
     /**
@@ -62,7 +62,7 @@ public class BearGame {
         this.primary = primary;
         paneRoot = new Pane();
         paneRoot.setId("paneRoot");
-        paneRoot.getStylesheets().add(BearGame.class.getResource("/css/Fondo.css").toExternalForm());
+        paneRoot.getStylesheets().add(BearGame.class.getResource("/resources/css/Fondo.css").toExternalForm());
         Slidding sky = new Slidding();
         skyLine = sky.sky();
         if (Configuration.isSound()) playMusic();
@@ -82,25 +82,25 @@ public class BearGame {
      */
     public void loadImageAssets() {
         for (int i=0; i < polarBear.length; i++) {
-            polarBear[i] = new Image("resources/osohieloagua" + (i+1) + ".png", 120,73, true, false, true );
+            polarBear[i] = new Image("resources/img/osohieloagua" + (i+1) + ".png", 120,73, true, false, true );
         }
         for (int i=0; i< explosion.length;i++) {
-            explosion[i] = new Image("resources/explosion" + (i+1) + ".png", 120,73,true,false,true);
+            explosion[i] = new Image("resources/img/explosion" + (i+1) + ".png", 120,73,true,false,true);
         }
         for (int i=0; i< pirate_boat.length;i++) {
-            pirate_boat[i] = new Image("resources/barcoestela" + (i+1) + ".png", 150,122,true,false,true);
+            pirate_boat[i] = new Image("resources/img/barcoestela" + (i+1) + ".png", 150,122,true,false,true);
         }
         for (int i=0; i < coin_image.length;i++) {
-            coin_image[i] = new Image("resources/moneda" + (i+1) + ".png", 40,39,true,false,true);
+            coin_image[i] = new Image("resources/img/moneda" + (i+1) + ".png", 40,39,true,false,true);
         }
         for (int i = 0; i < gem_image.length;i++) {
-            gem_image[i] = new Image("resources/gema" + (i+1) + ".png", 40,40,true,false,true);
+            gem_image[i] = new Image("resources/img/gema" + (i+1) + ".png", 40,40,true,false,true);
         }
         for (int i = 0; i < shark_image.length;i++) {
-            shark_image[i] = new Image("resources/tiburon" + (i+1) + ".png",140,86,true,false,true);
+            shark_image[i] = new Image("resources/img/tiburon" + (i+1) + ".png",140,86,true,false,true);
         }
         for (int i = 0; i < plane_image.length;i++) {
-            plane_image[i] = new Image("resources/plane" + (i+1) + ".png", 83,64,true,false,true);
+            plane_image[i] = new Image("resources/img/plane" + (i+1) + ".png", 83,64,true,false,true);
         }
     }
     

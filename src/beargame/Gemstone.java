@@ -90,7 +90,7 @@ public class Gemstone extends Population{
      * Method to get the object sound when there is a collision
      */
     public void musicCoin() {
-        AudioClip soundCoin = new AudioClip(this.getClass().getResource("/resources/coin.mp3").toExternalForm());
+        AudioClip soundCoin = new AudioClip(this.getClass().getResource("/resources/Sound/coin.mp3").toExternalForm());
         soundCoin.play();
     }
 }
