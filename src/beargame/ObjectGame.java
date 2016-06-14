@@ -36,6 +36,8 @@ public abstract class ObjectGame {
         spriteBound = new SVGPath();
         spriteBound.setContent(SVGdata);
         spriteFrame = new ImageView(spriteCels[0]);
+        spriteFrame.setTranslateX(xLocation);
+        spriteFrame.setTranslateY(yLocation);
         imageStates.addAll(Arrays.asList(spriteCels));
         iX = xLocation;
         iY = yLocation;
