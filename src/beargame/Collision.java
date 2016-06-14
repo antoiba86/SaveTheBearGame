@@ -63,17 +63,14 @@ public class Collision {
                 Shark shark = (Shark)object;
                 if (shark.getMove() < 3) shark.setMove(3);
                 if (Configuration.isSound()) shark.soundShark();
-                bearGame.getDisplay().addObjectToRemove(shark);
                 shark.setJaws();
             }
             else if (object instanceof Missile) {
                 Missile missile = (Missile)object;
-                bearGame.getDisplay().addObjectToRemove(missile);
                 bearGame.getPaneRoot().getChildren().remove(missile.getSpriteFrame());
             }
             if (hero.getMove() < 3) hero.setMove(3);
             if (Configuration.isSound()) hero.getExplosion().play();
-            bearGame.getDisplay().addToRemovedObjects(hero);
             hero.setExplosion();
             hero.setvX(0);
             hero.setvY(0);
@@ -89,7 +86,6 @@ public class Collision {
                 Shark shark = (Shark)object;
                 if (shark.getMove() < 4) shark.setMove(9);
                 if (Configuration.isSound()) shark.getExplosion().play();
-                bearGame.getDisplay().addObjectToRemove(shark);
                 shark.setExplosion();
                 shark.setvX(0);
                 shark.setvY(0);
@@ -99,7 +95,6 @@ public class Collision {
                 Missile missile = (Missile)object;
                 if (missile.getMove() < 4) missile.setMove(4);
                 if (Configuration.isSound()) missile.getExplosion().play();
-                bearGame.getDisplay().addObjectToRemove(missile);
                 missile.setExplosion();
                 missile.setvX(0);
                 missile.setvY(0);
@@ -109,7 +104,6 @@ public class Collision {
                 PirateBoat pirateBoat = (PirateBoat)object;
                 if (pirateBoat.getMove() < 3) pirateBoat.setMove(3);
                 if (Configuration.isSound()) pirateBoat.getExplosion().play();
-                bearGame.getDisplay().addObjectToRemove(pirateBoat);
                 pirateBoat.setExplosion();
                 pirateBoat.setvX(0);
                 pirateBoat.setvY(0);

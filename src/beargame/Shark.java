@@ -116,6 +116,7 @@ public class Shark extends Population{
         else {
             if(explosionActive) timeExplosion.stop();
             if (jawsActive) timeJaws.stop();
+            bearGame.getDisplay().addObjectToRemove(this);
             bearGame.getPaneRoot().getChildren().remove(this.getSpriteFrame());
         }
     }

@@ -135,6 +135,7 @@ public class Hero extends ObjectGame {
         else if (move >= 3 && move < 19) spriteFrame.setImage(imageStates.get(move));
         else {
             timeExplosion.stop();
+            bearGame.getDisplay().addToRemovedObjects(BearGame.iHero);
             bearGame.getPaneRoot().getChildren().remove(BearGame.iHero.getSpriteFrame());
             //bearGame.getDisplay().resetRemovedObjects();
             bearGame.bearAlive();
