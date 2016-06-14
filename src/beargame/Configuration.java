@@ -85,11 +85,15 @@ public class Configuration {
                 + "Consigue los máximos puntos posibles para ganar a tus competidores y salvar el Mundo Osezno\n"
                 + "Colecciona los monedas para conseguirlo");
         Label instrText2 = new Label();
-        instrText2.setText("Para ello utiliza las teclas siguientes para moverte por el escenario");
+        instrText2.setText("Para ello utiliza las teclas siguientes para moverte por el escenario. \n");
+        Label instrText3 = new Label();
+        instrText3.setText("El espacio sirve para disparar.");
         instrText.setWrapText(true);
         instrText.setPrefWidth(450);
         instrText2.setWrapText(true);
         instrText2.setPrefWidth(450);
+        instrText3.setWrapText(true);
+        instrText3.setPrefWidth(450);
         VBox instr = new VBox(20);
         instr.setPrefWidth(300);
         instr.setSpacing(10);
@@ -100,7 +104,7 @@ public class Configuration {
         instr2.setPadding(new Insets(0, 20, 10, 20));
         Image coin = new Image("resources/img/moneda1.png", 20,15,true,false,true);
         Image gem = new Image("resources/img/gema1.png", 20,20,true,false,true);
-        Image flechas = new Image("resources/img/flechas.png", 100,63,true,false,true);
+        Image flechas = new Image("resources/img/flechas.png", 100,98,true,false,true);
         ImageView photo1 = new ImageView();
         ImageView photo2 = new ImageView();
         ImageView flechaView = new ImageView();
@@ -115,9 +119,9 @@ public class Configuration {
         flechasAlign.getChildren().addAll(flechaView);
         flechasAlign.setAlignment(Pos.CENTER);
         StackPane pane = new StackPane();
-        VBox newBox = new VBox(100);
+        VBox newBox = new VBox(50);
         newBox.setMaxWidth(500);
-        newBox.setMaxHeight(500);
+        newBox.setMaxHeight(600);
         newBox.setAlignment(Pos.CENTER);
         newBox.setId("caja");
         panel.add(instr,0,0);
@@ -125,7 +129,7 @@ public class Configuration {
         panel.add(instr2,0,2);
         panel.getColumnConstraints().add(0, col1);
         instr.getChildren().addAll(title, instrText);
-        instr2.getChildren().addAll(instrText2, flechasAlign);
+        instr2.getChildren().addAll(instrText2, flechasAlign, instrText3);
         newBox.getChildren().addAll(panel, buttonMenu);
         pane.getChildren().addAll(newBox);
         instructions = new Scene(pane, Menu.WIDTH_PIXELS, Menu.HEIGHT_PIXELS);
