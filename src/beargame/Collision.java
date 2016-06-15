@@ -84,30 +84,36 @@ public class Collision {
         if (object instanceof Shark || object instanceof PirateBoat || object instanceof Missile) {
             if (object instanceof Shark) {
                 Shark shark = (Shark)object;
-                if (shark.getMove() < 4) shark.setMove(9);
+                if (shark.getMove() < 4) {
+                    shark.setMove(9);
+                    Slidding.gameScore += 20;
+                }
                 if (Configuration.isSound()) shark.getExplosion().play();
                 shark.setExplosion();
                 shark.setvX(0);
                 shark.setvY(0);
-                Slidding.gameScore += 20;
             }
             else if (object instanceof Missile) {
                 Missile missile = (Missile)object;
-                if (missile.getMove() < 4) missile.setMove(4);
+                if (missile.getMove() < 4) {
+                    missile.setMove(4);
+                    Slidding.gameScore += 100;
+                }
                 if (Configuration.isSound()) missile.getExplosion().play();
                 missile.setExplosion();
                 missile.setvX(0);
                 missile.setvY(0);
-                Slidding.gameScore += 100;
             }
             else if (object instanceof PirateBoat) {
                 PirateBoat pirateBoat = (PirateBoat)object;
-                if (pirateBoat.getMove() < 3) pirateBoat.setMove(3);
+                if (pirateBoat.getMove() <= 3) {
+                    pirateBoat.setMove(3);
+                    Slidding.gameScore += 10;
+                }
                 if (Configuration.isSound()) pirateBoat.getExplosion().play();
                 pirateBoat.setExplosion();
                 pirateBoat.setvX(0);
                 pirateBoat.setvY(0);
-                Slidding.gameScore += 10;
                 
             }
             bearGame.getDisplay().addRockToRemove(rock);
