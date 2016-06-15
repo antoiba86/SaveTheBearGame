@@ -116,6 +116,7 @@ public class Collision {
                 pirateBoat.setvY(0);
                 
             }
+            object.getSpriteBound().setContent("");
             bearGame.getDisplay().addRockToRemove(rock);
             bearGame.getPaneRoot().getChildren().remove(rock.getSpriteFrame());
         }
