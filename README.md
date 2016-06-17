@@ -2,7 +2,7 @@
 El siguiente videojuego es mi primer juego realizado. Lo he hecho en JavaFX.
 Save the Bear es un juego típico en donde tienes que esquivar enemigos consiguiendo los máximos puntos disponibles. Al ser un pequeño proyecto, se van añadiendo nuevas funcionalidades cada día.
 
-<img src="https://github.com/antoiba86/SaveTheBearGame/blob/master/src/img/fondoinstrucciones.png" width="450">
+<img src="https://github.com/antoiba86/SaveTheBearGame/blob/master/src/resources/img/fondoinstrucciones.png" width="450">
 
 #Como jugar
 El objetivo es que tu oso sobreviva el máximo de tiempo posible pues es la única esperanza para salva a todos los compañeros oseznos y oseznas polares y eres tú el encargado de que eso suceda. Debes de esquivar sus enemigos además de poder disparar rocas cuando no te quede más remedio. Pero ten cuidado con las explosiones, ¡que queman!
