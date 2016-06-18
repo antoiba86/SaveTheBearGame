@@ -1,6 +1,8 @@
 package beargame;
 
 import java.util.ArrayList;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -8,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -35,17 +38,40 @@ public class Configuration {
      */
     public static Scene configuration(Scene menu, Stage window) {
         Scene configuration = null;
-        Label title = new Label("Configuración");
-        Label titleSound = new Label("SONIDO");
+        Label title = new Label(Languages.getText(1));
+        //7
+        Label titleSound = new Label(Languages.getText(6));
         Button buttonOn = new Button();
         if (sound) buttonOn.setText("On");
         else buttonOn.setText("Off");
         buttonOn.setOnAction((ActionEvent e) -> {
                 buttonOn.setText(configButtonSound());
         });
-        Button buttonMenu = new Button("Exit");
+        Label labelLanguage = new Label(Languages.getText(25));
+        ChoiceBox cbLanguage = new ChoiceBox();
+        //27 y 28
+        cbLanguage.getItems().addAll(Languages.getText(26), Languages.getText(27));
+        cbLanguage.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number lang1, Number lang2) {
+              String langSelected = cbLanguage.getItems().get((Integer) lang2).toString();
+              switch (langSelected) {
+                  case ("Castellano"):
+                  case ("Spanish"): Languages.readLanguageFile("lang/spa.lang");break;
+                  case ("Inglés"):
+                  case ("English"): Languages.readLanguageFile("lang/eng.lang");break;
+              }
+            }
+          });
+        
+        Button buttonMenu = new Button(Languages.getText(4));
         buttonMenu.setOnAction((ActionEvent e) -> {
             window.setScene(menu);
+            String lang = cbLanguage.getSelectionModel().getSelectedItem().toString();
+            String sound = buttonOn.getText();
+            confToXML.setConfLanguage(lang);
+            confToXML.setConfSound(sound);
+            confToXML.saveToXML();
         });
         VBox conf = new VBox(20);
         conf.setPrefWidth(200);
@@ -55,8 +81,11 @@ public class Configuration {
         HBox buttonSound = new HBox(20);
         buttonSound.setAlignment(Pos.CENTER);
         buttonSound.getChildren().addAll(titleSound, buttonOn);
+        HBox buttonLanguage = new HBox(20);
+        buttonLanguage.setAlignment(Pos.CENTER);
+        buttonLanguage.getChildren().addAll(labelLanguage, cbLanguage);
         buttonMenu.setMaxWidth(conf.getPrefWidth());
-        conf.getChildren().addAll(title,buttonSound, buttonMenu);
+        conf.getChildren().addAll(title,buttonSound, buttonLanguage, buttonMenu);
         conf.setAlignment(Pos.CENTER);
         configuration = new Scene(conf, Menu.WIDTH_PIXELS, Menu.HEIGHT_PIXELS);
         configuration.getStylesheets().add(BearGame.class.getResource("/resources/css/Menu.css").toExternalForm());
@@ -75,19 +104,22 @@ public class Configuration {
         Scene instructions = null;
         GridPane panel = new GridPane();
         ColumnConstraints col1 = new ColumnConstraints(400,450,450);
-        Label title = new Label("Bienvenido, compañero osezno");
-        Button buttonMenu = new Button("Exit");
+        //8
+        Label title = new Label(Languages.getText(7));
+        //5
+        Button buttonMenu = new Button(Languages.getText(4));
         buttonMenu.setOnAction((ActionEvent e) -> {
             window.setScene(menu);
         });
         Label instrText = new Label();
-        instrText.setText("Soy el Oso Polar,\n"
-                + "Consigue los máximos puntos posibles para ganar a tus competidores y salvar el Mundo Osezno\n"
-                + "Colecciona los monedas para conseguirlo");
+        //9
+        instrText.setText(Languages.getText(8));
         Label instrText2 = new Label();
-        instrText2.setText("Para ello utiliza las teclas siguientes para moverte por el escenario. \n");
+        //10
+        instrText2.setText(Languages.getText(9));
         Label instrText3 = new Label();
-        instrText3.setText("El espacio sirve para disparar.");
+        //11
+        instrText3.setText(Languages.getText(10));
         instrText.setWrapText(true);
         instrText.setPrefWidth(450);
         instrText2.setWrapText(true);
@@ -148,14 +180,17 @@ public class Configuration {
      */
      public Scene gameOver(Scene menu, Stage window, boolean score) {
         Scene gameOver = null;
-        Label titleGame = new Label(" GAME OVER \n"
+        //12
+        Label titleGame = new Label(Languages.getText(11)
                 + " ");
         titleGame.setId("title");
-        Button buttonCont = new Button("Volver al menú");
+        //13
+        Button buttonCont = new Button(Languages.getText(12));
         buttonCont.setOnAction((ActionEvent e) -> {
             window.setScene(menu);
         });
-        Button buttonExit = new Button("Salir del juego");
+        //14
+        Button buttonExit = new Button(Languages.getText(13));
         buttonExit.setOnAction((ActionEvent e) -> {
             System.exit(0);
         });
@@ -170,18 +205,24 @@ public class Configuration {
         buttonExit.setMaxWidth(conf.getPrefWidth());
         HBox hboxNameScore = new HBox(20);
         HBox hboxButtonScore = new HBox(20);
-        Label congratLabel = new Label("HAS CONSEGUIDO UN HIGHSCORE!!!");
-        Label nameLabel = new Label("Introduce tu nombre: ");
+        //15
+        Label congratLabel = new Label(Languages.getText(14));
+        //16
+        Label nameLabel = new Label(Languages.getText(15));
         nameLabel.setId("nameLabel");
         TextField textName = new TextField();
-        Button buttonAccept = new Button("Aceptar");
+        //17
+        Button buttonAccept = new Button(Languages.getText(16));
         buttonAccept.setOnAction((ActionEvent e) -> {
             String name = textName.getText();
             if (name.length() >= 12) {
                 Alert alert = new Alert(AlertType.INFORMATION);
-                alert.setTitle("Información");
-                alert.setHeaderText("Revasado máximo de carácteres permitido");
-                alert.setContentText("El máximo de carácteres permitido es 12");
+                //18
+                alert.setTitle(Languages.getText(17));
+                //19
+                alert.setHeaderText(Languages.getText(18));
+                //20
+                alert.setContentText(Languages.getText(19));
                 alert.showAndWait();
             }
             else {
@@ -195,7 +236,8 @@ public class Configuration {
                 Slidding.gameScore = 0;
             }
         });
-        Button buttonCancel = new Button("Cancelar");
+        //21
+        Button buttonCancel = new Button(Languages.getText(21));
         buttonCancel.setOnAction((ActionEvent e) -> {
             Score.setMaxScore(Slidding.gameScore, "AAA");
             Score.saveToXML();
@@ -237,15 +279,19 @@ public class Configuration {
     public static Scene listScore(Scene menu, Stage window) {
         Scene listScore = null;
         Score.loadFromXML();
-        Label title = new Label("Puntuaciones de los compañeros oseznos");
+        //22
+        Label title = new Label(Languages.getText(21));
         ArrayList<String> autores = Score.getListAuthor();
         ArrayList<String> puntos = Score.getListScores();
         GridPane listWinner = new GridPane();
         listWinner.setHgap(10);
         listWinner.setVgap(12);
-        listWinner.add(new Label("NOMBRE"), 0, 0);
-        listWinner.add(new Label("PUNTUACIÓN"), 1, 0);
-        if (Score.getListScores().isEmpty()) listWinner.add(new Label("NO HAY PUNTUACIÓN"), 0,1);
+        //23
+        listWinner.add(new Label(Languages.getText(22)), 0, 0);
+        //24
+        listWinner.add(new Label(Languages.getText(23)), 1, 0);
+        //25
+        if (Score.getListScores().isEmpty()) listWinner.add(new Label(Languages.getText(24)), 0,1);
         else  {
             for (int i = 0; i < puntos.size();i++) {
                 String[] point = puntos.get(i).split("\\."); 
@@ -253,7 +299,8 @@ public class Configuration {
                 listWinner.add(new Label(point[0]), 1,i+1);
             }
         }
-        Button buttonMenu = new Button("Exit");
+        //5
+        Button buttonMenu = new Button(Languages.getText(4));
         buttonMenu.setMaxWidth(150);
         buttonMenu.setOnAction((ActionEvent e) -> {
             window.setScene(menu);

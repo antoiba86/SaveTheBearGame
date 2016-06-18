@@ -26,13 +26,18 @@ public class Menu extends Application {
     @Override
     public void start(Stage primaryStage) {
         paneRoot = new Pane();
+        confToXML.loadFromXML();
+        if (confToXML.getConfLanguage().equals("Castellano")) Languages.readLanguageFile("lang/spa.lang");
+        else Languages.readLanguageFile("lang/eng.lang");
+        if (confToXML.getConfSound().equals("On")) Configuration.setSound(true);
+        else Configuration.setSound(false);
         primaryStage.setTitle("Save the bear!");
         primaryStage.setResizable(false);
         Label titleGame = new Label(" Save the Bear! \n"
                 + "Save the World!");
         titleGame.setId("title");
         primaryStage.getIcons().add(new Image("resources/img/oso1.png"));
-        Button buttonPlay = new Button("Play");
+        Button buttonPlay = new Button(Languages.getText(0));
         buttonPlay.setOnAction((ActionEvent e) -> {
             Stage stage = new Stage();
             stage.initStyle(StageStyle.UNDECORATED);
@@ -45,24 +50,23 @@ public class Menu extends Application {
             BearGame.getTimeline().play();
             if (Configuration.isSound()) BearGame.gameMusicPlayer.play();
         });
-                //setOnAction(e -> primaryStage.setScene(play));
-        Button buttonConf = new Button("Configuración");
+        Button buttonConf = new Button(Languages.getText(1));
         buttonConf.setOnAction((ActionEvent e) -> {
             primaryStage.setScene(Configuration.configuration(scene, primaryStage));
         });
-        Button buttonIntr = new Button("Instrucciones");
+        Button buttonIntr = new Button(Languages.getText(2));
         buttonIntr.setOnAction((ActionEvent e) -> {
             primaryStage.setScene(Configuration.instructions(scene, primaryStage));
         });
-        Button buttonScore = new Button("Puntuaciones");
+        Button buttonScore = new Button(Languages.getText(3));
         buttonScore.setOnAction((ActionEvent e) -> {
             primaryStage.setScene(Configuration.listScore(scene, primaryStage));
         });
-        Button buttonExit = new Button("Exit");
+        Button buttonExit = new Button(Languages.getText(4));
         buttonExit.setOnAction((ActionEvent e) -> {
             System.exit(0);
         });
-        Label copyrigth= new Label ("Creado por Antonio J. Ibáñez");
+        Label copyrigth= new Label (Languages.getText(5));
         VBox menuIni = new VBox(20);
         //Para que todos los botones tenga la misma medida
         menuIni.setPrefWidth(200);
