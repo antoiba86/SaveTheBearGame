@@ -57,9 +57,13 @@ public class Configuration {
               String langSelected = cbLanguage.getItems().get((Integer) lang2).toString();
               switch (langSelected) {
                   case ("Castellano"):
-                  case ("Spanish"): Languages.readLanguageFile("lang/spa.lang");break;
+                  case ("Spanish"): Languages.readLanguageFile("lang/spa.lang");
+                                    confToXML.setConfLanguage("Castellano");
+                                    break;
                   case ("Inglés"):
-                  case ("English"): Languages.readLanguageFile("lang/eng.lang");break;
+                  case ("English"): Languages.readLanguageFile("lang/eng.lang");
+                                    confToXML.setConfLanguage("English");
+                                    break;
               }
             }
           });
@@ -67,9 +71,7 @@ public class Configuration {
         Button buttonMenu = new Button(Languages.getText(4));
         buttonMenu.setOnAction((ActionEvent e) -> {
             window.setScene(menu);
-            String lang = cbLanguage.getSelectionModel().getSelectedItem().toString();
             String sound = buttonOn.getText();
-            confToXML.setConfLanguage(lang);
             confToXML.setConfSound(sound);
             confToXML.saveToXML();
         });

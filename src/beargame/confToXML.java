@@ -43,9 +43,11 @@ public class confToXML {
             document.appendChild(rootElement);
             //language
             Element lang = document.createElement("language");
+            lang.appendChild(document.createTextNode(confLanguage));
             rootElement.appendChild(lang);
             //sound
             Element sound = document.createElement("sound");
+            sound.appendChild(document.createTextNode(confSound));
             rootElement.appendChild(sound);
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
