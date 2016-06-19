@@ -1,6 +1,7 @@
 package beargame;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -10,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
@@ -30,6 +32,10 @@ import javafx.stage.Stage;
 public class Configuration {
     private static boolean sound = true;
     private static boolean lang = false;
+    private static String principalLang, langSelected;
+    private static ChoiceBox cbLanguage;
+    private static Label titleSound, title, labelLanguage;
+    private static Button buttonMenu;
     private static String cbSpa, cbEng;
     
     /**
@@ -40,47 +46,42 @@ public class Configuration {
      */
     public static Scene configuration(Scene menu, Stage window) {
         Scene configuration = null;
-        Label title = new Label(Languages.getText(1));
-        Label titleSound = new Label(Languages.getText(6));
+        title = new Label(Languages.getText(1));
+        titleSound = new Label(Languages.getText(6));
         Button buttonOn = new Button();
         if (sound) buttonOn.setText("On");
         else buttonOn.setText("Off");
         buttonOn.setOnAction((ActionEvent e) -> {
                 buttonOn.setText(configButtonSound());
         });
-        Label labelLanguage = new Label(Languages.getText(25));
-        ChoiceBox cbLanguage = new ChoiceBox();
+        labelLanguage = new Label(Languages.getText(25));
+        cbLanguage = new ChoiceBox();
         cbSpa = Languages.getText(26);
         cbEng = Languages.getText(27);
         cbLanguage.getItems().addAll(cbSpa, cbEng);
-        Button buttonMenu = new Button(Languages.getText(4));
+        if (principalLang.equals("Castellano")) cbLanguage.getSelectionModel().select(0);
+        else cbLanguage.getSelectionModel().select(1);
+        buttonMenu = new Button(Languages.getText(4));
         buttonMenu.setOnAction((ActionEvent e) -> {
-            window.setScene(menu);
             String sound = buttonOn.getText();
-            confToXML.setConfSound(sound);
-            confToXML.saveToXML();
+            if (lang) alert();
+            if (lang) {
+                confToXML.setConfSound(sound);
+                confToXML.saveToXML();
+                lang = false;
+            }
+            window.setScene(menu);
         });
         cbLanguage.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number lang1, Number lang2) {
-              String langSelected = cbLanguage.getItems().get((Integer) lang2).toString();
-              switch (langSelected) {
-                  case ("Castellano"):
-                  case ("Spanish"): Languages.readLanguageFile("lang/spa.lang");
-                                    confToXML.setConfLanguage("Castellano");
-                                    break;
-                  case ("Inglés"):
-                  case ("English"): Languages.readLanguageFile("lang/eng.lang");
-                                    confToXML.setConfLanguage("English");
-                                    break;
+              langSelected = cbLanguage.getItems().get((Integer) lang2).toString();
+              if (langSelected.equals("Inglés") && principalLang.equals("Castellano")
+                      || langSelected.equals("Spanish") && principalLang.equals("English")) {
+                  lang = true;
+                  if (principalLang.equals("Castellano")) principalLang = "English";
+                  else principalLang = "Castellano";
               }
-              cbSpa = Languages.getText(26);
-              cbEng = Languages.getText(27);
-              titleSound.setText(Languages.getText(6));
-              title.setText(Languages.getText(1));
-              labelLanguage.setText(Languages.getText(25));
-              buttonMenu.setText(Languages.getText(4));
-              setText();
             }
           });
         VBox conf = new VBox(20);
@@ -389,5 +390,43 @@ public class Configuration {
         Menu.setCopyrigth(label);
     }
     
+    public static void alert() {
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle(Languages.getText(28));
+        alert.setHeaderText(Languages.getText(29));
+        alert.setContentText(Languages.getText(30));
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            switch (langSelected) {
+                case ("Castellano"):
+                case ("Spanish"): Languages.readLanguageFile("lang/spa.lang");
+                                  confToXML.setConfLanguage("Castellano");
+                                  break;
+                case ("Inglés"):
+                case ("English"): Languages.readLanguageFile("lang/eng.lang");
+                                  confToXML.setConfLanguage("English");
+                                  break;
+            }
+            cbSpa = Languages.getText(26);
+            cbEng = Languages.getText(27);
+            titleSound.setText(Languages.getText(6));
+            title.setText(Languages.getText(1));
+            labelLanguage.setText(Languages.getText(25));
+            buttonMenu.setText(Languages.getText(4));
+            setText();
+            lang = true;
+        }
+        else lang = false;
+    }
+        
+    public static String getPrincipalLang() {
+        return principalLang;
+    }
+
+    public static void setPrincipalLang(String principalLang) {
+        Configuration.principalLang = principalLang;
+    }
+    
     
 }
+

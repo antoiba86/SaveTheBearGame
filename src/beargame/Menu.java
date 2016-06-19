@@ -30,8 +30,14 @@ public class Menu extends Application {
     public void start(Stage primaryStage) {
         paneRoot = new Pane();
         confToXML.loadFromXML();
-        if (confToXML.getConfLanguage().equals("Castellano")) Languages.readLanguageFile("lang/spa.lang");
-        else Languages.readLanguageFile("lang/eng.lang");
+        if (confToXML.getConfLanguage().equals("Castellano")) {
+            Languages.readLanguageFile("lang/spa.lang");
+            Configuration.setPrincipalLang("Castellano");
+        }
+        else {
+            Languages.readLanguageFile("lang/eng.lang");
+            Configuration.setPrincipalLang("English");
+        }
         if (confToXML.getConfSound().equals("On")) Configuration.setSound(true);
         else Configuration.setSound(false);
         primaryStage.setTitle("Save the bear!");
@@ -143,6 +149,7 @@ public class Menu extends Application {
     public static void setCopyrigth(Label copyrigth) {
         Menu.copyrigth = copyrigth;
     }
+    
     
     
 }
