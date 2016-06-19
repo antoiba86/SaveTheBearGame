@@ -7,9 +7,9 @@ package beargame;
 
 import com.sun.javaws.Main;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,18 +23,14 @@ public class Languages {
     
     public static void readLanguageFile(String path){
         BufferedReader br = null;
-            try {
-                br = new BufferedReader(new FileReader(path));
-                text = Languages.storeFileContentIntoList(br);
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            } finally{
-                try {
-                    br.close();
-                } catch (IOException ex) {
-                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+        InputStream in = Languages.class.getResourceAsStream(path);
+        br = new BufferedReader(new InputStreamReader(in));
+        text = Languages.storeFileContentIntoList(br);
+        try {
+            br.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     /**

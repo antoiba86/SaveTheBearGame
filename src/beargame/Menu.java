@@ -31,11 +31,11 @@ public class Menu extends Application {
         paneRoot = new Pane();
         confToXML.loadFromXML();
         if (confToXML.getConfLanguage().equals("Castellano")) {
-            Languages.readLanguageFile("lang/spa.lang");
+            Languages.readLanguageFile("/resources/lang/spa.lang");
             Configuration.setPrincipalLang("Castellano");
         }
         else {
-            Languages.readLanguageFile("lang/eng.lang");
+            Languages.readLanguageFile("/resources/lang/eng.lang");
             Configuration.setPrincipalLang("English");
         }
         if (confToXML.getConfSound().equals("On")) Configuration.setSound(true);
