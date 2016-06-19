@@ -29,6 +29,8 @@ import javafx.stage.Stage;
  */
 public class Configuration {
     private static boolean sound = true;
+    private static boolean lang = false;
+    private static String cbSpa, cbEng;
     
     /**
      * Method to show the sound configuration
@@ -39,7 +41,6 @@ public class Configuration {
     public static Scene configuration(Scene menu, Stage window) {
         Scene configuration = null;
         Label title = new Label(Languages.getText(1));
-        //7
         Label titleSound = new Label(Languages.getText(6));
         Button buttonOn = new Button();
         if (sound) buttonOn.setText("On");
@@ -49,8 +50,16 @@ public class Configuration {
         });
         Label labelLanguage = new Label(Languages.getText(25));
         ChoiceBox cbLanguage = new ChoiceBox();
-        //27 y 28
-        cbLanguage.getItems().addAll(Languages.getText(26), Languages.getText(27));
+        cbSpa = Languages.getText(26);
+        cbEng = Languages.getText(27);
+        cbLanguage.getItems().addAll(cbSpa, cbEng);
+        Button buttonMenu = new Button(Languages.getText(4));
+        buttonMenu.setOnAction((ActionEvent e) -> {
+            window.setScene(menu);
+            String sound = buttonOn.getText();
+            confToXML.setConfSound(sound);
+            confToXML.saveToXML();
+        });
         cbLanguage.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number lang1, Number lang2) {
@@ -65,16 +74,15 @@ public class Configuration {
                                     confToXML.setConfLanguage("English");
                                     break;
               }
+              cbSpa = Languages.getText(26);
+              cbEng = Languages.getText(27);
+              titleSound.setText(Languages.getText(6));
+              title.setText(Languages.getText(1));
+              labelLanguage.setText(Languages.getText(25));
+              buttonMenu.setText(Languages.getText(4));
+              setText();
             }
           });
-        
-        Button buttonMenu = new Button(Languages.getText(4));
-        buttonMenu.setOnAction((ActionEvent e) -> {
-            window.setScene(menu);
-            String sound = buttonOn.getText();
-            confToXML.setConfSound(sound);
-            confToXML.saveToXML();
-        });
         VBox conf = new VBox(20);
         conf.setPrefWidth(200);
         conf.setSpacing(10);
@@ -239,7 +247,7 @@ public class Configuration {
             }
         });
         //21
-        Button buttonCancel = new Button(Languages.getText(21));
+        Button buttonCancel = new Button(Languages.getText(20));
         buttonCancel.setOnAction((ActionEvent e) -> {
             Score.setMaxScore(Slidding.gameScore, "AAA");
             Score.saveToXML();
@@ -351,5 +359,35 @@ public class Configuration {
         }
         return text;
     }
+
+    public static boolean isLang() {
+        return lang;
+    }
+
+    public static void setLang(boolean lang) {
+        Configuration.lang = lang;
+    }
+    
+    public static void setText() {
+        Button buttonP = Menu.getButtonPlay();
+        buttonP.setText(Languages.getText(0));
+        Menu.setButtonPlay(buttonP);
+        buttonP = Menu.getButtonConf();
+        buttonP.setText(Languages.getText(1));
+        Menu.setButtonConf(buttonP);
+        buttonP = Menu.getButtonIntr();
+        buttonP.setText(Languages.getText(2));
+        Menu.setButtonIntr(buttonP);
+        buttonP = Menu.getButtonScore();
+        buttonP.setText(Languages.getText(3));
+        Menu.setButtonScore(buttonP);
+        buttonP = Menu.getButtonExit();
+        buttonP.setText(Languages.getText(4));
+        Menu.setButtonExit(buttonP);
+        Label label = Menu.getCopyrigth();
+        label.setText(Languages.getText(5));
+        Menu.setCopyrigth(label);
+    }
+    
     
 }

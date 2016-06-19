@@ -22,6 +22,9 @@ public class Menu extends Application {
     static final int WIDTH_PIXELS = 800;
     Scene scene;
     Pane paneRoot;
+    private static Button buttonPlay, buttonConf, buttonIntr, buttonScore, buttonExit;
+    private static Label copyrigth;
+    
     
     @Override
     public void start(Stage primaryStage) {
@@ -37,7 +40,7 @@ public class Menu extends Application {
                 + "Save the World!");
         titleGame.setId("title");
         primaryStage.getIcons().add(new Image("resources/img/oso1.png"));
-        Button buttonPlay = new Button(Languages.getText(0));
+        buttonPlay = new Button(Languages.getText(0));
         buttonPlay.setOnAction((ActionEvent e) -> {
             Stage stage = new Stage();
             stage.initStyle(StageStyle.UNDECORATED);
@@ -50,23 +53,23 @@ public class Menu extends Application {
             BearGame.getTimeline().play();
             if (Configuration.isSound()) BearGame.gameMusicPlayer.play();
         });
-        Button buttonConf = new Button(Languages.getText(1));
+        buttonConf = new Button(Languages.getText(1));
         buttonConf.setOnAction((ActionEvent e) -> {
             primaryStage.setScene(Configuration.configuration(scene, primaryStage));
         });
-        Button buttonIntr = new Button(Languages.getText(2));
+        buttonIntr = new Button(Languages.getText(2));
         buttonIntr.setOnAction((ActionEvent e) -> {
             primaryStage.setScene(Configuration.instructions(scene, primaryStage));
         });
-        Button buttonScore = new Button(Languages.getText(3));
+        buttonScore = new Button(Languages.getText(3));
         buttonScore.setOnAction((ActionEvent e) -> {
             primaryStage.setScene(Configuration.listScore(scene, primaryStage));
         });
-        Button buttonExit = new Button(Languages.getText(4));
+        buttonExit = new Button(Languages.getText(4));
         buttonExit.setOnAction((ActionEvent e) -> {
             System.exit(0);
         });
-        Label copyrigth= new Label (Languages.getText(5));
+        copyrigth= new Label (Languages.getText(5));
         VBox menuIni = new VBox(20);
         //Para que todos los botones tenga la misma medida
         menuIni.setPrefWidth(200);
@@ -92,5 +95,54 @@ public class Menu extends Application {
         launch(args);
         
     }
+
+    public static Button getButtonPlay() {
+        return buttonPlay;
+    }
+
+    public static void setButtonPlay(Button buttonPlay) {
+        Menu.buttonPlay = buttonPlay;
+    }
+
+    public static Button getButtonConf() {
+        return buttonConf;
+    }
+
+    public static void setButtonConf(Button buttonConf) {
+        Menu.buttonConf = buttonConf;
+    }
+
+    public static Button getButtonIntr() {
+        return buttonIntr;
+    }
+
+    public static void setButtonIntr(Button buttonIntr) {
+        Menu.buttonIntr = buttonIntr;
+    }
+
+    public static Button getButtonScore() {
+        return buttonScore;
+    }
+
+    public static void setButtonScore(Button buttonScore) {
+        Menu.buttonScore = buttonScore;
+    }
+
+    public static Button getButtonExit() {
+        return buttonExit;
+    }
+
+    public static void setButtonExit(Button buttonExit) {
+        Menu.buttonExit = buttonExit;
+    }
+
+    public static Label getCopyrigth() {
+        return copyrigth;
+    }
+
+    public static void setCopyrigth(Label copyrigth) {
+        Menu.copyrigth = copyrigth;
+    }
+    
     
 }
