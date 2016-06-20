@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,7 +25,11 @@ public class Languages {
     public static void readLanguageFile(String path){
         BufferedReader br = null;
         InputStream in = Languages.class.getResourceAsStream(path);
-        br = new BufferedReader(new InputStreamReader(in));
+        try {
+            br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(Languages.class.getName()).log(Level.SEVERE, null, ex);
+        }
         text = Languages.storeFileContentIntoList(br);
         try {
             br.close();
