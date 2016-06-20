@@ -76,7 +76,7 @@ public class Configuration {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number lang1, Number lang2) {
               langSelected = cbLanguage.getItems().get((Integer) lang2).toString();
-              if (langSelected.equals("Ingles") && principalLang.equals("Castellano")
+              if (langSelected.equals("Inglés") && principalLang.equals("Castellano")
                       || langSelected.equals("Spanish") && principalLang.equals("English")) {
                   lang = true;
                   if (principalLang.equals("Castellano")) principalLang = "English";
@@ -402,7 +402,7 @@ public class Configuration {
                 case ("Spanish"): Languages.readLanguageFile("/resources/lang/spa.lang");
                                   confToXML.setConfLanguage("Castellano");
                                   break;
-                case ("Ingles"):
+                case ("Inglés"):
                 case ("English"): Languages.readLanguageFile("/resources/lang/eng.lang");
                                   confToXML.setConfLanguage("English");
                                   break;
