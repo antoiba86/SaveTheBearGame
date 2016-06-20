@@ -64,12 +64,11 @@ public class Configuration {
         buttonMenu = new Button(Languages.getText(4));
         buttonMenu.setOnAction((ActionEvent e) -> {
             String sound = buttonOn.getText();
-            if (lang) alert();
             if (lang) {
-                confToXML.setConfSound(sound);
-                confToXML.saveToXML();
-                lang = false;
+                alert();
             }
+            confToXML.setConfSound(sound);
+            confToXML.saveToXML();
             window.setScene(menu);
         });
         cbLanguage.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
@@ -414,9 +413,8 @@ public class Configuration {
             labelLanguage.setText(Languages.getText(25));
             buttonMenu.setText(Languages.getText(4));
             setText();
-            lang = true;
         }
-        else lang = false;
+        lang = false;
     }
         
     public static String getPrincipalLang() {

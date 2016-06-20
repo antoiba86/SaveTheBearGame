@@ -315,7 +315,7 @@ public class BearGame {
         playGame.stop();
         paneRoot.getChildren().clear();
         display.resetDisplayed_Object();
-        gameMusicPlayer.stop();
+        if(Configuration.isSound())gameMusicPlayer.stop();
         timeline.stop();
         primary.close();
         if(maxScore) window.setScene(conf.gameOver(scene, window,true));
